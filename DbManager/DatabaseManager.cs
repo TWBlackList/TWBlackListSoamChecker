@@ -320,6 +320,7 @@ namespace CNBlackListSoamChecker.DbManager
                         AdminOnly = 1,
                         BlackList = 0,
                         AutoKick = 0,
+                        AntiHalal = 0,
                         AutoDeleteSpamMessage = 0,
                         AutoDeleteCommand = 1,
                         SubscribeBanList = 1
@@ -338,6 +339,7 @@ namespace CNBlackListSoamChecker.DbManager
             int AdminOnly = 3,
             int BlackList = 3,
             int AutoKick = 3,
+            int AntiHalal = 3,
             int AutoDeleteSpamMessage = 3,
             int AutoDeleteCommand = 3,
             int SubscribeBanList = 3
@@ -355,6 +357,10 @@ namespace CNBlackListSoamChecker.DbManager
             if (AutoKick != 3)
             {
                 groupCfg.AutoKick = AutoKick;
+            }
+            if (AntiHalal != 3)
+            {
+                groupCfg.AntiHalal = AntiHalal;
             }
             if (AutoDeleteSpamMessage != 3)
             {
@@ -393,7 +399,7 @@ namespace CNBlackListSoamChecker.DbManager
                 List<SpamMessage> data;
                 try
                 {
-                    jsonText = File.ReadAllText(@"plugincfg/soamchecker/spamstrings.json");
+                    jsonText = File.ReadAllText(ConfigManager.GetConfigPath() + "spamstrings.json");
                     data = (List<SpamMessage>)new DataContractJsonSerializer(
                         typeof(List<SpamMessage>)
                     ).ReadObject(
@@ -473,7 +479,7 @@ namespace CNBlackListSoamChecker.DbManager
         private void WriteSpamMessageToDatabase(List<SpamMessage> msg)
         {
             string jsonDB = TgApi.getDefaultApiConnection().jsonEncode(msg);
-            File.WriteAllText(@"plugincfg/soamchecker/spamstrings.json", jsonDB);
+            File.WriteAllText(ConfigManager.GetConfigPath() + "spamstrings.json", jsonDB);
         }
     }
 

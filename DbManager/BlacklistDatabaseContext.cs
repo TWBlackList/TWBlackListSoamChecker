@@ -13,15 +13,7 @@ namespace CNBlackListSoamChecker.DbManager
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string configPath = System.Environment.GetEnvironmentVariable("BOT_CONFIGPATH");
-            if (configPath == "" || configPath == null)
-            {
-                optionsBuilder.UseSqlite("Data Source=plugincfg/soamchecker/soamchecker.db");
-            }
-            else
-            {
-                optionsBuilder.UseSqlite("Data Source=" + configPath + "/plugincfg/soamchecker/soamchecker.db");
-            }
+            optionsBuilder.UseSqlite("Data Source=" + ConfigManager.GetConfigPath() + "soamchecker.db");
         }
     }
 
@@ -97,6 +89,7 @@ namespace CNBlackListSoamChecker.DbManager
         public int AdminOnly { get; set; }
         public int BlackList { get; set; }
         public int AutoKick { get; set; }
+        public int AntiHalal { get; set; }
         public int AutoDeleteCommand { get; set; }
         public int AutoDeleteSpamMessage { get; set; }
         public int SubscribeBanList { get; set; }

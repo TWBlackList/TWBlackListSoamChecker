@@ -69,8 +69,81 @@ namespace CNBlackListSoamChecker
                 return new CallbackMessage();
             }
 
-            // AUTO DELETE SPAM MESSAGE START
+            // ALTI HALAL AND INDIA START
             GroupCfg cfg = Temp.GetDatabaseManager().GetGroupConfig(BaseMessage.chat.id);
+            if (cfg.AntiHalal == 0)
+            {
+                List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+                int halalPoints = new SpamMessageChecker().GetHalalPoints(chatText);
+                int indiaPoints = new SpamMessageChecker().GetIndiaPoints(chatText);
+                if (halalPoints >= 8 || indiaPoints >= 16)
+                {
+                    SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
+                        Temp.AdminGroupID,
+                        BaseMessage.GetMessageChatInfo().id,
+                        BaseMessage.message_id
+                        );
+                    if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
+                    {
+                        new Task(() =>
+                        {
+                            Temp.GetDatabaseManager().BanUser(
+                                    0,
+                                    BaseMessage.from.id,
+                                    1,
+                                    0,
+                                    "System AUTO BAN: \n清真或印度消息",
+                                    BaseMessage.GetMessageChatInfo().id,
+                                    BaseMessage.message_id,
+                                    BaseMessage.from
+                                    );
+                        }).Start();
+                    }
+                    new Task(() =>
+                    {
+                        TgApi.getDefaultApiConnection().kickChatMember(BaseMessage.chat.id, BaseMessage.from.id, 0);
+                        TgApi.getDefaultApiConnection().deleteMessage(BaseMessage.chat.id, BaseMessage.message_id);
+                    }).Start();
+                    BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
+                    if (banstat.Ban == 0)
+                    {
+                        TgApi.getDefaultApiConnection().kickChatMember(
+                            BaseMessage.GetMessageChatInfo().id,
+                            BaseMessage.GetSendUser().id,
+                            GetTime.GetUnixTime() + 86400
+                            );
+                    }
+                    if (result.ok)
+                    {
+                        new Thread(delegate () {
+                            TgApi.getDefaultApiConnection().sendMessage(
+                                Temp.AdminGroupID,
+                                BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
+                                BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
+                                "匹配到的规则: 清真或印度消息\n" +
+                                "清真得分: " + halalPoints + "\n" +
+                                "印度得分: " + indiaPoints,
+                                result.result.message_id
+                                );
+                        }).Start();
+                    }
+                    new Thread(delegate () {
+                        SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
+                        BaseMessage.GetMessageChatInfo().id,
+                        "检查到清真或印度消息，已尝试上报用户行为，如有误报请加入 @" + Temp.MainChannelName + " 提供的群组以报告误报。"
+                        );
+                        Thread.Sleep(60000);
+                        TgApi.getDefaultApiConnection().deleteMessage(
+                            autodeletespammessagesendresult.result.chat.id,
+                            autodeletespammessagesendresult.result.message_id
+                            );
+                    }).Start();
+                    return new CallbackMessage() { StopProcess = true };
+                }
+            }
+            // ALTI HALAL AND INDIA END
+
+            // AUTO DELETE SPAM MESSAGE START
             if (Temp.DisableBanList == false && cfg.AutoDeleteSpamMessage == 0)
             {
                 List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
@@ -101,7 +174,7 @@ namespace CNBlackListSoamChecker
                     if (points >= smsg.MinPoints)
                     {
                         SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
-                            -1001072337178,
+                            Temp.AdminGroupID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
                             );
@@ -119,7 +192,7 @@ namespace CNBlackListSoamChecker
                         {
                             new Thread(delegate () {
                                 TgApi.getDefaultApiConnection().sendMessage(
-                                    -1001072337178,
+                                    Temp.AdminGroupID,
                                     BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
                                     BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
                                     "匹配到的规则: " + smsg.FriendlyName + "\n" +

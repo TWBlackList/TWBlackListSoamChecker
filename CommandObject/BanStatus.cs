@@ -17,7 +17,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 banmsg = "发送者：\n" + RawMessage.GetSendUser().GetUserTextInfo() + "\n\n" + ban.GetBanMessage();
                 if (ban.Ban == 0)
                 {
-                    banmsg += "\n\n对于被封禁的用户，您可以通过 [点击这里](https://t.me/CNBlackListBot?start=soam_req_unban) 以请求解封。";
+                    banmsg += "\n\n对于被封禁的用户，您可以通过 [点击这里](https://t.me/" + TgApi.getDefaultApiConnection().getMe().username + "?start=soam_req_unban) 以请求解封。";
                 }
                 if (RawMessage.reply_to_message != null)
                 {

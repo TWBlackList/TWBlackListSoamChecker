@@ -11,8 +11,8 @@ namespace CNBlackListSoamChecker
             string finalHelpMsg;
             string groupHelp = "/soamenable - 启用一个功能\n" +
                 "/soamdisable - 禁用一个功能\n" +
-                "/soamstatus - 查看当前群组开启了的功能" +
-                "/bkick - 将一个已在封禁列表中的用户从群组中移除出去\n";
+                "/soamstatus - 查看当前群组开启了的功能\n" +
+                "/bkick - 将一个已在封禁列表中的用户从群组中移除出去";
             string privateHelp = "";
             string sharedHelp = "/banstat - 看看自己有没有被 Ban";
             switch (MessageType)

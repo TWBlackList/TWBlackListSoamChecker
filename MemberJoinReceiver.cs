@@ -15,23 +15,22 @@ namespace CNBlackListSoamChecker
 
         public CallbackMessage OnSupergroupMemberJoinReceive(TgMessage RawMessage, string JsonMessage, UserInfo JoinedUser)
         {
-            if (Temp.DisableBanList)
-            {
-                return new CallbackMessage();
-            }
             if (JoinedUser.id == TgApi.getDefaultApiConnection().getMe().id)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "欢迎使用 @CNBlackListBot\n" +
+                    "欢迎使用 @" + TgApi.getDefaultApiConnection().getMe().username + "\n" +
                     "请您进行一些设置：\n" +
                     "1.在您的群组中给予 @" + TgApi.getDefaultApiConnection().getMe().username + " 管理员权限\n" +
                     "2.使用 /soamenable 启用一些功能\n" +
-                    "3.如果之前加入了 @DogeRobot ，建议您将其移除\n" +
-                    "4.Enjoy it!\n\n" +
-                    "注: 默认开启的功能有 BlackList AutoKick AutoDeleteSpamMessage 这三个，您可以根据您的需要来禁用或启用。",
+                    "3.Enjoy it!\n\n" +
+                    "注: 默认开启的功能有 BlackList AutoKick AntiHalal AutoDeleteSpamMessage 这 4 个，您可以根据您的需要来禁用或启用。",
                     RawMessage.message_id
                     );
+                return new CallbackMessage();
+            }
+            if (Temp.DisableBanList)
+            {
                 return new CallbackMessage();
             }
             DatabaseManager dbmgr = Temp.GetDatabaseManager();
@@ -100,7 +99,7 @@ namespace CNBlackListSoamChecker
                     if (banUser.Level == 0)
                     {
                         resultmsg += "这位用户可能存在风险，已被封禁" + banReason + "\n\n" +
-                            "对于被封禁的用户，您可以通过 [点击这里](https://t.me/CNBlackListBot?start=soam_req_unban) 以请求解封。";
+                            "对于被封禁的用户，您可以通过 [点击这里](https://t.me/" + TgApi.getDefaultApiConnection().getMe().username + "?start=soam_req_unban) 以请求解封。";
                         if (groupCfg.AutoKick == 0)
                         {
                             SetActionResult result = TgApi.getDefaultApiConnection().kickChatMember(
@@ -119,7 +118,7 @@ namespace CNBlackListSoamChecker
                     {
                         resultmsg += "这位用户可能存在不良行为" + banReason  + "\n\n" +
                             "对于群组的管理员: 您可以观察这位用户在您的群组当中是否存在不良行为后再决定是否移除该成员\n"+
-                            "对于被封禁的用户，您可以通过 [点击这里](https://t.me/CNBlackListBot?start=soam_req_unban) 以请求解封。";
+                            "对于被封禁的用户，您可以通过 [点击这里](https://t.me/" + TgApi.getDefaultApiConnection().getMe().username + "?start=soam_req_unban) 以请求解封。";
                     }
                 }
                 else
