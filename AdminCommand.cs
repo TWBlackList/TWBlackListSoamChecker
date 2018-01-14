@@ -28,7 +28,7 @@ namespace CNBlackListSoamChecker
                             string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                             System.IO.File.WriteAllText("config.json", output);
                             try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"新增成功!",RawMessage.message_id);}catch{}
-                            reloadConfig();
+                            RAPI.reloadConfig();
                         }
                         break;
                     }else{
@@ -63,7 +63,7 @@ namespace CNBlackListSoamChecker
                                 string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                                 System.IO.File.WriteAllText("config.json", output);
                                 try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"刪除成功!",RawMessage.message_id);}catch{}
-                                reloadConfig();
+                                RAPI.reloadConfig();
                             }else{
                                 try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"找不到OP!",RawMessage.message_id);}catch{}
                             }
@@ -93,7 +93,7 @@ namespace CNBlackListSoamChecker
                             string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                             System.IO.File.WriteAllText("config.json", output);
                             try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"新增成功!",RawMessage.message_id);}catch{}
-                            reloadConfig();
+                            RAPI.reloadConfig();
                         }
                         break;
                     }else{
@@ -127,7 +127,7 @@ namespace CNBlackListSoamChecker
                                 string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                                 System.IO.File.WriteAllText("config.json", output);
                                 try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"刪除成功!",RawMessage.message_id);}catch{}
-                                reloadConfig();
+                                RAPI.reloadConfig();
                             }else{
                                 try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"找不到OP!",RawMessage.message_id);}catch{}
                             }
