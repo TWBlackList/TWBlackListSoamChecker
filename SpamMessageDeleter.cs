@@ -92,7 +92,7 @@ namespace CNBlackListSoamChecker
                                     BaseMessage.from.id,
                                     1,
                                     0,
-                                    "System AUTO BAN: \n清真或印度消息",
+                                    "System AUTO BAN: \n清真或印度訊息",
                                     BaseMessage.GetMessageChatInfo().id,
                                     BaseMessage.message_id,
                                     BaseMessage.from
@@ -120,7 +120,7 @@ namespace CNBlackListSoamChecker
                                 Temp.AdminGroupID,
                                 BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
                                 BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                                "匹配到的规则: 清真或印度消息\n" +
+                                "匹配到的規則則: 清真或印度訊息\n" +
                                 "清真得分: " + halalPoints + "\n" +
                                 "印度得分: " + indiaPoints,
                                 result.result.message_id
@@ -130,7 +130,7 @@ namespace CNBlackListSoamChecker
                     new Thread(delegate () {
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                         BaseMessage.GetMessageChatInfo().id,
-                        "检查到清真或印度消息，已尝试上报用户行为，如有误报请加入 @" + Temp.MainChannelName + " 提供的群组以报告误报。"
+                        "檢查到清真或印度訊息，已嘗試上報使用者行為，如有誤報請加入 @" + Temp.MainChannelName + " 提供的群组以報告誤報。"
                         );
                         Thread.Sleep(60000);
                         TgApi.getDefaultApiConnection().deleteMessage(
@@ -195,7 +195,7 @@ namespace CNBlackListSoamChecker
                                     Temp.AdminGroupID,
                                     BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
                                     BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                                    "匹配到的规则: " + smsg.FriendlyName + "\n" +
+                                    "匹配到的規則: " + smsg.FriendlyName + "\n" +
                                     "得分: " + points,
                                     result.result.message_id
                                     );
@@ -204,8 +204,8 @@ namespace CNBlackListSoamChecker
                         new Thread(delegate () {
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
-                            "检查到 " + smsg.FriendlyName +
-                            " ，已尝试上报用户行为，如有误报请加入 @" + Temp.MainChannelName + " 提供的群组以报告误报。"
+                            "檢查到 " + smsg.FriendlyName +
+                            " ，已嘗試上報使用者行為，如有誤報請加入 @" + Temp.MainChannelName + " 提供的群组以報告誤報。"
                             );
                             Thread.Sleep(60000);
                             TgApi.getDefaultApiConnection().deleteMessage(
@@ -231,7 +231,7 @@ namespace CNBlackListSoamChecker
                         new Thread(delegate () {
                             SendMessageResult autodeletecommandsendresult = TgApi.getDefaultApiConnection().sendMessage(
                                 BaseMessage.GetMessageChatInfo().id,
-                                "请您不要乱玩机器人命令，如有疑问请您联系群组的管理员。"
+                                "請您不要亂玩機器人的指令，有問題請聯絡群組內的管理員。"
                                 );
                             Thread.Sleep(60000);
                             TgApi.getDefaultApiConnection().deleteMessage(

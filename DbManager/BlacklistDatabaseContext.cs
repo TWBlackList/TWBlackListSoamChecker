@@ -31,25 +31,25 @@ namespace CNBlackListSoamChecker.DbManager
 
         public string GetBanMessage()
         {
-            string msg = "未被封禁";
+            string msg = "未被封鎖";
             if (Ban == 0)
             {
-                msg = "已被封禁";
+                msg = "已被封鎖";
                 if (Level == 0)
                 {
-                    msg += "，封禁等级为: 0 (严重)";
+                    msg += "，封鎖等级為: 0 (嚴重)";
                 }
                 else if (Level == 1)
                 {
-                    msg += "，封禁等级为: 1 (警告)";
+                    msg += "，封鎖等级為: 1 (警告)";
                 }
                 else
                 {
-                    msg += "，封禁等级为: " + Level + " (未知)";
+                    msg += "，封鎖等级為: " + Level + " (未知)";
                 }
-                msg += "，该记录将于 " + GetTime.GetExpiresTime(Expires) + " 后失效";
-                msg += "\n\n原因是：\n" + Reason;
-                if (ChannelMessageID != 0) msg += "\n\n参见: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
+                msg += "，該紀錄將於 " + GetTime.GetExpiresTime(Expires) + " 後失效";
+                msg += "\n\n原因是 : \n" + Reason;
+                if (ChannelMessageID != 0) msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
             }
             return msg;
         }

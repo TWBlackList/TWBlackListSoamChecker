@@ -10,28 +10,171 @@ namespace CNBlackListSoamChecker
         {
             if (!RAPI.getIsBotAdmin(RawMessage.GetSendUser().id))
             {
-                return false;
+                
+        if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+            switch (Command)
+            {
+                case "/addop":
+                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+                        string uuuuuuuuid = RawMessage.text.Replace("/addop","").Replace(" ","");
+                        if (uuuuuuuuid.Length < 5){
+                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"使用方法 : /addsysop UID",RawMessage.message_id);}catch{}
+                            break;
+                        }else{
+                            string json = System.IO.File.ReadAllText("config.json");
+                            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                            jsonObj["admin_list"].Add(System.Convert.ToInt32(uuuuuuuuid));
+                            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                            System.IO.File.WriteAllText("config.json", output);
+                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"新增成功!",RawMessage.message_id);}catch{}
+                        }
+                        break;
+                    }else{
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                        break;
+                    }
+                    throw new StopProcessException();
+                case "/delop":
+                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+                        string uuuuuuuuid = RawMessage.text.Replace("/delop","").Replace(" ","");;
+                        if (uuuuuuuuid.Length < 5){
+                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"使用方法 : /removesysop UID",RawMessage.message_id);}catch{}
+                            break;
+                        }else{
+                            string json = System.IO.File.ReadAllText("config.json");
+                            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                            
+                            int i = 0;
+                            bool found = false;
+                            foreach (var item in jsonObj["admin_list"]){
+                                if(jsonObj["admin_list"][i].Equal(uuuuuuuuid)){
+                                    found = true;
+                                    jsonObj["admin_list"][i].Remove();
+                                }
+                                if(jsonObj["admin_list"][i].Equal(System.Convert.ToInt32(uuuuuuuuid))){
+                                    found = true;
+                                    jsonObj["admin_list"][i].Remove();
+                                }
+                                i=i+1;
+                            }
+
+                            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                            System.IO.File.WriteAllText("config.json", output);
+                            if(found){
+                                try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"刪除成功!",RawMessage.message_id);}catch{}
+                            }else{
+                                try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"找不到OP!",RawMessage.message_id);}catch{}
+                            }
+                        }
+                        break;
+                    }else{
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                        break;
+                    }
+                    throw new StopProcessException();
+                case "/lsop":
+                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+                        string json = System.IO.File.ReadAllText("config.json");
+                        dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"SYSOP : \n" + System.String.Join("\n",jsonObj["admin_list"]),RawMessage.message_id);
+                        break;
+                    }else{
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                        break;
+                    }
+                    throw new StopProcessException();
+
+            }}else{return false;}
             }
             switch (Command)
             {
-                case "/ban":
+                case "/addop":
+                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+                        string uuuuuuuuid = RawMessage.text.Replace("/addop","").Replace(" ","");
+                        if (uuuuuuuuid.Length < 5){
+                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"使用方法 : /addsysop UID",RawMessage.message_id);}catch{}
+                            break;
+                        }else{
+                            string json = System.IO.File.ReadAllText("config.json");
+                            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                            jsonObj["admin_list"].Add(System.Convert.ToInt32(uuuuuuuuid));
+                            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                            System.IO.File.WriteAllText("config.json", output);
+                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"新增成功!",RawMessage.message_id);}catch{}
+                        }
+                        break;
+                    }else{
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                        break;
+                    }
+                    throw new StopProcessException();
+                case "/delop":
+                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+                        string uuuuuuuuid = RawMessage.text.Replace("/delop","").Replace(" ","");;
+                        if (uuuuuuuuid.Length < 5){
+                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"使用方法 : /removesysop UID",RawMessage.message_id);}catch{}
+                            break;
+                        }else{
+                            string json = System.IO.File.ReadAllText("config.json");
+                            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                            
+                            int i = 0;
+                            bool found = false;
+                            
+                            foreach (var item in jsonObj["admin_list"]){
+                                if(jsonObj["admin_list"][i] == uuuuuuuuid){
+                                    found = true;
+                                    break;
+                                }
+                                i=i+1;
+                            }
+
+                            if(found){
+                                jsonObj["admin_list"].Remove(jsonObj["admin_list"][i]);
+                                string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                                System.IO.File.WriteAllText("config.json", output);
+                                try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"刪除成功!",RawMessage.message_id);}catch{}
+                            }else{
+                                try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"找不到OP!",RawMessage.message_id);}catch{}
+                            }
+                        }
+                        break;
+                    }else{
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                        break;
+                    }
+                    throw new StopProcessException();
+                case "/lsop":
+                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+                        string json = System.IO.File.ReadAllText("config.json");
+                        dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"SYSOP : \n" + System.String.Join("\n",jsonObj["admin_list"]),RawMessage.message_id);
+                        break;
+                    }else{
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                        break;
+                    }
+                    throw new StopProcessException();
+
+
+                case "/twban":
                     if (Temp.DisableBanList || Temp.DisableAdminTools)
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.chat.id,
-                            "非常抱歉，当前的编译已经禁用了封禁用户的功能，请您重新下载源码并编译以启用此功能。",
+                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
                             RawMessage.message_id
                             );
                         break;
                     }
                     new BanUserCommand().Ban(RawMessage, JsonMessage, Command);
                     throw new StopProcessException();
-                case "/unban":
+                case "/twunban":
                     if (Temp.DisableBanList)
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.chat.id,
-                            "非常抱歉，当前的编译已经禁用了封禁用户的功能，请您重新下载源码并编译以启用此功能。",
+                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
                             RawMessage.message_id
                             );
                         break;
@@ -43,7 +186,7 @@ namespace CNBlackListSoamChecker
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.chat.id,
-                            "非常抱歉，当前的编译已经禁用了封禁用户的功能，请您重新下载源码并编译以启用此功能。",
+                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
                             RawMessage.message_id
                             );
                         break;
@@ -55,7 +198,7 @@ namespace CNBlackListSoamChecker
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.chat.id,
-                            "非常抱歉，当前的编译已经禁用了封禁用户的功能，请您重新下载源码并编译以启用此功能。",
+                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
                             RawMessage.message_id
                             );
                         break;
@@ -67,7 +210,7 @@ namespace CNBlackListSoamChecker
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.chat.id,
-                            "非常抱歉，当前的编译已经禁用了封禁用户的功能，请您重新下载源码并编译以启用此功能。",
+                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
                             RawMessage.message_id
                             );
                         break;
@@ -79,7 +222,7 @@ namespace CNBlackListSoamChecker
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.chat.id,
-                            "非常抱歉，当前的编译已经禁用了封禁用户的功能，请您重新下载源码并编译以启用此功能。",
+                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
                             RawMessage.message_id
                             );
                         break;
@@ -91,7 +234,7 @@ namespace CNBlackListSoamChecker
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.chat.id,
-                            "非常抱歉，当前的编译已经禁用了封禁用户的功能，请您重新下载源码并编译以启用此功能。",
+                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
                             RawMessage.message_id
                             );
                         break;
@@ -103,7 +246,7 @@ namespace CNBlackListSoamChecker
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.chat.id,
-                            "非常抱歉，当前的编译已经禁用了封禁用户的功能，请您重新下载源码并编译以启用此功能。",
+                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
                             RawMessage.message_id
                             );
                         break;
@@ -116,7 +259,7 @@ namespace CNBlackListSoamChecker
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.GetMessageChatInfo().id,
-                            "您的输入有误",
+                            "您的輸入有錯誤",
                             RawMessage.message_id
                             );
                         throw new StopProcessException();

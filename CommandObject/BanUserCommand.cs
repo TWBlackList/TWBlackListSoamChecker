@@ -13,17 +13,17 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "/ban [i|id=1] [l|level=0] [m|minutes=0] [h|hours=0] [d|days=15] [f|from=f|fwd|r|reply] [halal [f|fwd|r|reply]]" +
+                    "/twban [i|id=1] [l|level=0] [m|minutes=0] [h|hours=0] [d|days=15] [f|from=f|fwd|r|reply] [halal [f|fwd|r|reply]]" +
                     " r|reason=\"asdfsadf asdfadsf\"\n\n" +
-                    "m: 分钟, h: 小时, d: 天\n" +
-                    "from 选项仅在 id 未被定义时起作用\n" +
-                    "ID 选择优先级: 手动输入的 ID > 回复的被转发消息 > 回复的消息\n" +
-                    "选项优先级: 简写 > 全名\n" +
-                    "halal 选项只能单独使用，不能与其他选项共同使用，并且需要回复一条消息，否则将会触发异常。\n\n" +
+                    "m: 分鐘, h: 小時, d: 天\n" +
+                    "from 選項僅在 id 未被定義時起作用\n" +
+                    "ID 選擇優先度: 手動輸入 ID > 回覆的被轉發訊息 > 回覆的訊息\n" +
+                    "選項優先度: 簡寫 > 全名\n" +
+                    "halal 選項只能單獨使用，不能與其他選項共同使用，並且需要回覆一則訊息，否則將觸發異常。\n\n" +
                     "Example:\n" +
-                    "/ban id=1 m=0 h=0 d=15 level=0 reason=\"aaa bbb\\n\\\"ccc\\\" ddd\"\n" +
-                    "/ban halal\n" +
-                    "/ban halal=reply",
+                    "/twban id=1 m=0 h=0 d=15 level=0 reason=\"aaa bbb\\n\\\"ccc\\\" ddd\"\n" +
+                    "/twban halal\n" +
+                    "/twban halal=reply",
                     RawMessage.message_id
                     );
                 return true;
@@ -41,20 +41,20 @@ namespace CNBlackListSoamChecker.CommandObject
                 if (value.Substring(0, 5) == "halal")
                 {
                     NotHalal = false;
-                    Reason = "Halal （中国人无法识别的语言）";
+                    Reason = "Halal （台灣人無法辨識的語言）";
                     if (valLen > 6)
                     {
                         if (value[5] != ' ')
                         {
                             TgApi.getDefaultApiConnection().sendMessage(
                                 RawMessage.GetMessageChatInfo().id,
-                                "您的输入有误，请检查您的输入，或使用 /ban 查看帮助。 err_a1",
+                                "您的輸入有錯誤，請檢查您的輸入，或使用 /twban 查詢幫助。 err_a1",
                                 RawMessage.message_id
                                 );
                             return true;
                         }
                         UserInfo tmpUinfo = new GetValues().GetByTgMessage(new Dictionary<string, string> { { "from" , value.Substring(6) } }, RawMessage);
-                        if (tmpUinfo == null) return true; // 如果没拿到用户信息则代表出现了异常
+                        if (tmpUinfo == null) return true; // 如果没拿到使用者信息则代表出现了异常
                         else
                         {
                             BanUserId = tmpUinfo.id;
@@ -67,7 +67,7 @@ namespace CNBlackListSoamChecker.CommandObject
                     else
                     {
                         UserInfo tmpUinfo = new GetValues().GetByTgMessage(new Dictionary<string, string> {  }, RawMessage);
-                        if (tmpUinfo == null) return true; // 如果没拿到用户信息则代表出现了异常
+                        if (tmpUinfo == null) return true; // 如果没拿到使用者信息则代表出现了异常
                         else
                         {
                             BanUserId = tmpUinfo.id;
@@ -93,9 +93,9 @@ namespace CNBlackListSoamChecker.CommandObject
                     Dictionary<string, string> banValues = CommandDecoder.cutKeyIsValue(value);
                     string tmpString = "";
 
-                    // 获取用户信息
+                    // 获取使用者信息
                     UserInfo tmpUinfo = new GetValues().GetByTgMessage(banValues, RawMessage);
-                    if (tmpUinfo == null) return true; // 如果没拿到用户信息则代表出现了异常
+                    if (tmpUinfo == null) return true; // 如果没拿到使用者信息则代表出现了异常
                     else
                     {
                         BanUserId = tmpUinfo.id;
@@ -127,7 +127,7 @@ namespace CNBlackListSoamChecker.CommandObject
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.GetMessageChatInfo().id,
-                            "您的输入有误，请检查您的输入，或使用 /ban 查看帮助。 err8",
+                            "您的輸入有錯誤，請檢查您的輸入，或使用 /twban 查詢幫助。 err8",
                             RawMessage.message_id
                             );
                         return true;
@@ -138,14 +138,14 @@ namespace CNBlackListSoamChecker.CommandObject
                     if (Reason == null) return true; // 如果 Reason 是 null 则代表出现了异常
                     if (Reason.ToLower() == "halal")
                     {
-                        Reason = "Halal （中国人无法识别的语言）";
+                        Reason = "Halal （台灣人無法理解的語言）";
                     }
                 }
                 catch (DecodeException)
                 {
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
-                        "您的输入有误，请检查您的输入，请使用 /ban 来查看帮助 err10",
+                        "您的輸入有錯誤，請檢查您的輸入，或使用 /twban 查詢幫助 err10",
                         RawMessage.message_id
                         );
                     return true;
@@ -188,7 +188,7 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "操作成功。\n\n请注意：转发用户消息到频道或发送用户信息到频道失败，请您手动发送至 @" + Temp.MainChannelName + " 。 err11",
+                    "操作成功。\n\n請注意 : 轉發使用者訊息到頻道或是發送使用者訊息到頻道失敗，請您手動發送至 @" + Temp.MainChannelName + " 。 err11",
                     RawMessage.message_id
                     );
                 return true;

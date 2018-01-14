@@ -19,12 +19,12 @@ namespace CNBlackListSoamChecker
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "欢迎使用 @" + TgApi.getDefaultApiConnection().getMe().username + "\n" +
-                    "请您进行一些设置：\n" +
-                    "1.在您的群组中给予 @" + TgApi.getDefaultApiConnection().getMe().username + " 管理员权限\n" +
-                    "2.使用 /soamenable 启用一些功能\n" +
+                    "觀迎使用 @" + TgApi.getDefaultApiConnection().getMe().username + "\n" +
+                    "請您進行一些設定 : \n" +
+                    "1.在您的群组中给予 @" + TgApi.getDefaultApiConnection().getMe().username + " 管理員權限\n" +
+                    "2.使用 /soamenable 開啟一些功能\n" +
                     "3.Enjoy it!\n\n" +
-                    "注: 默认开启的功能有 BlackList AutoKick AntiHalal AutoDeleteSpamMessage 这 4 个，您可以根据您的需要来禁用或启用。",
+                    "注: 預設開啟的功能有 BlackList AutoKick AntiHalal 這 3 個，您可以根據您的需要來關閉或啟用。",
                     RawMessage.message_id
                     );
                 return new CallbackMessage();
@@ -34,19 +34,19 @@ namespace CNBlackListSoamChecker
                 return new CallbackMessage();
             }
             DatabaseManager dbmgr = Temp.GetDatabaseManager();
-            if (RawMessage.GetMessageChatInfo().id == -1001079439348)
+            if (RawMessage.GetMessageChatInfo().id == -1001132136235)
             {
                 BanUser banUser = dbmgr.GetUserBanStatus(JoinedUser.id);
                 if (banUser.Ban == 0)
                 {
-                    string resultmsg = "这位用户被封禁了";
+                    string resultmsg = "這位使用者被封鎖了";
                     if (banUser.ChannelMessageID != 0)
                     {
-                        resultmsg += "， [原因请点击这里查看](https://t.me/" + Temp.MainChannelName + "/" + banUser.ChannelMessageID + ")";
+                        resultmsg += "， [原因請點選這裡查看](https://t.me/" + Temp.MainChannelName + "/" + banUser.ChannelMessageID + ")";
                     }
                     else
                     {
-                        resultmsg += "，原因是：\n" + banUser.Reason;
+                        resultmsg += "，原因是 : \n" + banUser.Reason + "\nID : " + JoinedUser.id;
                     }
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
@@ -64,8 +64,8 @@ namespace CNBlackListSoamChecker
                                 );
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
-                        "您未被封禁，请闲杂人等退群。如果您想加入这个群组，您可以去多点群发一些广告，然后您被 ban 了就能加入了。\n\n" +
-                        "您将在 60 秒后自动退群。",
+                        "您未被封鎖，請閒雜等人退出群組。如果您想加入這個群组，您可以去多點群發一些廣告，然後您被 Ban 了就能加入了。\n\n" +
+                        "您將在 60 秒後自動退出群組。",
                         RawMessage.message_id,
                         ParseMode: TgApi.PARSEMODE_MARKDOWN
                         );
@@ -84,42 +84,46 @@ namespace CNBlackListSoamChecker
             if (groupCfg.BlackList == 0)
             {
                 BanUser banUser = dbmgr.GetUserBanStatus(JoinedUser.id);
-                string resultmsg = "警告: ";
+                string resultmsg = "";
                 if (banUser.Ban == 0)
                 {
                     string banReason;
                     if (banUser.ChannelMessageID != 0)
                     {
-                        banReason = "， [原因请点击这里查看](https://t.me/" + Temp.MainChannelName + "/" + banUser.ChannelMessageID + ")";
+                        banReason = "， [原因請點選這裡查看](https://t.me/" + Temp.MainChannelName + "/" + banUser.ChannelMessageID + ")";
                     }
                     else
                     {
-                        banReason = "\n\n原因是：\n" + banUser.Reason;
+                        banReason = "\n\n封鎖原因 : " + banUser.Reason;
                     }
                     if (banUser.Level == 0)
                     {
-                        resultmsg += "这位用户可能存在风险，已被封禁" + banReason + "\n\n" +
-                            "对于被封禁的用户，您可以通过 [点击这里](https://t.me/" + TgApi.getDefaultApiConnection().getMe().username + "?start=soam_req_unban) 以请求解封。";
+                        resultmsg += "警告：這個使用者可能會對群組造成負面影響，已自動封鎖" + banReason + "\n\n" +
+                            "被封鎖的用戶，可以到 [這個群組](https://t.me/J_Court) 尋求申訴";
                         if (groupCfg.AutoKick == 0)
                         {
-                            SetActionResult result = TgApi.getDefaultApiConnection().kickChatMember(
+                            try{SetActionResult result = TgApi.getDefaultApiConnection().kickChatMember(
                                 RawMessage.GetMessageChatInfo().id,
                                 JoinedUser.id,
                                 GetTime.GetUnixTime() + 86400
                                 );
-                            if (!result.ok)
-                            {
-                                resultmsg += "\n\n请注意: 您的群组当前打开了自动移除危险成员但机器人没有相应的管理员权限" +
-                                    "，请您关闭此功能或者将机器人设置为管理员并给予相应的权限（Ban users）。";
+                                if (!result.ok){
+                                    resultmsg += "\n\n請注意: 您的群组目前開啟了自動移除危險成員但機器人没有適當的管理員權限" +
+                                            "，請您關閉此功能或者将機器人設置為管理員應给予適當的權限（Ban users）。";
                             }
+                            }catch{}
+
+                            
                         }
                     }
                     else if (banUser.Level == 1)
                     {
-                        resultmsg += "这位用户可能存在不良行为" + banReason  + "\n\n" +
-                            "对于群组的管理员: 您可以观察这位用户在您的群组当中是否存在不良行为后再决定是否移除该成员\n"+
-                            "对于被封禁的用户，您可以通过 [点击这里](https://t.me/" + TgApi.getDefaultApiConnection().getMe().username + "?start=soam_req_unban) 以请求解封。";
+                        resultmsg += "這位使用者可能存在不良行為" + banReason  + "\n\n" +
+                            "對於群组的管理員: 您可以观察這位使用者在您的群组当中是否存在不良行為后再决定是否移除该成員\n"+
+                            "對於被封鎖的使用者，你可以通過 [這個群組](https://t.me/J_Court) 以請求解封。";
+
                     }
+
                 }
                 else
                 {

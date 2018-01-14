@@ -8,11 +8,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design" Version="1.1.2" />
+    <PackageReference Include="Newtonsoft.Json"  />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ReimuAPI">
-      <HintPath>./CNBlackListSoamChecker/lib/ReimuAPI.dll</HintPath>
+      <HintPath>./ReimuAPI.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

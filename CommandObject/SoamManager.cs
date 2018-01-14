@@ -10,7 +10,7 @@ namespace CNBlackListSoamChecker.CommandObject
         {
             if (!TgApi.getDefaultApiConnection().checkIsAdmin(message.chat.id, message.from.id))
             {
-                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "您不是这个群组的管理员，无法执行此操作。", message.message_id);
+                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "您不是這個群組的管理員，無法執行此操作。", message.message_id);
                 return;
             }
             string enabled = "";
@@ -33,7 +33,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 Blacklist = 0;
                 if (Temp.DisableBanList)
                 {
-                    otherMsg += "\nBlackList 开启失败，因为当前的编译已经禁用封禁用户的功能。";
+                    otherMsg += "\nBlackList 開啟失敗，目前版本未啟用此功能。。";
                 }
                 else
                 {
@@ -45,7 +45,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 AutoKick = 0;
                 if (Temp.DisableBanList)
                 {
-                    otherMsg += "\nAutoKick 开启失败，因为当前的编译已经禁用封禁用户的功能。";
+                    otherMsg += "\nAutoKick 開啟失敗，目前版本未啟用此功能。。";
                 }
                 else
                 {
@@ -62,7 +62,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 AutoDeleteSpamMessage = 0;
                 if (Temp.DisableBanList)
                 {
-                    otherMsg += "\nAutoDeleteSpamMessage 开启失败，因为当前的编译已经禁用封禁用户的功能。";
+                    otherMsg += "\nAutoDeleteSpamMessage 開啟失敗，目前版本未啟用此功能。。";
                 }
                 else
                 {
@@ -79,7 +79,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 SubscribeBanList = 0;
                 if (Temp.DisableBanList)
                 {
-                    otherMsg += "\nSubscribeBanList 开启失败，因为当前的编译已经禁用封禁用户的功能。";
+                    otherMsg += "\nSubscribeBanList 開啟失敗，目前版本未啟用此功能。。";
                 }
                 else
                 {
@@ -101,22 +101,22 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 if (Temp.MainChannelName  == null)
                 {
-                    enabled = "[[null]]\n\n请您使用 /soamenable [所需的功能] 来启用您需要的功能。\n" +
-                        "例如: \"/soamenable BlackList\" (不包含引号) 则可以启用黑名单列表警告。\n" +
-                        "您也可以使用多个选项，例如: \"/soamenable BlackList AutoKick\" (不包含引号) " +
-                        "则可以启用黑名单列表警告，在警告后还会将成员移出群组。\n\n" +
-                        "您可以使用 /soamstatus 查看当前群组开启或关闭了的功能。";
+                    enabled = "[[null]]\n\n請您使用 /soamenable [所需的功能] 來啟用您需要的功能。\n" +
+                        "例如: \"/soamenable BlackList\" (不包含引號) 則可以使用黑名單列表警告。\n" +
+                        "您也可以使用多個選項，例如: \"/soamenable BlackList AutoKick\" (不包含引號) " +
+                        "則可以使用黑名單列表警告，在警告後還會將成員移出群組。\n\n" +
+                        "您可以使用 /soamstatus 取得目前群組開啟或關閉的功能。";
                 }
                 else
                 {
-                    enabled = "[[null]]\n\n请您使用 /soamenable [所需的功能] 来启用您需要的功能。\n" +
-                        "例如: \"/soamenable BlackList\" (不包含引号) 则可以启用由 @" + Temp.MainChannelName + " 提供的黑名单列表警告。\n" +
-                        "您也可以使用多个选项，例如: \"/soamenable BlackList AutoKick\" (不包含引号) " +
-                        "则可以启用由 @" + Temp.MainChannelName + " 提供的黑名单列表警告，在警告后还会将成员移出群组。\n\n" +
-                        "您可以使用 /soamstatus 查看当前群组开启或关闭了的功能。";
+                    enabled = "[[null]]\n\n請您使用 /soamenable [所需的功能] 來啟用您需要的功能。\n" +
+                        "例如: \"/soamenable BlackList\" (不包含引號) 則可以使用由 @" + Temp.MainChannelName + " 提供的黑名單列表警告。\n" +
+                        "您也可以使用多個選項，例如: \"/soamenable BlackList AutoKick\" (不包含引號) " +
+                        "則可以使用由 @" + Temp.MainChannelName + " 提供的黑名單列表警告，在警告後還會將成員移出群組。\n\n" +
+                        "您可以使用 /soamstatus 取得目前群組開啟或關閉的功能。";
                 }
             }
-            TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，开启了的功能有: " + enabled + otherMsg, message.message_id);
+            TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，開啟的功能有: " + enabled + otherMsg, message.message_id);
             return;
         }
 
@@ -124,7 +124,7 @@ namespace CNBlackListSoamChecker.CommandObject
         {
             if (!TgApi.getDefaultApiConnection().checkIsAdmin(message.chat.id, message.from.id))
             {
-                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "您不是这个群组的管理员，无法执行此操作。", message.message_id);
+                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "你不是這個群組的管理員，無法執行此操作。", message.message_id);
                 return;
             }
             string enabled = "";
@@ -185,22 +185,22 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 if (Temp.MainChannelName == null)
                 {
-                    enabled = "[[null]]\n\n请您使用 /soamdisable [所需的功能] 来禁用您需要的功能。\n" +
-                    "例如: \"/soamdisable BlackList\" (不包含引号) 则可以禁用黑名单列表警告。\n" +
-                    "您也可以使用多个选项，例如: \"/soamdisable BlackList AutoKick\" (不包含引号) " +
-                    "则可以禁用黑名单列表警告，并禁用在警告后将成员移出群组的功能。" +
-                    "您可以使用 /soamstatus 查看当前群组开启或关闭了的功能。";
+                    enabled = "[[null]]\n\n請您使用 /soamdisable [要關閉的功能] 來關閉您需要的功能。\n" +
+                    "例如: \"/soamdisable BlackList\" (不包含引號)  則可以關閉黑名單列表警告。\n" +
+                    "您也可以使用多個選項，例如: \"/soamdisable BlackList AutoKick\" (不包含引號) " +
+                    "則可以關閉黑名單列表警告，並關閉在警告後將成員移出群組的功能。" +
+                    "您可以使用 /soamstatus 取得目前群組開啟或關閉的功能。";
                 }
                 else
                 {
-                    enabled = "[[null]]\n\n请您使用 /soamdisable [所需的功能] 来禁用您需要的功能。\n" +
-                    "例如: \"/soamdisable BlackList\" (不包含引号) 则可以禁用由 @" + Temp.MainChannelName + " 提供的黑名单列表警告。\n" +
-                    "您也可以使用多个选项，例如: \"/soamdisable BlackList AutoKick\" (不包含引号) " +
-                    "则可以禁用由 @" + Temp.MainChannelName + " 提供的黑名单列表警告，并禁用在警告后将成员移出群组的功能。" +
-                    "您可以使用 /soamstatus 查看当前群组开启或关闭了的功能。";
+                    enabled = "[[null]]\n\n請您使用 /soamdisable [要關閉的功能] 來關閉您需要的功能。\n" +
+                    "例如: \"/soamdisable BlackList\" (不包含引號) 則可以關閉由 @" + Temp.MainChannelName + " 提供的黑名單列表警告。\n" +
+                    "您也可以使用多個選項，例如: \"/soamdisable BlackList AutoKick\" (不包含引號) " +
+                    "則可以關閉由 @" + Temp.MainChannelName + " 提供的黑名單列表警告，並關閉在警告後將成員移出群組的功能。" +
+                    "您可以使用 /soamstatus 取得目前群組開啟或關閉的功能。";
                 }
             }
-            TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，关闭了的功能有: " + enabled, message.message_id);
+            TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，關閉功能有: " + enabled, message.message_id);
             return;
         }
 
@@ -209,7 +209,7 @@ namespace CNBlackListSoamChecker.CommandObject
             string byChannelName = "";
             if (Temp.MainChannelName != null)
             {
-                byChannelName = " (by @CNBlackList )";
+                byChannelName = " (by @TWBlackList )";
             }
             GroupCfg gc = Temp.GetDatabaseManager().GetGroupConfig(message.chat.id);
             TgApi.getDefaultApiConnection().sendMessage(

@@ -47,7 +47,7 @@ namespace CNBlackListSoamChecker
                 }
                 if (SharedCommand(RawMessage, JsonMessage, Command)) return new CallbackMessage();
                 switch (Command)
-                {
+                {                
                     case "/soamenable":
                         if (cfg.AdminOnly == 0 && TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) == false)
                             return new CallbackMessage() { StopProcess = true };
@@ -66,19 +66,19 @@ namespace CNBlackListSoamChecker
                             return new CallbackMessage() { StopProcess = true };
                         new SoamManager().SoamStatus(RawMessage);
                         break;
-                    case "/bkick":
+                    case "/twkick":
                         if (Temp.DisableBanList)
                         {
                             TgApi.getDefaultApiConnection().sendMessage(
                                 RawMessage.chat.id,
-                                "非常抱歉，当前的编译已经禁用了封禁用户的功能，请您重新下载源码并编译以启用此功能。",
+                                "非常抱歉，目前版本已禁用封鎖用戶的功能，請聯絡管理員開啟此功能。",
                                 RawMessage.message_id
                                 );
                             break;
                         }
                         if (RawMessage.reply_to_message == null)
                         {
-                            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "请回复一条消息", RawMessage.message_id);
+                            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "請回覆一則訊息", RawMessage.message_id);
                             return new CallbackMessage();
                         }
                         BanUser ban = Temp.GetDatabaseManager().GetUserBanStatus(RawMessage.reply_to_message.from.id);
@@ -100,7 +100,7 @@ namespace CNBlackListSoamChecker
                                 {
                                     TgApi.getDefaultApiConnection().sendMessage(
                                         RawMessage.chat.id,
-                                        "无法移除，可能是机器人没有适当的管理员权限。",
+                                        "無法移除，可能是機器人沒有適當的管理員權限。",
                                         RawMessage.message_id
                                         );
                                     return new CallbackMessage();
@@ -110,8 +110,8 @@ namespace CNBlackListSoamChecker
                             {
                                 TgApi.getDefaultApiConnection().sendMessage(
                                     RawMessage.chat.id,
-                                    "无法移除，因为此用户的封禁级别没有达到要求，请您联系群组的管理员来处理。" +
-                                    "如果您认为这位用户将会影响大量群组，您亦可联系 @" + Temp.MainChannelName + " 提供的群组。",
+                                    "無法移除，因為此使用者的封鎖等級沒有達到要求，請您聯絡群組的管理員處理。" +
+                                    "如果你認為這位使用者將會影響大量群組，您可連絡 @" + Temp.MainChannelName + " 提供的群组。",
                                     RawMessage.message_id
                                     );
                                 return new CallbackMessage();
@@ -121,8 +121,8 @@ namespace CNBlackListSoamChecker
                         {
                             TgApi.getDefaultApiConnection().sendMessage(
                                 RawMessage.chat.id,
-                                "无法移除，因为此用户没有被机器人列入全局封禁列表中，请您联系群组的管理员来处理。" +
-                                "如果您认为这位用户将会影响大量群组，您亦可联系 @" + Temp.MainChannelName + " 提供的群组。",
+                                "無法移除，因為此使用者沒有被機器人列入全局封鎖列表中，請您聯絡群組的管理員處理。" +
+                                "如果你認為這位使用者將會影響大量群組，您可連絡 @" + Temp.MainChannelName + " 提供的群组。",
                                 RawMessage.message_id
                                 );
                             return new CallbackMessage();
@@ -142,13 +142,15 @@ namespace CNBlackListSoamChecker
         {
             switch (Command)
             {
-                case "/banstat":
-                case "/banstatus":
+                case "/help":
+                    return new Help().HelpStatus(RawMessage);
+                case "/twbanstat":
+                case "/twbanstatus":
                     if (Temp.DisableBanList)
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.chat.id,
-                            "非常抱歉，当前的编译已经禁用了封禁用户的功能，请您重新下载源码并编译以启用此功能。",
+                            "非常抱歉，目前版本已禁用封鎖用戶的功能，請聯絡管理員開啟此功能。",
                             RawMessage.message_id
                             );
                         break;

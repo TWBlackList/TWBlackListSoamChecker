@@ -71,7 +71,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 {
                     spamstrings += "FriendlyName: <code>" + msg.FriendlyName + "</code>, Enabled: " + msg.Enabled + "\n";
                 }
-                spamstrings += "\n您可以使用 /getspamstr [FriendlyName] 来查询详细信息。";
+                spamstrings += "\n您可以使用 /getspamstr [FriendlyName] 來取得詳細訊息。";
             }
             else
             {
@@ -107,7 +107,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 }
                 if (spamstrings == "")
                 {
-                    spamstrings = "没有查询到这条记录，请检查您的输入。";
+                    spamstrings = "沒有查到這筆紀錄，請檢查您的輸入。";
                 }
             }
             TgApi.getDefaultApiConnection().sendMessage(
@@ -125,7 +125,7 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "您的输入有误，请在最后面加上规则的 ID，您可以用 /getallspamstr 查看。",
+                    "你的輸入有錯誤，請在最後面加上規則的 ID，您可以用 /getallspamstr 取得。",
                     RawMessage.message_id,
                     ParseMode: TgApi.PARSEMODE_MARKDOWN
                     );
@@ -178,7 +178,7 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "您的输入有误，请在最后面加上规则的 ID，您可以用 /getallspamstr 查看。",
+                    "你的輸入有錯誤，請在最後面加上規則的 ID，您可以用 /getallspamstr 取得。",
                     RawMessage.message_id,
                     ParseMode: TgApi.PARSEMODE_MARKDOWN
                     );
@@ -207,7 +207,7 @@ namespace CNBlackListSoamChecker.CommandObject
         {
 
             string HelpContent =
-                    "解析 JSON 时出现错误，请参考下面的例子：\n```\n" +
+                    "解析 JSON 时出现错误，請参考下面的例子 : \n```\n" +
                     "{\n    " +
                     "\"FriendlyName\": \"示例广告\",\n    " +
                     "\"Enabled\": true,\n    " +
@@ -229,8 +229,8 @@ namespace CNBlackListSoamChecker.CommandObject
                     "}\n    " +
                     "]\n}" +
                     "\n```\n" +
-                    "关于 Type 的说明：\n完全匹配 = 0" +
-                    "\n正则表达式 = 1" +
+                    "关于 Type 的说明 : \n完全匹配 = 0" +
+                    "\n正則表达式 = 1" +
                     "\n使用迷之算法匹配 = 2" +
                     "\nstring.IndexOf(\"target\")!=-1 = 3" +
                     "\n清真 = 4" +
@@ -282,7 +282,7 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "您的输入有误，请在命令后添加 FriendlyName",
+                    "你的輸入有錯誤，請在指令後增加 FriendlyName",
                     RawMessage.message_id
                     );
                 return;
@@ -303,8 +303,8 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "/getspampoints text=\"被检测消息，如果包含英文和数字以外的字符需要加引号\"" +
-                    " rule=\"规则的友好名称，如果包含英文和数字以外的字符需要加引号\"",
+                    "/getspampoints text=\"被檢測訊息，如果包含英文與數字以外的文字需要加引號\"" +
+                    " rule=\"規則的暱稱，如果包含英文與數字以外的文字需要加引號\"",
                     RawMessage.message_id
                     );
                 return;
@@ -316,7 +316,7 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "您的输入有误",
+                    "你的輸入有錯誤",
                     RawMessage.message_id
                     );
                 return;
@@ -326,7 +326,7 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "没有找到您指定的规则，请重新指定。您亦可使用 /getspamstr 获取所有规则。",
+                    "没有找到您指定的规則，請重新指定。您可使用 /getspamstr 獲取所以規則。",
                     RawMessage.message_id
                     );
                 return;
