@@ -11,7 +11,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                                 "/soamstatus - 取得目前群組開啟功能\n" +
                                 "/twkick - 將一個已在封鎖列表內的使用這從群組中移除出去";
             string privateHelp = "";
-            string sharedHelp = "/twbanstat - 看看自己有沒有被封鎖\n"
+            string sharedHelp = "/twbanstat - 看看自己有沒有被封鎖\n" + 
                                 "/lsop - Operator 名冊";
             switch (RawMessage.chat.type){
                 case "group":
