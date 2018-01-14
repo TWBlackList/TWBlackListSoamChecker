@@ -30,7 +30,7 @@ namespace CNBlackListSoamChecker
                         }
                         break;
                     }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
                         break;
                     }
                     throw new StopProcessException();
@@ -68,18 +68,7 @@ namespace CNBlackListSoamChecker
                         }
                         break;
                     }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
-                        break;
-                    }
-                    throw new StopProcessException();
-                case "/lsop":
-                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
-                        string json = System.IO.File.ReadAllText("config.json");
-                        dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"SYSOP : \n" + System.String.Join("\n",jsonObj["admin_list"]),RawMessage.message_id);
-                        break;
-                    }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
                         break;
                     }
                     throw new StopProcessException();
@@ -104,7 +93,7 @@ namespace CNBlackListSoamChecker
                         }
                         break;
                     }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
                         break;
                     }
                     throw new StopProcessException();
@@ -140,23 +129,10 @@ namespace CNBlackListSoamChecker
                         }
                         break;
                     }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
                         break;
                     }
                     throw new StopProcessException();
-                case "/lsop":
-                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
-                        string json = System.IO.File.ReadAllText("config.json");
-                        dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"SYSOP : \n" + System.String.Join("\n",jsonObj["admin_list"]),RawMessage.message_id);
-                        break;
-                    }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
-                        break;
-                    }
-                    throw new StopProcessException();
-
-
                 case "/twban":
                     if (Temp.DisableBanList || Temp.DisableAdminTools)
                     {
@@ -218,28 +194,38 @@ namespace CNBlackListSoamChecker
                     //new SpamStringManager().GetAllInfo(RawMessage);
                     return true;
                 case "/addspamstr":
-                    if (Temp.DisableBanList)
-                    {
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            RawMessage.chat.id,
-                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                            RawMessage.message_id
-                            );
+                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+                        if (Temp.DisableBanList)
+                        {
+                            TgApi.getDefaultApiConnection().sendMessage(
+                                RawMessage.chat.id,
+                                "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
+                                RawMessage.message_id
+                                );
+                            break;
+                        }
+                        new SpamStringManager().Add(RawMessage);
+                    }else{
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
                         break;
                     }
-                    new SpamStringManager().Add(RawMessage);
                     throw new StopProcessException();
                 case "/delspamstr":
-                    if (Temp.DisableBanList)
-                    {
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            RawMessage.chat.id,
-                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                            RawMessage.message_id
-                            );
+                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+                        if (Temp.DisableBanList)
+                        {
+                            TgApi.getDefaultApiConnection().sendMessage(
+                                RawMessage.chat.id,
+                                "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
+                                RawMessage.message_id
+                                );
+                            break;
+                        }
+                        new SpamStringManager().Remove(RawMessage);
+                    }else{
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
                         break;
                     }
-                    new SpamStringManager().Remove(RawMessage);
                     throw new StopProcessException();
                 case "/getspampoints":
                     if (Temp.DisableBanList)

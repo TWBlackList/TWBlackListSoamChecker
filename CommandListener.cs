@@ -142,6 +142,12 @@ namespace CNBlackListSoamChecker
         {
             switch (Command)
             {
+                case "/lsop":
+                    string json = System.IO.File.ReadAllText("config.json");
+                    dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"SYSOP : \n" + System.String.Join("\n",jsonObj["admin_list"]),RawMessage.message_id);
+                    break;
+                    return true;
                 case "/help":
                     return new Help().HelpStatus(RawMessage);
                 case "/twbanstat":

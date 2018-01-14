@@ -11,7 +11,8 @@ namespace CNBlackListSoamChecker.CommandObject {
                                 "/soamstatus - 取得目前群組開啟功能\n" +
                                 "/twkick - 將一個已在封鎖列表內的使用這從群組中移除出去";
             string privateHelp = "";
-            string sharedHelp = "/twbanstat - 看看自己有沒有被封鎖";
+            string sharedHelp = "/twbanstat - 看看自己有沒有被封鎖\n"
+                                "/lsop - Operator 名冊";
             switch (RawMessage.chat.type){
                 case "group":
                 case "supergroup":
@@ -26,7 +27,16 @@ namespace CNBlackListSoamChecker.CommandObject {
             }
             if (RAPI.getIsBotAdmin(RawMessage.from.id))
             {
-                finalHelpMsg += "\n管理員指令: /twban /twunban /getspamstr /addspamstr /delspamstr /getspampoints /lsop /addop /delsysop";
+                finalHelpMsg = finalHelpMsg + "\nOP指令:\n" +
+                                "/twban - 封鎖\n" +
+                                "/twunban - 解除封鎖\n" +
+                                "/getspamstr - 查看自動偵測列表\n" +
+                                "/getspampoints - 測試關鍵字\n\n" +
+                                "Admin指令:\n" +
+                                "/addspamstr - 新增 1 個自動偵測列表\n" +
+                                "/delspamstr - 刪除 1 個自動偵測列表\n" +
+                                "/addop - 新增 Operator\n" +
+                                "/delsysop - 解除 Operator\n";
             }
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,finalHelpMsg,RawMessage.message_id);
             return true;
