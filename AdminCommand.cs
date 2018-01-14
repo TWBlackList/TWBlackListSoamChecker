@@ -1,6 +1,5 @@
 ﻿using CNBlackListSoamChecker.CommandObject;
 using ReimuAPI.ReimuBase;
-using ReimuAPI.ReimuBase.ConfigManager;
 using ReimuAPI.ReimuBase.TgData;
 
 namespace CNBlackListSoamChecker
