@@ -34,6 +34,7 @@ namespace CNBlackListSoamChecker
                         break;
                     }
                     throw new StopProcessException();
+                    return false;
                 case "/delop":
                     if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
                         string uuuuuuuuid = RawMessage.text.Replace("/delop","").Replace(" ","");;
@@ -46,21 +47,19 @@ namespace CNBlackListSoamChecker
                             
                             int i = 0;
                             bool found = false;
+                            
                             foreach (var item in jsonObj["admin_list"]){
-                                if(jsonObj["admin_list"][i].Equal(uuuuuuuuid)){
+                                if(jsonObj["admin_list"][i] == uuuuuuuuid){
                                     found = true;
-                                    jsonObj["admin_list"][i].Remove();
-                                }
-                                if(jsonObj["admin_list"][i].Equal(System.Convert.ToInt32(uuuuuuuuid))){
-                                    found = true;
-                                    jsonObj["admin_list"][i].Remove();
+                                    break;
                                 }
                                 i=i+1;
                             }
 
-                            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
-                            System.IO.File.WriteAllText("config.json", output);
                             if(found){
+                                jsonObj["admin_list"].Remove(jsonObj["admin_list"][i]);
+                                string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                                System.IO.File.WriteAllText("config.json", output);
                                 try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"刪除成功!",RawMessage.message_id);}catch{}
                             }else{
                                 try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"找不到OP!",RawMessage.message_id);}catch{}
@@ -68,12 +67,13 @@ namespace CNBlackListSoamChecker
                         }
                         break;
                     }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
                         break;
                     }
                     throw new StopProcessException();
 
-            }}else{return false;}
+            }
+            return false;}else{return false;}
             }
             switch (Command)
             {
@@ -129,7 +129,7 @@ namespace CNBlackListSoamChecker
                         }
                         break;
                     }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
                         break;
                     }
                     throw new StopProcessException();

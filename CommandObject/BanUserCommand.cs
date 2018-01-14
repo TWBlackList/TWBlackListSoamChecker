@@ -41,7 +41,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 if (value.Substring(0, 5) == "halal")
                 {
                     NotHalal = false;
-                    Reason = "Halal （台灣人無法辨識的語言）";
+                    Reason = "Halal （台灣人無法理解的語言）";
                     if (valLen > 6)
                     {
                         if (value[5] != ' ')

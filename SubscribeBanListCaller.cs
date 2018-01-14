@@ -46,7 +46,7 @@ namespace CNBlackListSoamChecker
                             TgApi.getDefaultApiConnection().kickChatMember(cfg.GroupID, user.UserID, GetTime.GetUnixTime() + 86400);
                             TgApi.getDefaultApiConnection().sendMessage(
                                 cfg.GroupID,
-                                "新的被封鎖使用者 : " + user.UserID + "\n\n" + user.GetBanMessage() + "\n\n由于您訂閱了封鎖列表，已根據您的设定自動移除。"
+                                "新的被封鎖使用者 : " + user.UserID + "\n\n" + user.GetBanMessage() + "\n\n由於您訂閱了封鎖黑名單，已根據您的設定自動移除。"
                                 );
                         }
                     }

@@ -62,7 +62,7 @@ namespace CNBlackListSoamChecker.DbManager
                 string textlevel;
                 if (Level == 0)
                 {
-                    textlevel = "0 （嚴重）";
+                    textlevel = "0 （封鎖）";
                 }
                 else if (Level == 1)
                 {
@@ -72,7 +72,7 @@ namespace CNBlackListSoamChecker.DbManager
                 {
                     textlevel = Level + " （未知）";
                 }
-                banmsg += "\n\n已被封鎖，封鎖等级為: " + textlevel + "，該紀錄將於 " + GetTime.GetExpiresTime(Expires) + " 之後失效";
+                banmsg += "\n\n已被封鎖，封鎖等级為: " + textlevel + "，該紀錄將於 " + GetTime.GetExpiresTime(Expires) + " 之後解除";
                 banmsg += "\n\n原因是 : \n" + Reason;
                 if (Temp.ReasonChannelID != 0 && ReasonID != 0)
                 {
