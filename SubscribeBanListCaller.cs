@@ -27,7 +27,9 @@ namespace CNBlackListSoamChecker
                 List<GroupCfg> groupCfg = null;
                 try
                 {
-                    groupCfg = db.GroupConfig.ToList();
+                        groupCfg = db.GroupConfig
+                        .Where(cfg => cfg.SubscribeBanList == 0)
+                        .ToList();
                 }
                 catch (InvalidOperationException)
                 {
