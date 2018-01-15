@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace CNBlackListSoamChecker.CommandObject {
     internal class BroadCast {
-        internal void BroadCast_Status(TgMessage RawMessage)
+        internal bool BroadCast_Status(TgMessage RawMessage)
         {
             new Thread(delegate () { BC(RawMessage); }).Start();
             return true;
