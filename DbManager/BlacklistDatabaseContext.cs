@@ -37,7 +37,7 @@ namespace CNBlackListSoamChecker.DbManager
                 msg = "已被封鎖";
                 if (Level == 0)
                 {
-                    msg += "，封鎖等级為: 0 (嚴重)";
+                    msg += "，封鎖等级為: 0 (封鎖)";
                 }
                 else if (Level == 1)
                 {

@@ -17,7 +17,7 @@
                         banmsg = "發送者 : \n" + RawMessage.GetSendUser().GetUserTextInfo() + "\n\n" + ban.GetBanMessage();
                         if (ban.Ban == 0)
                         {
-                            banmsg += "\n\n對於被封鎖的使用者，你可以通過 [點選這裡](https://t.me/" + TgApi.getDefaultApiConnection().getMe().username + "?start=soam_req_unban) 以請求解封。";
+                            banmsg += "\n\n對於被封鎖的使用者，你可以通過 [點選這裡](https://t.me/" + TgApi.getDefaultApiConnection().getMe().username + "?start=soam_req_unban) 以請求解除。";
                         }
                         if (RawMessage.reply_to_message != null)
                         {

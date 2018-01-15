@@ -57,26 +57,26 @@ namespace CNBlackListSoamChecker
                 }
                 else
                 {
-                    TgApi.getDefaultApiConnection().restrictChatMember(
-                                RawMessage.GetMessageChatInfo().id,
-                                JoinedUser.id,
-                                GetTime.GetUnixTime() + 60
-                                );
-                    TgApi.getDefaultApiConnection().sendMessage(
-                        RawMessage.GetMessageChatInfo().id,
-                        "您未被封鎖，請閒雜等人退出群組。如果您想加入這個群组，您可以去多點群發一些廣告，然後您被 Ban 了就能加入了。\n\n" +
-                        "您將在 60 秒後自動退出群組。",
-                        RawMessage.message_id,
-                        ParseMode: TgApi.PARSEMODE_MARKDOWN
-                        );
-                    new Thread(delegate () {
-                        Thread.Sleep(60000);
-                        TgApi.getDefaultApiConnection().kickChatMember(
-                            RawMessage.GetMessageChatInfo().id,
-                            JoinedUser.id,
-                            GetTime.GetUnixTime() + 60
-                            );
-                    }).Start();
+                    //TgApi.getDefaultApiConnection().restrictChatMember(
+                    //            RawMessage.GetMessageChatInfo().id,
+                    //            JoinedUser.id,
+                    //            GetTime.GetUnixTime() + 60
+                    //            );
+                    //TgApi.getDefaultApiConnection().sendMessage(
+                    //    RawMessage.GetMessageChatInfo().id,
+                    //    "您未被封鎖，請閒雜等人退出群組。如果您想加入這個群组，您可以去多點群發一些廣告，然後您被 Ban 了就能加入了。\n\n" +
+                    //    "您將在 60 秒後自動退出群組。",
+                    //    RawMessage.message_id,
+                    //    ParseMode: TgApi.PARSEMODE_MARKDOWN
+                    //    );
+                    //new Thread(delegate () {
+                    //    Thread.Sleep(60000);
+                    //    TgApi.getDefaultApiConnection().kickChatMember(
+                    //        RawMessage.GetMessageChatInfo().id,
+                    //        JoinedUser.id,
+                    //        GetTime.GetUnixTime() + 60
+                    //        );
+                    //}).Start();
                 }
                 return new CallbackMessage();
             }

@@ -36,7 +36,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                                 "/addspamstr - 新增 1 個自動偵測列表\n" +
                                 "/delspamstr - 刪除 1 個自動偵測列表\n" +
                                 "/addop - 新增 Operator\n" +
-                                "/delsysop - 解除 Operator\n";
+                                "/delop - 解除 Operator\n";
             }
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,finalHelpMsg,RawMessage.message_id);
             return true;

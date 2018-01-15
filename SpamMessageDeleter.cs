@@ -92,7 +92,7 @@ namespace CNBlackListSoamChecker
                                     BaseMessage.from.id,
                                     1,
                                     0,
-                                    "System AUTO BAN: \n清真或印度訊息",
+                                    "自動封鎖 : \n台灣人無法理解的語言",
                                     BaseMessage.GetMessageChatInfo().id,
                                     BaseMessage.message_id,
                                     BaseMessage.from
@@ -130,7 +130,7 @@ namespace CNBlackListSoamChecker
                     new Thread(delegate () {
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                         BaseMessage.GetMessageChatInfo().id,
-                        "檢查到清真或印度訊息，已嘗試上報使用者行為，如有誤報請加入 @" + Temp.MainChannelName + " 提供的群组以報告誤報。"
+                        "偵測到台灣人無法理解的語言，已自動提報使用者行為，如有誤報請加入 @" + Temp.MainChannelName + " 提供的群组以報告誤報。"
                         );
                         Thread.Sleep(60000);
                         TgApi.getDefaultApiConnection().deleteMessage(
@@ -204,8 +204,8 @@ namespace CNBlackListSoamChecker
                         new Thread(delegate () {
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
-                            "檢查到 " + smsg.FriendlyName +
-                            " ，已嘗試上報使用者行為，如有誤報請加入 @" + Temp.MainChannelName + " 提供的群组以報告誤報。"
+                            "偵測到 " + smsg.FriendlyName +
+                            " ，已自動提報使用者行為，如有誤報請加入 @" + Temp.MainChannelName + " 提供的群组以報告誤報。"
                             );
                             Thread.Sleep(60000);
                             TgApi.getDefaultApiConnection().deleteMessage(
@@ -275,7 +275,7 @@ namespace CNBlackListSoamChecker
                             SendUserInfo.id,
                             smsg.BanLevel,
                             banUtilTime,
-                            "System AUTO BAN: \n" + smsg.FriendlyName,
+                            "自動封鎖 : \n" + smsg.FriendlyName,
                             ChatID,
                             MsgID,
                             SendUserInfo

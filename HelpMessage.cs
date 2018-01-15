@@ -9,14 +9,14 @@ namespace CNBlackListSoamChecker
         public string GetHelpMessage(TgMessage RawMessage, string MessageType)
         {
             string finalHelpMsg;
-            string groupHelp = "/soamenable - 啟用一個功能\n" +
-                "/soamdisable - 關閉一個功能\n" +
-                "/soamstatus - 取得目前群組開啟功能\n" +
-                "/bkick - 將一個已在封鎖列表內的使用這從群組中移除出去";
+            string groupHelp =  "/soamenable - 啟用一個功能\n" +
+                                "/soamdisable - 關閉一個功能\n" +
+                                "/soamstatus - 取得目前群組開啟功能\n" +
+                                "/twkick - 將一個已在封鎖列表內的使用這從群組中移除出去";
             string privateHelp = "";
-            string sharedHelp = "/banstat - 看看自己有沒有被封鎖";
-            switch (MessageType)
-            {
+            string sharedHelp = "/twbanstat - 看看自己有沒有被封鎖\n" + 
+                                "/lsop - Operator 名冊";
+            switch (RawMessage.chat.type){
                 case "group":
                 case "supergroup":
                     finalHelpMsg =  groupHelp + "\n" + sharedHelp;
@@ -30,7 +30,16 @@ namespace CNBlackListSoamChecker
             }
             if (RAPI.getIsBotAdmin(RawMessage.from.id))
             {
-                finalHelpMsg += "\n管理員指令: /ban /unban /getspamstr /addspamstr /delspamstr /getspampoints";
+                finalHelpMsg = finalHelpMsg + "\nOP指令:\n" +
+                                "/twban - 封鎖\n" +
+                                "/twunban - 解除封鎖\n" +
+                                "/getspamstr - 查看自動偵測列表\n" +
+                                "/getspampoints - 測試關鍵字\n\n" +
+                                "Admin指令:\n" +
+                                "/addspamstr - 新增 1 個自動偵測列表\n" +
+                                "/delspamstr - 刪除 1 個自動偵測列表\n" +
+                                "/addop - 新增 Operator\n" +
+                                "/delop - 解除 Operator\n";
             }
             return finalHelpMsg;
         }

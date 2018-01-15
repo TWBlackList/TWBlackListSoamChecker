@@ -117,7 +117,7 @@ namespace CNBlackListSoamChecker.DbManager
                 {
                     banmsg = userinfo.GetUserTextInfo();
                 }
-                banmsg += "\n\n已被解封";
+                banmsg += "\n\n已被解除封鎖ˇ";
                 if (Reason != null)
                 {
                     banmsg += "，原因是 : \n" + Reason;
