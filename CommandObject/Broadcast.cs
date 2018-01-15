@@ -17,7 +17,7 @@ namespace CNBlackListSoamChecker.CommandObject {
         internal bool BC(TgMessage RawMessage){
             string Msg = RawMessage.text.Replace("/say","");
             if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
-                System.Console.WriteLine("Broadcasting " + Msg + " ......")
+                System.Console.WriteLine("Broadcasting " + Msg + " ......");
                 using (var db = new BlacklistDatabaseContext()){
                     List<GroupCfg> groupCfg = null;
                     try
@@ -31,7 +31,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                     if (groupCfg == null) return false;
                     foreach (GroupCfg cfg in groupCfg)
                     {
-                        System.Console.WriteLine("Broadcasting " + Msg + " To Group ChatID : " + cfg.GroupID.toString)
+                        System.Console.WriteLine("Broadcasting " + Msg + " To Group ChatID : " + cfg.GroupID.toString);
                         TgApi.getDefaultApiConnection().sendMessage(cfg.GroupID,Msg,ParseMode : TgApi.PARSEMODE_MARKDOWN);
                         Thread.Sleep(3000);
                     }
