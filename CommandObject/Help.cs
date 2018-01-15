@@ -27,14 +27,15 @@ namespace CNBlackListSoamChecker.CommandObject {
             }
             if (RAPI.getIsBotAdmin(RawMessage.from.id))
             {
-                finalHelpMsg = finalHelpMsg + "\nOP指令:\n" +
+                finalHelpMsg = finalHelpMsg + "\n\nOP指令:\n" +
                                 "/twban - 封鎖\n" +
                                 "/twunban - 解除封鎖\n" +
-                                "/getspamstr - 查看自動偵測列表\n" +
                                 "/getspampoints - 測試關鍵字\n\n" +
                                 "Admin指令:\n" +
                                 "/addspamstr - 新增 1 個自動偵測列表\n" +
                                 "/delspamstr - 刪除 1 個自動偵測列表\n" +
+                                "/getspamstr - 查看自動偵測列表\n" +
+                                "/say - 廣播\n" +
                                 "/addop - 新增 Operator\n" +
                                 "/delop - 解除 Operator\n";
             }
