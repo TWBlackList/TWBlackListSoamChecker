@@ -98,7 +98,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                 int AutoDeleteSpamMessage = 3;
                 int AutoDeleteCommand = 3;
                 int SubscribeBanList = 3;
-                string text = message.text.ToLower();
+                string text = RawMessage.text.ToLower();
                 if (text.IndexOf(" adminonly") != -1)
                 {
                     AdminOnly = 1;
@@ -170,7 +170,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                                 enabled = "";
                             }
                         }
-                        TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，關閉功能有: " + enabled + " Chat ID : " + cfg.GroupID);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "成功，關閉功能有: " + enabled + " Chat ID : " + cfg.GroupID);
                         Thread.Sleep(100);
                         }
                     TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，處理完畢!",RawMessage.message_id);
@@ -193,7 +193,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                 int AutoDeleteSpamMessage = 3;
                 int AutoDeleteCommand = 3;
                 int SubscribeBanList = 3;
-                string text = message.text.ToLower();
+                string text = RawMessage.text.ToLower();
                 if (text.IndexOf(" adminonly") != -1)
                 {
                     AdminOnly = 0;
@@ -294,7 +294,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                                     enabled = "";
                                 }
                             }
-                            TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，開啟的功能有: " + enabled + otherMsg + " Chat ID : " + cfg.GroupID);
+                            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "成功，開啟的功能有: " + enabled + otherMsg + " Chat ID : " + cfg.GroupID);
                             Thread.Sleep(100);
                         }
                     TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，處理完畢!",RawMessage.message_id);
