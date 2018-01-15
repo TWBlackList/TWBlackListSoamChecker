@@ -33,7 +33,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                     {
                         System.Console.WriteLine("Broadcasting " + Msg + " To Group ChatID : " + cfg.GroupID);
                         TgApi.getDefaultApiConnection().sendMessage(cfg.GroupID,Msg,ParseMode : TgApi.PARSEMODE_MARKDOWN);
-                        Thread.Sleep(3000);
+                        Thread.Sleep(100);
                     }
                     TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，傳送完畢!",RawMessage.message_id);
                 }
