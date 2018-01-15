@@ -8,7 +8,13 @@ using System.Threading;
 
 namespace CNBlackListSoamChecker.CommandObject {
     internal class BroadCast {
-        internal bool BroadCast_Status(TgMessage RawMessage){
+        internal void BroadCast_Status(TgMessage RawMessage)
+        {
+            new Thread(delegate () { BC(RawMessage); }).Start();
+            return true;
+        }
+
+        internal bool BC(TgMessage RawMessage){
             string Msg = RawMessage.text.Replace("/say","");
             if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                 using (var db = new BlacklistDatabaseContext()){
@@ -27,6 +33,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                     foreach (GroupCfg cfg in groupCfg)
                     {
                         TgApi.getDefaultApiConnection().sendMessage(cfg.GroupID,Msg,ParseMode : TgApi.PARSEMODE_MARKDOWN);
+                        Thread.Sleep(3000);
                     }
                 }
             }else{
