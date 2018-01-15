@@ -4,7 +4,7 @@ using ReimuAPI.ReimuBase.TgData;
 
 namespace CNBlackListSoamChecker.CommandObject {
     internal class BroadCast {
-        internal bool BroadCast(TgMessage RawMessage){
+        internal bool BroadCast_Status(TgMessage RawMessage){
             string Msg = RawMessage.text.Replace("/say","");
             if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                 using (var db = new BlacklistDatabaseContext()){
@@ -17,9 +17,9 @@ namespace CNBlackListSoamChecker.CommandObject {
                     }
                     catch (InvalidOperationException)
                     {
-                        return;
+                        return false;
                     }
-                    if (groupCfg == null) return;
+                    if (groupCfg == null) return false;
                     foreach (GroupCfg cfg in groupCfg)
                     {
                         TgApi.getDefaultApiConnection().sendMessage(cfg.GroupID,Msg,ParseMode : TgApi.PARSEMODE_MARKDOWN);

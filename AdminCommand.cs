@@ -16,7 +16,7 @@ namespace CNBlackListSoamChecker
             switch (Command)
             {
                 case "/say":
-                    new BroadCast().BroadCast(RawMessage);
+                    new BroadCast().BroadCast_Status(RawMessage);
                     throw new StopProcessException();
                 case "/addop":
                     if (Temp.DisableBanList)
@@ -41,7 +41,7 @@ namespace CNBlackListSoamChecker
             switch (Command)
             {
                 case "/say":
-                    new BroadCast().BroadCast(RawMessage);
+                    new BroadCast().BroadCast_Status(RawMessage);
                     throw new StopProcessException();
                 case "/addop":
                     if (Temp.DisableBanList)
