@@ -6,72 +6,33 @@ namespace CNBlackListSoamChecker
 {
     class AdminCommand
     {
+        string Disabled_Ban_Msg = "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。";
         internal bool AdminCommands(TgMessage RawMessage, string JsonMessage, string Command)
         {
             if (!RAPI.getIsBotAdmin(RawMessage.GetSendUser().id))
             {
                 
-        if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+        if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
             switch (Command)
             {
-                case "/addop":
-                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
-                        string uuuuuuuuid = RawMessage.text.Replace("/addop","").Replace(" ","");
-                        if (uuuuuuuuid.Length < 5){
-                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"使用方法 : /addsysop UID",RawMessage.message_id);}catch{}
-                            break;
-                        }else{
-                            string json = System.IO.File.ReadAllText("config.json");
-                            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-                            jsonObj["admin_list"].Add(System.Convert.ToInt32(uuuuuuuuid));
-                            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
-                            System.IO.File.WriteAllText("config.json", output);
-                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"新增成功!",RawMessage.message_id);}catch{}
-                            RAPI.reloadConfig();
-                        }
-                        break;
-                    }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
-                        break;
-                    }
+                case "/say":
+                    new BroadCast().BroadCast(RawMessage);
                     throw new StopProcessException();
-                    return false;
-                case "/delop":
-                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
-                        string uuuuuuuuid = RawMessage.text.Replace("/delop","").Replace(" ","");;
-                        if (uuuuuuuuid.Length < 5){
-                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"使用方法 : /removesysop UID",RawMessage.message_id);}catch{}
-                            break;
-                        }else{
-                            string json = System.IO.File.ReadAllText("config.json");
-                            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-                            
-                            int i = 0;
-                            bool found = false;
-                            
-                            foreach (var item in jsonObj["admin_list"]){
-                                if(jsonObj["admin_list"][i] == uuuuuuuuid){
-                                    found = true;
-                                    break;
-                                }
-                                i=i+1;
-                            }
-
-                            if(found){
-                                jsonObj["admin_list"].Remove(jsonObj["admin_list"][i]);
-                                string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
-                                System.IO.File.WriteAllText("config.json", output);
-                                try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"刪除成功!",RawMessage.message_id);}catch{}
-                                RAPI.reloadConfig();
-                            }else{
-                                try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"找不到OP!",RawMessage.message_id);}catch{}
-                            }
-                        }
-                        break;
-                    }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                case "/addop":
+                    if (Temp.DisableBanList)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                         break;
                     }
+                    new OP().AddOP(RawMessage);
+                    throw new StopProcessException();
+                case "/delop":
+                    if (Temp.DisableBanList)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
+                        break;
+                    }
+                    new OP().DelOP(RawMessage);
                     throw new StopProcessException();
 
             }
@@ -79,72 +40,29 @@ namespace CNBlackListSoamChecker
             }
             switch (Command)
             {
+                case "/say":
+                    new BroadCast().BroadCast(RawMessage);
+                    throw new StopProcessException();
                 case "/addop":
-                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
-                        string uuuuuuuuid = RawMessage.text.Replace("/addop","").Replace(" ","");
-                        if (uuuuuuuuid.Length < 5){
-                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"使用方法 : /addsysop UID",RawMessage.message_id);}catch{}
-                            break;
-                        }else{
-                            string json = System.IO.File.ReadAllText("config.json");
-                            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-                            jsonObj["admin_list"].Add(System.Convert.ToInt32(uuuuuuuuid));
-                            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
-                            System.IO.File.WriteAllText("config.json", output);
-                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"新增成功!",RawMessage.message_id);}catch{}
-                            RAPI.reloadConfig();
-                        }
-                        break;
-                    }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
+                    if (Temp.DisableBanList)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                         break;
                     }
+                    new OP().AddOP(RawMessage);
                     throw new StopProcessException();
                 case "/delop":
-                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
-                        string uuuuuuuuid = RawMessage.text.Replace("/delop","").Replace(" ","");;
-                        if (uuuuuuuuid.Length < 5){
-                            try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"使用方法 : /removesysop UID",RawMessage.message_id);}catch{}
-                            break;
-                        }else{
-                            string json = System.IO.File.ReadAllText("config.json");
-                            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-                            
-                            int i = 0;
-                            bool found = false;
-                            
-                            foreach (var item in jsonObj["admin_list"]){
-                                if(jsonObj["admin_list"][i] == uuuuuuuuid){
-                                    found = true;
-                                    break;
-                                }
-                                i=i+1;
-                            }
-
-                            if(found){
-                                jsonObj["admin_list"].Remove(jsonObj["admin_list"][i]);
-                                string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
-                                System.IO.File.WriteAllText("config.json", output);
-                                try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"刪除成功!",RawMessage.message_id);}catch{}
-                                RAPI.reloadConfig();
-                            }else{
-                                try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"找不到OP!",RawMessage.message_id);}catch{}
-                            }
-                        }
-                        break;
-                    }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
+                    if (Temp.DisableBanList)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                         break;
                     }
+                    new OP().DelOP(RawMessage);
                     throw new StopProcessException();
                 case "/twban":
                     if (Temp.DisableBanList || Temp.DisableAdminTools)
                     {
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            RawMessage.chat.id,
-                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                            RawMessage.message_id
-                            );
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                         break;
                     }
                     new BanUserCommand().Ban(RawMessage, JsonMessage, Command);
@@ -152,35 +70,28 @@ namespace CNBlackListSoamChecker
                 case "/twunban":
                     if (Temp.DisableBanList)
                     {
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            RawMessage.chat.id,
-                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                            RawMessage.message_id
-                            );
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                         break;
                     }
                     new UnbanUserCommand().Unban(RawMessage);
                     throw new StopProcessException();
                 case "/getspamstr":
-                    if (Temp.DisableBanList)
-                    {
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            RawMessage.chat.id,
-                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                            RawMessage.message_id
-                            );
+                    if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
+                        if (Temp.DisableBanList)
+                        {
+                            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
+                            break;
+                        }
+                        new SpamStringManager().GetName(RawMessage);
+                    }else{
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
                         break;
                     }
-                    new SpamStringManager().GetName(RawMessage);
-                    return true;
+                    throw new StopProcessException();
                 case "/__getallspamstr":
                     if (Temp.DisableBanList)
                     {
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            RawMessage.chat.id,
-                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                            RawMessage.message_id
-                            );
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                         break;
                     }
                     new SpamStringManager().GetAllInfo(RawMessage);
@@ -188,24 +99,16 @@ namespace CNBlackListSoamChecker
                 case "/__kick":
                     if (Temp.DisableBanList)
                     {
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            RawMessage.chat.id,
-                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                            RawMessage.message_id
-                            );
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                         break;
                     }
                     //new SpamStringManager().GetAllInfo(RawMessage);
                     return true;
                 case "/addspamstr":
-                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+                    if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                         if (Temp.DisableBanList)
                         {
-                            TgApi.getDefaultApiConnection().sendMessage(
-                                RawMessage.chat.id,
-                                "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                                RawMessage.message_id
-                                );
+                            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                             break;
                         }
                         new SpamStringManager().Add(RawMessage);
@@ -215,14 +118,10 @@ namespace CNBlackListSoamChecker
                     }
                     throw new StopProcessException();
                 case "/delspamstr":
-                    if (RawMessage.GetSendUser().id == 397835845 || RawMessage.GetSendUser().id == 126398609){
+                    if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                         if (Temp.DisableBanList)
                         {
-                            TgApi.getDefaultApiConnection().sendMessage(
-                                RawMessage.chat.id,
-                                "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                                RawMessage.message_id
-                                );
+                            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                             break;
                         }
                         new SpamStringManager().Remove(RawMessage);
@@ -234,11 +133,7 @@ namespace CNBlackListSoamChecker
                 case "/getspampoints":
                     if (Temp.DisableBanList)
                     {
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            RawMessage.chat.id,
-                            "非常抱歉，目前版本已關閉封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                            RawMessage.message_id
-                            );
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                         break;
                     }
                     new SpamStringManager().GetSpamPoints(RawMessage);
