@@ -31,7 +31,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                     if (groupCfg == null) return false;
                     foreach (GroupCfg cfg in groupCfg)
                     {
-                        System.Console.WriteLine("Broadcasting " + Msg + " To Group ChatID : " + cfg.GroupID.toString);
+                        System.Console.WriteLine("Broadcasting " + Msg + " To Group ChatID : " + cfg.GroupID);
                         TgApi.getDefaultApiConnection().sendMessage(cfg.GroupID,Msg,ParseMode : TgApi.PARSEMODE_MARKDOWN);
                         Thread.Sleep(3000);
                     }
