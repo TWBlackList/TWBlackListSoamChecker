@@ -43,6 +43,22 @@ namespace CNBlackListSoamChecker
                 case "/say":
                     new BroadCast().BroadCast_Status(RawMessage);
                     throw new StopProcessException();
+                case "/sdall":
+                    if (Temp.DisableBanList)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
+                        break;
+                    }
+                    new OP().SDAll(RawMessage);
+                    throw new StopProcessException();
+                case "/seall":
+                    if (Temp.DisableBanList)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
+                        break;
+                    }
+                    new OP().SEAll(RawMessage);
+                    throw new StopProcessException();
                 case "/addop":
                     if (Temp.DisableBanList)
                     {

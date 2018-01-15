@@ -24,7 +24,7 @@ namespace CNBlackListSoamChecker
                     "1.在您的群组中给予 @" + TgApi.getDefaultApiConnection().getMe().username + " 管理員權限\n" +
                     "2.使用 /soamenable 開啟一些功能\n" +
                     "3.Enjoy it!\n\n" +
-                    "注: 預設開啟的功能有 BlackList AutoKick AntiHalal 這 3 個，您可以根據您的需要來關閉或啟用。",
+                    "注: 預設開啟的功能有 BlackList AutoKick AntiHalal SubscribeBanList 這 4 個，您可以根據您的需要來關閉或啟用。",
                     RawMessage.message_id
                     );
                 return new CallbackMessage();

@@ -117,7 +117,7 @@ namespace CNBlackListSoamChecker.DbManager
                 {
                     banmsg = userinfo.GetUserTextInfo();
                 }
-                banmsg += "\n\n已被解除封鎖ˇ";
+                banmsg += "\n\n已被解除封鎖";
                 if (Reason != null)
                 {
                     banmsg += "，原因是 : \n" + Reason;
@@ -314,9 +314,9 @@ namespace CNBlackListSoamChecker.DbManager
                         BlackList = 0,
                         AutoKick = 0,
                         AntiHalal = 0,
-                        AutoDeleteSpamMessage = 0,
+                        AutoDeleteSpamMessage = 1,
                         AutoDeleteCommand = 1,
-                        SubscribeBanList = 1
+                        SubscribeBanList = 0
                     };
                     db.GroupConfig.Add(groupCfg);
                     Temp.groupConfig.TryAdd(gid, groupCfg);

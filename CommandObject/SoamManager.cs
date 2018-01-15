@@ -166,7 +166,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 AutoDeleteCommand = 1;
                 enabled += " AutoDeleteCommand";
             }
-            if (text.IndexOf(" subcribebanlist") != -1)
+            if (text.IndexOf(" subscribebanlist") != -1)
             {
                 SubscribeBanList = 1;
                 enabled += " SubscribeBanList";
