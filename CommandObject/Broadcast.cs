@@ -22,7 +22,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                     if (groupCfg == null) return;
                     foreach (GroupCfg cfg in groupCfg)
                     {
-                        TgApi.getDefaultApiConnection().sendMessage(cfg.GroupID,Msg,ParseMode : TgApi.PARSEMODE_MARKDOWN)
+                        TgApi.getDefaultApiConnection().sendMessage(cfg.GroupID,Msg,ParseMode : TgApi.PARSEMODE_MARKDOWN);
                     }
                 }
             }else{
