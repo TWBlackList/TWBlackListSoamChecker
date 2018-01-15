@@ -30,8 +30,8 @@ namespace CNBlackListSoamChecker.CommandObject {
                     }
                 }
             }else{
-                TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
-                break;
+                TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);\
+                return false;
             }
             return true;
         }
