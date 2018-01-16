@@ -91,6 +91,7 @@ namespace CNBlackListSoamChecker.CommandObject {
         internal bool SoamDisable_All(TgMessage RawMessage){
             if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                 string enabled = "";
+                string groupChatID = "";
                 int AdminOnly = 3;
                 int Blacklist = 3;
                 int AutoKick = 3;
@@ -170,10 +171,10 @@ namespace CNBlackListSoamChecker.CommandObject {
                                 enabled = "";
                             }
                         }
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "成功，關閉功能有: " + enabled + " Chat ID : " + cfg.GroupID);
-                        Thread.Sleep(100);
+                        groupChatID += "\n" +　cfg.GroupID
+                        
                         }
-                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，處理完畢!",RawMessage.message_id);
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，處理完畢!　\n\nChat ID : \n" + groupChatID + "\n\n關閉的功能為:\n" + enabled,RawMessage.message_id);
                 }
             }else{
                 TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
@@ -186,6 +187,7 @@ namespace CNBlackListSoamChecker.CommandObject {
             if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                 string enabled = "";
                 string otherMsg = "";
+                string groupChatID = "";
                 int AdminOnly = 3;
                 int Blacklist = 3;
                 int AutoKick = 3;
@@ -294,9 +296,9 @@ namespace CNBlackListSoamChecker.CommandObject {
                                     enabled = "";
                                 }
                             }
-                            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "成功，開啟的功能有: " + enabled + otherMsg + " Chat ID : " + cfg.GroupID);
-                            Thread.Sleep(100);
+                            groupChatID =+ "\n" + cfg.GroupID;
                         }
+                         TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，處理完畢!　\n\nChat ID : \n" + groupChatID + "\n\n開啟的功能為:\n" + enabled + otherMsg,RawMessage.message_id);
                     TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，處理完畢!",RawMessage.message_id);
                 }
             }else{
