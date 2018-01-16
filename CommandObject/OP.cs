@@ -171,7 +171,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                                 enabled = "";
                             }
                         }
-                        groupChatID += "\n" +　cfg.GroupID
+                        groupChatID += "\n" +　cfg.GroupID;
                         
                         }
                     TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，處理完畢!　\n\nChat ID : \n" + groupChatID + "\n\n關閉的功能為:\n" + enabled,RawMessage.message_id);
