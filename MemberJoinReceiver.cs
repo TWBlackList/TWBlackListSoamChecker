@@ -21,7 +21,7 @@ namespace CNBlackListSoamChecker
                     RawMessage.GetMessageChatInfo().id,
                     "觀迎使用 @" + TgApi.getDefaultApiConnection().getMe().username + "\n" +
                     "請您進行一些設定 : \n" +
-                    "1.在您的群组中给予 @" + TgApi.getDefaultApiConnection().getMe().username + " 管理員權限\n" +
+                    "1.在您的群組中给予 @" + TgApi.getDefaultApiConnection().getMe().username + " 管理員權限\n" +
                     "2.使用 /soamenable 開啟一些功能\n" +
                     "3.Enjoy it!\n\n" +
                     "注: 預設開啟的功能有 BlackList AutoKick AntiHalal SubscribeBanList 這 4 個，您可以根據您的需要來關閉或啟用。",
@@ -64,7 +64,7 @@ namespace CNBlackListSoamChecker
                     //            );
                     //TgApi.getDefaultApiConnection().sendMessage(
                     //    RawMessage.GetMessageChatInfo().id,
-                    //    "您未被封鎖，請閒雜等人退出群組。如果您想加入這個群组，您可以去多點群發一些廣告，然後您被 Ban 了就能加入了。\n\n" +
+                    //    "您未被封鎖，請閒雜等人退出群組。如果您想加入這個群組，您可以去多點群發一些廣告，然後您被 Ban 了就能加入了。\n\n" +
                     //    "您將在 60 秒後自動退出群組。",
                     //    RawMessage.message_id,
                     //    ParseMode: TgApi.PARSEMODE_MARKDOWN
@@ -108,7 +108,7 @@ namespace CNBlackListSoamChecker
                                 GetTime.GetUnixTime() + 86400
                                 );
                                 if (!result.ok){
-                                    resultmsg += "\n\n請注意: 您的群组目前開啟了自動移除危險成員但機器人没有適當的管理員權限" +
+                                    resultmsg += "\n\n請注意: 您的群組目前開啟了自動移除危險成員但機器人没有適當的管理員權限" +
                                             "，請您關閉此功能或者将機器人設置為管理員應给予適當的權限（Ban users）。";
                             }
                             }catch{}
@@ -119,7 +119,7 @@ namespace CNBlackListSoamChecker
                     else if (banUser.Level == 1)
                     {
                         resultmsg += "這位使用者可能存在不良行為" + banReason  + "\n\n" +
-                            "對於群组的管理員: 您可以观察這位使用者在您的群组当中是否存在不良行為后再决定是否移除该成員\n"+
+                            "對於群組的管理員: 您可以观察這位使用者在您的群組当中是否存在不良行為后再决定是否移除该成員\n"+
                             "對於被封鎖的使用者，你可以通過 [這個群組](https://t.me/J_Court) 以請求解封。";
 
                     }
