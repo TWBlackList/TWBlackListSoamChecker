@@ -101,7 +101,7 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 if (Temp.MainChannelName  == null)
                 {
-                    enabled = "[[null]]\n\n請您使用 /soamenable [所需的功能] 來啟用您需要的功能。\n" +
+                    enabled = "指令錯誤，請檢查\n\n請您使用 /soamenable [所需的功能] 來啟用您需要的功能。\n" +
                         "例如: \"/soamenable BlackList\" (不包含引號) 則可以使用黑名單列表警告。\n" +
                         "您也可以使用多個選項，例如: \"/soamenable BlackList AutoKick\" (不包含引號) " +
                         "則可以使用黑名單列表警告，在警告後還會將成員移出群組。\n\n" +
@@ -109,14 +109,17 @@ namespace CNBlackListSoamChecker.CommandObject
                 }
                 else
                 {
-                    enabled = "[[null]]\n\n請您使用 /soamenable [所需的功能] 來啟用您需要的功能。\n" +
+                    enabled = "指令錯誤，請檢查\n\n請您使用 /soamenable [所需的功能] 來啟用您需要的功能。\n" +
                         "例如: \"/soamenable BlackList\" (不包含引號) 則可以使用由 @" + Temp.MainChannelName + " 提供的黑名單列表警告。\n" +
                         "您也可以使用多個選項，例如: \"/soamenable BlackList AutoKick\" (不包含引號) " +
                         "則可以使用由 @" + Temp.MainChannelName + " 提供的黑名單列表警告，在警告後還會將成員移出群組。\n\n" +
                         "您可以使用 /soamstatus 取得目前群組開啟或關閉的功能。";
                 }
+                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "失敗， " + enabled + otherMsg, message.message_id);
+            }else{
+                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，開啟的功能有: " + enabled + otherMsg, message.message_id);
             }
-            TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，開啟的功能有: " + enabled + otherMsg, message.message_id);
+            
             return;
         }
 
@@ -199,8 +202,10 @@ namespace CNBlackListSoamChecker.CommandObject
                     "則可以關閉由 @" + Temp.MainChannelName + " 提供的黑名單列表警告，並關閉在警告後將成員移出群組的功能。" +
                     "您可以使用 /soamstatus 取得目前群組開啟或關閉的功能。";
                 }
+                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "失敗， " + enabled + otherMsg, message.message_id);
+            }else{
+                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，關閉的功能有: " + enabled + otherMsg, message.message_id);
             }
-            TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，關閉功能有: " + enabled, message.message_id);
             return;
         }
 
