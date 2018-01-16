@@ -79,7 +79,7 @@ namespace CNBlackListSoamChecker
                 if (halalPoints >= 8 || indiaPoints >= 16)
                 {
                     SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
-                        Temp.ReasonChannelID,
+                        Temp.AdminGroupID,
                         BaseMessage.GetMessageChatInfo().id,
                         BaseMessage.message_id
                         );
@@ -173,7 +173,7 @@ namespace CNBlackListSoamChecker
                     if (points >= smsg.MinPoints)
                     {
                         SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
-                            Temp.ReasonChannelID,
+                            Temp.AdminGroupID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
                             );
