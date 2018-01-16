@@ -185,7 +185,7 @@ namespace CNBlackListSoamChecker.CommandObject
             {
                 if (Temp.MainChannelName == null)
                 {
-                    enabled = "[[null]]\n\n請您使用 /soamdisable [要關閉的功能] 來關閉您需要的功能。\n" +
+                    enabled = "指令錯誤，請檢查\n\n請您使用 /soamdisable [要關閉的功能] 來關閉您需要的功能。\n" +
                     "例如: \"/soamdisable BlackList\" (不包含引號)  則可以關閉黑名單列表警告。\n" +
                     "您也可以使用多個選項，例如: \"/soamdisable BlackList AutoKick\" (不包含引號) " +
                     "則可以關閉黑名單列表警告，並關閉在警告後將成員移出群組的功能。" +
@@ -193,7 +193,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 }
                 else
                 {
-                    enabled = "[[null]]\n\n請您使用 /soamdisable [要關閉的功能] 來關閉您需要的功能。\n" +
+                    enabled = "指令錯誤，請檢查\n\n請您使用 /soamdisable [要關閉的功能] 來關閉您需要的功能。\n" +
                     "例如: \"/soamdisable BlackList\" (不包含引號) 則可以關閉由 @" + Temp.MainChannelName + " 提供的黑名單列表警告。\n" +
                     "您也可以使用多個選項，例如: \"/soamdisable BlackList AutoKick\" (不包含引號) " +
                     "則可以關閉由 @" + Temp.MainChannelName + " 提供的黑名單列表警告，並關閉在警告後將成員移出群組的功能。" +
