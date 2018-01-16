@@ -119,7 +119,7 @@ namespace CNBlackListSoamChecker
                     else if (banUser.Level == 1)
                     {
                         resultmsg += "警告：這個使用者「可能」對群組造成負面影響" + banReason  + "\n\n" +
-                            ""請群組管理員多加留意"\n"+
+                            "請群組管理員多加留意\n"+
                             "對於被警告的使用者，你可以通過 [這個群組](https://t.me/J_Court) 以請求解除。";
 
                     }
