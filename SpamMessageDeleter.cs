@@ -130,7 +130,7 @@ namespace CNBlackListSoamChecker
                     new Thread(delegate () {
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                         BaseMessage.GetMessageChatInfo().id,
-                        "偵測到台灣人無法理解的語言，已自動回報使用者行為，如有誤報請加入 @" + Temp.MainChannelName + " 提供的群組以報告誤報。"
+                        "偵測到台灣人無法理解的語言，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroupName + " 提供的群組以報告誤報。"
                         );
                         Thread.Sleep(60000);
                         TgApi.getDefaultApiConnection().deleteMessage(
@@ -205,7 +205,7 @@ namespace CNBlackListSoamChecker
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
                             "偵測到 " + smsg.FriendlyName +
-                            " ，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroup + " 以報告誤報。"
+                            " ，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
                             );
                             Thread.Sleep(60000);
                             TgApi.getDefaultApiConnection().deleteMessage(
