@@ -121,7 +121,7 @@ namespace CNBlackListSoamChecker
                         {
                             TgApi.getDefaultApiConnection().sendMessage(
                                 RawMessage.chat.id,
-                                "無法移除，因為此使用者沒有被機器人列入黑名單中，請您聯絡群組的管理員處理。" +
+                                "無法移除，因為此使用者不在黑名單，請您聯絡群組的管理員處理。" +
                                 "如果你認為這位使用者將會影響大量群組，您可連絡 @" + Temp.MainChannelName + " 提供的群組。",
                                 RawMessage.message_id
                                 );

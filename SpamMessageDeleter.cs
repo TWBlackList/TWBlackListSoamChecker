@@ -120,7 +120,7 @@ namespace CNBlackListSoamChecker
                                 Temp.MainChannelID,
                                 BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
                                 BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                                "匹配到的規則則: 清真或印度訊息\n" +
+                                "匹配到的規則: 清真或印度訊息\n" +
                                 "清真得分: " + halalPoints + "\n" +
                                 "印度得分: " + indiaPoints,
                                 result.result.message_id
