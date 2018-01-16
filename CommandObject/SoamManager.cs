@@ -202,9 +202,9 @@ namespace CNBlackListSoamChecker.CommandObject
                     "則可以關閉由 @" + Temp.MainChannelName + " 提供的黑名單列表警告，並關閉在警告後將成員移出群組的功能。" +
                     "您可以使用 /soamstatus 取得目前群組開啟或關閉的功能。";
                 }
-                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "失敗， " + enabled + otherMsg, message.message_id);
+                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "失敗， " + enabled , message.message_id);
             }else{
-                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，關閉的功能有: " + enabled + otherMsg, message.message_id);
+                TgApi.getDefaultApiConnection().sendMessage(message.chat.id, "成功，關閉的功能有: " + enabled , message.message_id);
             }
             return;
         }
