@@ -122,8 +122,7 @@ namespace CNBlackListSoamChecker
                                 BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
                                 "匹配到的規則: 清真或印度訊息\n" +
                                 "清真得分: " + halalPoints + "\n" +
-                                "印度得分: " + indiaPoints,
-                                result.result.message_id
+                                "印度得分: " + indiaPoints
                                 );
                         }).Start();
                     }
@@ -196,8 +195,7 @@ namespace CNBlackListSoamChecker
                                     BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
                                     BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
                                     "匹配到的規則: " + smsg.FriendlyName + "\n" +
-                                    "得分: " + points,
-                                    result.result.message_id
+                                    "得分: " + points
                                     );
                             }).Start();
                         }
@@ -205,7 +203,7 @@ namespace CNBlackListSoamChecker
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
                             "偵測到 " + smsg.FriendlyName +
-                            " ，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
+                            " ，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroupName + " 提供的群組以報告誤報。"
                             );
                             Thread.Sleep(60000);
                             TgApi.getDefaultApiConnection().deleteMessage(
