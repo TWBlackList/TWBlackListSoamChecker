@@ -1,5 +1,7 @@
 ﻿using CNBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
+using ReimuAPI.ReimuBase.TgData;
+using ReimuAPI.ReimuBase.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
