@@ -79,7 +79,7 @@ namespace CNBlackListSoamChecker
                 if (halalPoints >= 8 || indiaPoints >= 16)
                 {
                     SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
-                        Temp.AdminGroupID,
+                        Temp.ReasonChannelID,
                         BaseMessage.GetMessageChatInfo().id,
                         BaseMessage.message_id
                         );
@@ -174,7 +174,7 @@ namespace CNBlackListSoamChecker
                     if (points >= smsg.MinPoints)
                     {
                         SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
-                            Temp.AdminGroupID,
+                            Temp.ReasonChannelID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
                             );
@@ -205,7 +205,7 @@ namespace CNBlackListSoamChecker
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
                             "偵測到 " + smsg.FriendlyName +
-                            " ，已自動回報使用者行為，如有誤報請加入 @" + Temp.MainChannelName + " 提供的群組以報告誤報。"
+                            " ，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroup + " 以報告誤報。"
                             );
                             Thread.Sleep(60000);
                             TgApi.getDefaultApiConnection().deleteMessage(
