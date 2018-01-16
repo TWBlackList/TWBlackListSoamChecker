@@ -43,15 +43,17 @@ namespace CNBlackListSoamChecker
                     {
                         if (userInChatInfo.result.status == "member")
                         {
-                            try{TgApi.getDefaultApiConnection().kickChatMember(cfg.GroupID, user.UserID, GetTime.GetUnixTime() + 86400);
+                            SetActionResult result = TgApi.getDefaultApiConnection().kickChatMember(cfg.GroupID, user.UserID, GetTime.GetUnixTime() + 86400);
+                            
+                            if(result.ok){
                             TgApi.getDefaultApiConnection().sendMessage(
                                 cfg.GroupID,
                                 "新的被封鎖使用者 : " + user.UserID + "\n\n" + user.GetBanMessage() + "\n\n由於您訂閱了封鎖黑名單，已根據您的設定自動移除。"
                                 );
-                            }catch{
+                            }else{
                                 TgApi.getDefaultApiConnection().sendMessage(
                                 cfg.GroupID,
-                                "新的被封鎖使用者 : " + user.UserID + "\n\n" + user.GetBanMessage() + "\n\n由於您訂閱了封鎖黑名單，可是似乎沒有權限移除，請設定正確的權限。。"
+                                "新的被封鎖使用者 : " + user.UserID + "\n\n" + user.GetBanMessage() + "\n\n由於您訂閱了封鎖黑名單，可是似乎沒有權限(Ban User)移除，請設定正確的權限。"
                                 );
                             }
                         }
