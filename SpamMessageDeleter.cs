@@ -78,11 +78,13 @@ namespace CNBlackListSoamChecker
                 int indiaPoints = new SpamMessageChecker().GetIndiaPoints(chatText);
                 if (halalPoints >= 8 || indiaPoints >= 16)
                 {
+                    //Send Reason
                     SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
                         Temp.AdminGroupID,
                         BaseMessage.GetMessageChatInfo().id,
                         BaseMessage.message_id
                         );
+                    //If not in ban status , ban user.
                     if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
                     {
                         new Task(() =>
@@ -99,12 +101,15 @@ namespace CNBlackListSoamChecker
                                     );
                         }).Start();
                     }
+                    //Kick user and delete spam message
                     new Task(() =>
                     {
                         TgApi.getDefaultApiConnection().kickChatMember(BaseMessage.chat.id, BaseMessage.from.id, 0);
                         TgApi.getDefaultApiConnection().deleteMessage(BaseMessage.chat.id, BaseMessage.message_id);
                     }).Start();
+
                     BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
+
                     if (banstat.Ban == 0)
                     {
                         TgApi.getDefaultApiConnection().kickChatMember(
@@ -113,6 +118,7 @@ namespace CNBlackListSoamChecker
                             GetTime.GetUnixTime() + 86400
                             );
                     }
+
                     if (result.ok)
                     {
                         new Thread(delegate () {
@@ -126,11 +132,12 @@ namespace CNBlackListSoamChecker
                                 );
                         }).Start();
                     }
+                    //Send alert and delete alert after 60 second
                     new Thread(delegate () {
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
-                        BaseMessage.GetMessageChatInfo().id,
-                        "偵測到台灣人無法理解的語言，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroupName + " 提供的群組以報告誤報。"
-                        );
+                            BaseMessage.GetMessageChatInfo().id,
+                            "偵測到台灣人無法理解的語言，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroupName + " 提供的群組以報告誤報。"
+                            );
                         Thread.Sleep(60000);
                         TgApi.getDefaultApiConnection().deleteMessage(
                             autodeletespammessagesendresult.result.chat.id,
@@ -172,13 +179,17 @@ namespace CNBlackListSoamChecker
                     }
                     if (points >= smsg.MinPoints)
                     {
+                        // forward to Reason Channel
                         SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
                             Temp.AdminGroupID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
                             );
+                        //ProcessMessage (Ban Blacklist Delete kick mute)
                         ProcessMessage(smsg, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id, BaseMessage.GetSendUser());
+
                         BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
+
                         if (banstat.Ban == 0)
                         {
                             TgApi.getDefaultApiConnection().kickChatMember(
@@ -187,6 +198,7 @@ namespace CNBlackListSoamChecker
                                 GetTime.GetUnixTime() + 86400
                                 );
                         }
+                        //if forwarded send message to Channel
                         if (result.ok)
                         {
                             new Thread(delegate () {
@@ -199,6 +211,7 @@ namespace CNBlackListSoamChecker
                                     );
                             }).Start();
                         }
+                        //Send alert and delete alert after 60 second
                         new Thread(delegate () {
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
