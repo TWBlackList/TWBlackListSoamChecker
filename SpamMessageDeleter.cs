@@ -181,7 +181,7 @@ namespace CNBlackListSoamChecker
                     {
                         // forward to Reason Channel
                         SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
-                            Temp.AdminGroupID,
+                            Temp.ReasonChannelID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
                             );
