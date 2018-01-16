@@ -117,7 +117,7 @@ namespace CNBlackListSoamChecker
                     {
                         new Thread(delegate () {
                             TgApi.getDefaultApiConnection().sendMessage(
-                                Temp.AdminGroupID,
+                                Temp.MainChannelID,
                                 BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
                                 BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
                                 "匹配到的規則則: 清真或印度訊息\n" +
@@ -192,7 +192,7 @@ namespace CNBlackListSoamChecker
                         {
                             new Thread(delegate () {
                                 TgApi.getDefaultApiConnection().sendMessage(
-                                    Temp.AdminGroupID,
+                                    Temp.MainChannelID,
                                     BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
                                     BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
                                     "匹配到的規則: " + smsg.FriendlyName + "\n" +
