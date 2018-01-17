@@ -80,12 +80,13 @@ namespace CNBlackListSoamChecker
                 {
                     //Send Reason
                     SendMessageResult result;
-                    result.ok = true;
-                    TgApi.getDefaultApiConnection().forwardMessage(
-                        Temp.ReasonChannelID,
-                        BaseMessage.GetMessageChatInfo().id,
-                        BaseMessage.message_id
+                    new Thread(delegate () {
+                        TgApi.getDefaultApiConnection().forwardMessage(
+                            Temp.ReasonChannelID,
+                            BaseMessage.GetMessageChatInfo().id,
+                            BaseMessage.message_id
                         );
+                    }).Start();
                     //If not in ban status , ban user.
                     if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
                     {
@@ -121,19 +122,17 @@ namespace CNBlackListSoamChecker
                             );
                     }
 
-                    if (result.ok)
-                    {
-                        new Thread(delegate () {
-                            TgApi.getDefaultApiConnection().sendMessage(
-                                Temp.MainChannelID,
-                                BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
-                                BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                                "匹配到的規則: 清真或印度訊息\n" +
-                                "清真得分: " + halalPoints + "\n" +
-                                "印度得分: " + indiaPoints
-                                );
-                        }).Start();
-                    }
+                    new Thread(delegate () {
+                        TgApi.getDefaultApiConnection().sendMessage(
+                            Temp.MainChannelID,
+                            BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
+                            BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
+                            "匹配到的規則: 清真或印度訊息\n" +
+                            "清真得分: " + halalPoints + "\n" +
+                            "印度得分: " + indiaPoints
+                        );
+                    }).Start();
+
                     //Send alert and delete alert after 60 second
                     new Thread(delegate () {
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
@@ -182,13 +181,13 @@ namespace CNBlackListSoamChecker
                     if (points >= smsg.MinPoints)
                     {
                         // forward to Reason Channel
-                        SendMessageResult result;
-                        result.ok = true;
-                        TgApi.getDefaultApiConnection().forwardMessage(
-                            Temp.ReasonChannelID,
-                            BaseMessage.GetMessageChatInfo().id,
-                            BaseMessage.message_id
+                        new Thread(delegate () {
+                            TgApi.getDefaultApiConnection().forwardMessage(
+                                Temp.ReasonChannelID,
+                                BaseMessage.GetMessageChatInfo().id,
+                                BaseMessage.message_id
                             );
+                        }).Start();
 
                         //ProcessMessage (Ban Blacklist Delete kick mute)
                         ProcessMessage(smsg, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id, BaseMessage.GetSendUser());
@@ -204,18 +203,16 @@ namespace CNBlackListSoamChecker
                                 );
                         }
                         //if forwarded send message to Channel
-                        if (result.ok)
-                        {
-                            new Thread(delegate () {
-                                TgApi.getDefaultApiConnection().sendMessage(
-                                    Temp.MainChannelID,
-                                    BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
-                                    BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                                    "匹配到的規則: " + smsg.FriendlyName + "\n" +
-                                    "得分: " + points
-                                    );
-                            }).Start();
-                        }
+
+                        new Thread(delegate () {
+                            TgApi.getDefaultApiConnection().sendMessage(
+                                Temp.MainChannelID,
+                                BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
+                                BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
+                                "匹配到的規則: " + smsg.FriendlyName + "\n" +
+                                "得分: " + points
+                                );
+                        }).Start();
                         //Send alert and delete alert after 60 second
                         new Thread(delegate () {
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
