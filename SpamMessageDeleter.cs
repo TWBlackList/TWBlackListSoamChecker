@@ -92,7 +92,7 @@ namespace CNBlackListSoamChecker
                                     BaseMessage.from.id,
                                     1,
                                     0,
-                                    "自動封鎖: \n台灣人無法理解的語言",
+                                    "自動封鎖: 台灣人無法理解的語言",
                                     BaseMessage.GetMessageChatInfo().id,
                                     BaseMessage.message_id,
                                     BaseMessage.from
@@ -275,7 +275,7 @@ namespace CNBlackListSoamChecker
                             SendUserInfo.id,
                             smsg.BanLevel,
                             banUtilTime,
-                            "自動封鎖: \n" + smsg.FriendlyName,
+                            "自動封鎖: " + smsg.FriendlyName,
                             ChatID,
                             MsgID,
                             SendUserInfo

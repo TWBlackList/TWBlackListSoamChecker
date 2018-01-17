@@ -94,7 +94,7 @@ namespace CNBlackListSoamChecker
                     }
                     else
                     {
-                        banReason = "\n\n封鎖原因 : " + banUser.Reason;
+                        banReason = "\n\n封鎖原因 : \n" + banUser.Reason;
                     }
                     if (banUser.Level == 0)
                     {
