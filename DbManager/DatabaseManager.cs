@@ -126,10 +126,10 @@ namespace CNBlackListSoamChecker.DbManager
                 {
                     banmsg += "，原因是 ：\n" + Reason;
                 }
-                ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(
+                try{ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(
                     Temp.MainChannelID,
                     banmsg
-                    ).result.message_id;
+                    ).result.message_id;}catch{}
             }
             ChangeDbUnban(AdminID, UserID, Reason, ChannelReasonID);
             CNBlacklistApi.PostToAPI(UserID, false, 1, 0, Reason);

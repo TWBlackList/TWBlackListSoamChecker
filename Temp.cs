@@ -11,7 +11,7 @@ namespace CNBlackListSoamChecker
         internal static List<SpamMessage> spamMessageList = null;
         internal static Dictionary<long, GroupCfg> groupConfig = new Dictionary<long, GroupCfg>() { };
         internal static Dictionary<int, BanUser> bannedUsers = new Dictionary<int, BanUser>() { };
-        public static long AdminGroupID = -1001132136235; // If haven't, change it to 0
+        public static long AdminGroupID = -1001283591008; // If haven't, change it to 0
         public static long MainChannelID = -1001132678262; // If haven't, change it to 0
         public static long ReasonChannelID = -1001132678262; // If haven't, change it to 0
         public static string MainChannelName = null; // If haven't, change it to null
