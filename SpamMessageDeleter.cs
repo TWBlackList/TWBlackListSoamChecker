@@ -79,15 +79,10 @@ namespace CNBlackListSoamChecker
                 if (halalPoints >= 8 || indiaPoints >= 16)
                 {
                     SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
-                       Temp.AdminGroupID,
+                        Temp.AdminGroupID,
                         BaseMessage.GetMessageChatInfo().id,
                         BaseMessage.message_id
                         );
-                    TgApi.getDefaultApiConnection().forwardMessage(
-                        Temp.ReasonChannelID,
-                        BaseMessage.GetMessageChatInfo().id,
-                        BaseMessage.message_id
-                    );
                     if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
                     {
                         new Task(() =>
