@@ -105,7 +105,7 @@ namespace CNBlackListSoamChecker
                             BaseMessage.message_id);
                         TgApi.getDefaultApiConnection().sendMessage(
                             Temp.MainChannelID,
-                            BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
+                            BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" +
                             BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
                             "匹配到的規則: 清真或印度訊息\n" +
                             "清真得分: " + halalPoints + "\n" +
@@ -186,7 +186,7 @@ namespace CNBlackListSoamChecker
                                 BaseMessage.message_id);
                             TgApi.getDefaultApiConnection().sendMessage(
                                 Temp.MainChannelID,
-                                BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
+                                BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" +
                                 BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
                                 "匹配到的規則: " + smsg.FriendlyName + "\n" +
                                 "得分: " + points);
