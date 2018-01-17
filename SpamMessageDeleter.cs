@@ -13,8 +13,12 @@ namespace CNBlackListSoamChecker
     {
         public CallbackMessage ReceiveAllNormalMessage(TgMessage BaseMessage, string JsonMessage)
         {
-            if (BaseMessage.chat.type != "group" && BaseMessage.chat.type != "supergroup")
+
+            //if not group message return.
+            if (BaseMessage.chat.type != "group" && BaseMessage.chat.type != "supergroup"){
                 return new CallbackMessage();
+            }
+
             string chatText = null;
             if (BaseMessage.text != null)
             {
@@ -28,6 +32,7 @@ namespace CNBlackListSoamChecker
             {
                 return new CallbackMessage();
             }
+
             // Call Admin START
             int atAdminPath = chatText.IndexOf("@admin");
             if (atAdminPath != -1)
@@ -64,6 +69,7 @@ namespace CNBlackListSoamChecker
             }
             // Call Admin END
 
+            // If sender is group admin
             if (TgApi.getDefaultApiConnection().checkIsAdmin(BaseMessage.chat.id, BaseMessage.from.id))
             {
                 return new CallbackMessage();
@@ -80,10 +86,11 @@ namespace CNBlackListSoamChecker
                 {
                     //Send Reason
                     SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
-                        Temp.AdminGroupID,
+                        Temp.ReasonChannelID,
                         BaseMessage.GetMessageChatInfo().id,
                         BaseMessage.message_id
                         );
+
                     //If not in ban status , ban user.
                     if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
                     {
@@ -101,6 +108,7 @@ namespace CNBlackListSoamChecker
                                     );
                         }).Start();
                     }
+
                     //Kick user and delete spam message
                     new Task(() =>
                     {
@@ -180,11 +188,12 @@ namespace CNBlackListSoamChecker
                     if (points >= smsg.MinPoints)
                     {
                         // forward to Reason Channel
-                        SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
+
+                        try {SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
                             Temp.ReasonChannelID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
-                            );
+                            );}catch{}
                         //ProcessMessage (Ban Blacklist Delete kick mute)
                         ProcessMessage(smsg, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id, BaseMessage.GetSendUser());
 
