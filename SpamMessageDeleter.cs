@@ -78,11 +78,16 @@ namespace CNBlackListSoamChecker
                 int indiaPoints = new SpamMessageChecker().GetIndiaPoints(chatText);
                 if (halalPoints >= 8 || indiaPoints >= 16)
                 {
-                    SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
-                        Temp.AdminGroupID,
+                    //SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
+                    //    Temp.AdminGroupID,
+                    //    BaseMessage.GetMessageChatInfo().id,
+                    //    BaseMessage.message_id
+                    //    );
+                    TgApi.getDefaultApiConnection().forwardMessage(
+                        Temp.ReasonChannelID,
                         BaseMessage.GetMessageChatInfo().id,
                         BaseMessage.message_id
-                        );
+                    );
                     if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
                     {
                         new Task(() =>
@@ -113,20 +118,20 @@ namespace CNBlackListSoamChecker
                             GetTime.GetUnixTime() + 86400
                             );
                     }
-                    if (result.ok)
-                    {
-                        new Thread(delegate () {
-                            TgApi.getDefaultApiConnection().sendMessage(
-                                Temp.AdminGroupID,
-                                BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
-                                BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                                "匹配到的規則: 清真或印度訊息\n" +
-                                "清真得分: " + halalPoints + "\n" +
-                                "印度得分: " + indiaPoints,
-                                result.result.message_id
-                                );
-                        }).Start();
-                    }
+                    //if (result.ok)
+                    //{
+                    //    new Thread(delegate () {
+                    //        TgApi.getDefaultApiConnection().sendMessage(
+                    //            Temp.AdminGroupID,
+                    //            BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
+                    //            BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
+                    //            "匹配到的規則: 清真或印度訊息\n" +
+                    //            "清真得分: " + halalPoints + "\n" +
+                    //            "印度得分: " + indiaPoints,
+                    //            result.result.message_id
+                    //            );
+                    //    }).Start();
+                    //}
                     new Thread(delegate () {
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                         BaseMessage.GetMessageChatInfo().id,
@@ -173,8 +178,13 @@ namespace CNBlackListSoamChecker
                     }
                     if (points >= smsg.MinPoints)
                     {
-                        SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
-                            Temp.AdminGroupID,
+                        //SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
+                        //    Temp.AdminGroupID,
+                        //    BaseMessage.GetMessageChatInfo().id,
+                        //    BaseMessage.message_id
+                        //    );
+                        TgApi.getDefaultApiConnection().forwardMessage(
+                            Temp.ReasonChannelID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
                             );
@@ -188,18 +198,18 @@ namespace CNBlackListSoamChecker
                                 GetTime.GetUnixTime() + 86400
                                 );
                         }
-                        if (result.ok)
-                        {
-                            new Thread(delegate () {
-                                TgApi.getDefaultApiConnection().sendMessage(
-                                    Temp.AdminGroupID,
-                                    BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
-                                    BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                                    "匹配到的規則: " + smsg.FriendlyName + "\n" +
-                                    "得分: " + points,
-                                    result.result.message_id
-                                    );
-                            }).Start();
+                        //if (result.ok)
+                        //{
+                        //    new Thread(delegate () {
+                        //        TgApi.getDefaultApiConnection().sendMessage(
+                        //            Temp.AdminGroupID,
+                        //            BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
+                        //            BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
+                        //            "匹配到的規則: " + smsg.FriendlyName + "\n" +
+                        //            "得分: " + points,
+                        //            result.result.message_id
+                        //            );
+                        //    }).Start();
                         }
                         new Thread(delegate () {
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
