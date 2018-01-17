@@ -13,12 +13,8 @@ namespace CNBlackListSoamChecker
     {
         public CallbackMessage ReceiveAllNormalMessage(TgMessage BaseMessage, string JsonMessage)
         {
-
-            //if not group message return.
-            if (BaseMessage.chat.type != "group" && BaseMessage.chat.type != "supergroup"){
+            if (BaseMessage.chat.type != "group" && BaseMessage.chat.type != "supergroup")
                 return new CallbackMessage();
-            }
-
             string chatText = null;
             if (BaseMessage.text != null)
             {
@@ -32,7 +28,6 @@ namespace CNBlackListSoamChecker
             {
                 return new CallbackMessage();
             }
-
             // Call Admin START
             int atAdminPath = chatText.IndexOf("@admin");
             if (atAdminPath != -1)
@@ -69,7 +64,6 @@ namespace CNBlackListSoamChecker
             }
             // Call Admin END
 
-            // If sender is group admin
             if (TgApi.getDefaultApiConnection().checkIsAdmin(BaseMessage.chat.id, BaseMessage.from.id))
             {
                 return new CallbackMessage();
@@ -85,12 +79,13 @@ namespace CNBlackListSoamChecker
                 if (halalPoints >= 8 || indiaPoints >= 16)
                 {
                     //Send Reason
-                    SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
+                    SendMessageResult result;
+                    result.ok = true;
+                    TgApi.getDefaultApiConnection().forwardMessage(
                         Temp.ReasonChannelID,
                         BaseMessage.GetMessageChatInfo().id,
                         BaseMessage.message_id
                         );
-
                     //If not in ban status , ban user.
                     if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
                     {
@@ -108,7 +103,6 @@ namespace CNBlackListSoamChecker
                                     );
                         }).Start();
                     }
-
                     //Kick user and delete spam message
                     new Task(() =>
                     {
@@ -188,7 +182,9 @@ namespace CNBlackListSoamChecker
                     if (points >= smsg.MinPoints)
                     {
                         // forward to Reason Channel
-                        SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
+                        SendMessageResult result;
+                        result.ok = true;
+                        TgApi.getDefaultApiConnection().forwardMessage(
                             Temp.ReasonChannelID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
@@ -207,17 +203,19 @@ namespace CNBlackListSoamChecker
                                 GetTime.GetUnixTime() + 86400
                                 );
                         }
-
-                        new Thread(delegate () {
-                            TgApi.getDefaultApiConnection().sendMessage(
-                                Temp.MainChannelID,
-                                BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
-                                BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                                "匹配到的規則: " + smsg.FriendlyName + "\n" +
-                                "得分: " + points
-                                );
+                        //if forwarded send message to Channel
+                        if (result.ok)
+                        {
+                            new Thread(delegate () {
+                                TgApi.getDefaultApiConnection().sendMessage(
+                                    Temp.MainChannelID,
+                                    BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
+                                    BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
+                                    "匹配到的規則: " + smsg.FriendlyName + "\n" +
+                                    "得分: " + points
+                                    );
                             }).Start();
-
+                        }
                         //Send alert and delete alert after 60 second
                         new Thread(delegate () {
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
