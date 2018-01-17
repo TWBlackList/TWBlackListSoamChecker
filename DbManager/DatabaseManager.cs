@@ -32,17 +32,17 @@ namespace CNBlackListSoamChecker.DbManager
         {
             bool finalResult = true;
             string banmsg = "";
-            //SendMessageResult result = null;
+            SendMessageResult result = null;
             int ReasonID = 0;
-            //if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0)
-            //{
-                //result = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID);
-                //if (result.ok)
-                //{
-                   // ReasonID = result.result.message_id;
-                    //result = null;
-               // }
-            //}
+            if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0)
+            {
+                result = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID);
+                if (result.ok)
+                {
+                    ReasonID = result.result.message_id;
+                    result = null;
+                }
+            }
             int ChannelReasonID = 0;
             if (Temp.MainChannelID != 0)
             {
