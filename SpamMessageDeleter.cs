@@ -286,7 +286,7 @@ namespace CNBlackListSoamChecker
                             SendUserInfo.id,
                             smsg.BanLevel,
                             banUtilTime,
-                            "自動封鎖 : \n" + smsg.FriendlyName
+                            "自動封鎖 : \n" + smsg.FriendlyName,
                             userinfo = SendUserInfo
                             );
                 }).Start();
