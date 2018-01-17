@@ -98,9 +98,7 @@ namespace CNBlackListSoamChecker
                                     1,
                                     0,
                                     "自動封鎖 : \n台灣人無法理解的語言",
-                                    BaseMessage.GetMessageChatInfo().id,
-                                    BaseMessage.message_id,
-                                    BaseMessage.from
+                                    BaseMessage.GetMessageChatInfo().id
                                     );
                         }).Start();
                     }
@@ -288,10 +286,8 @@ namespace CNBlackListSoamChecker
                             SendUserInfo.id,
                             smsg.BanLevel,
                             banUtilTime,
-                            "自動封鎖 : \n" + smsg.FriendlyName,
-                            ChatID,
-                            MsgID,
-                            SendUserInfo
+                            "自動封鎖 : \n" + smsg.FriendlyName
+                            userinfo = SendUserInfo
                             );
                 }).Start();
             }
