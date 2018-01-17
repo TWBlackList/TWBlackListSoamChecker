@@ -289,7 +289,7 @@ namespace CNBlackListSoamChecker
                             "自動封鎖 : \n" + smsg.FriendlyName,
                             0,
                             0,
-                            userinfo = SendUserInfo
+                            SendUserInfo 
                             );
                 }).Start();
             }
