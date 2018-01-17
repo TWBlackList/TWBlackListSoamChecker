@@ -78,11 +78,7 @@ namespace CNBlackListSoamChecker
                 int indiaPoints = new SpamMessageChecker().GetIndiaPoints(chatText);
                 if (halalPoints >= 8 || indiaPoints >= 16)
                 {
-                    new Thread(() => {TgApi.getDefaultApiConnection().forwardMessage(
-                            Temp.ReasonChannelID,
-                            BaseMessage.GetMessageChatInfo().id,
-                            BaseMessage.message_id
-                        );}).Start();
+
                     
                     //If not in ban status , ban user.
                     if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
@@ -101,6 +97,13 @@ namespace CNBlackListSoamChecker
                                     );
                         }).Start();
                     }
+
+                    new Task(() => {TgApi.getDefaultApiConnection().forwardMessage(
+                            Temp.ReasonChannelID,
+                            BaseMessage.GetMessageChatInfo().id,
+                            BaseMessage.message_id
+                        );}).Start();
+
                     //Kick user and delete spam message
                     new Task(() =>
                     {
@@ -166,7 +169,8 @@ namespace CNBlackListSoamChecker
                     }
                     if (points >= smsg.MinPoints)
                     {
-                        new Thread(() => {TgApi.getDefaultApiConnection().forwardMessage(
+
+                        new Task(() => {TgApi.getDefaultApiConnection().forwardMessage(
                             Temp.ReasonChannelID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
