@@ -298,8 +298,7 @@ namespace CNBlackListSoamChecker.CommandObject {
                             }
                             groupChatID = groupChatID + "\n" + cfg.GroupID;
                         }
-                         TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，處理完畢!　\n\nChat ID : \n" + groupChatID + "\n\n開啟的功能為:\n" + enabled + otherMsg,RawMessage.message_id);
-                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，處理完畢!",RawMessage.message_id);
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"有夠Highㄉ，處理完畢!　\n\nChat ID : \n" + groupChatID + "\n\n開啟的功能為:\n" + enabled + otherMsg,RawMessage.message_id);
                 }
             }else{
                 TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限拉",RawMessage.message_id);
