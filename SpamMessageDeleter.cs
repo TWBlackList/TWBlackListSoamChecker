@@ -103,6 +103,8 @@ namespace CNBlackListSoamChecker
                             Temp.ReasonChannelID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id);
+                    }).Start();
+                    new Task(() => {
                         TgApi.getDefaultApiConnection().sendMessage(
                             Temp.MainChannelID,
                             BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" +
@@ -184,12 +186,15 @@ namespace CNBlackListSoamChecker
                                 Temp.ReasonChannelID,
                                 BaseMessage.GetMessageChatInfo().id,
                                 BaseMessage.message_id);
+
+                        }).Start();
+                        new Task(() => {
                             TgApi.getDefaultApiConnection().sendMessage(
-                                Temp.MainChannelID,
-                                BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" +
-                                BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                                "匹配到的規則: " + smsg.FriendlyName + "\n" +
-                                "得分: " + points);
+                            Temp.MainChannelID,
+                            BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" +
+                            BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
+                            "匹配到的規則: " + smsg.FriendlyName + "\n" +
+                            "得分: " + points);
                         }).Start();
                         //ProcessMessage (Ban Blacklist Delete kick mute)
                         ProcessMessage(smsg, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id, BaseMessage.GetSendUser());
