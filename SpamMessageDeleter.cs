@@ -78,16 +78,11 @@ namespace CNBlackListSoamChecker
                 int indiaPoints = new SpamMessageChecker().GetIndiaPoints(chatText);
                 if (halalPoints >= 8 || indiaPoints >= 16)
                 {
-                    //Send Reason
-                    SendMessageResult result;
-                    new Thread(delegate () {
-                        TgApi.getDefaultApiConnection().forwardMessage(
-                            Temp.ReasonChannelID,
-                            BaseMessage.GetMessageChatInfo().id,
-                            BaseMessage.message_id
+                    SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
+                        Temp.AdminGroupID,
+                        BaseMessage.GetMessageChatInfo().id,
+                        BaseMessage.message_id
                         );
-                    }).Start();
-                    //If not in ban status , ban user.
                     if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
                     {
                         new Task(() =>
@@ -97,20 +92,19 @@ namespace CNBlackListSoamChecker
                                     BaseMessage.from.id,
                                     1,
                                     0,
-                                    "自動封鎖 : \n台灣人無法理解的語言",
-                                    BaseMessage.GetMessageChatInfo().id
+                                    "自動封鎖: \n台灣人無法理解的語言",
+                                    BaseMessage.GetMessageChatInfo().id,
+                                    BaseMessage.message_id,
+                                    BaseMessage.from
                                     );
                         }).Start();
                     }
-                    //Kick user and delete spam message
                     new Task(() =>
                     {
                         TgApi.getDefaultApiConnection().kickChatMember(BaseMessage.chat.id, BaseMessage.from.id, 0);
                         TgApi.getDefaultApiConnection().deleteMessage(BaseMessage.chat.id, BaseMessage.message_id);
                     }).Start();
-
                     BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
-
                     if (banstat.Ban == 0)
                     {
                         TgApi.getDefaultApiConnection().kickChatMember(
@@ -119,24 +113,25 @@ namespace CNBlackListSoamChecker
                             GetTime.GetUnixTime() + 86400
                             );
                     }
-
-                    new Thread(delegate () {
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            Temp.MainChannelID,
-                            BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
-                            BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                            "匹配到的規則: 清真或印度訊息\n" +
-                            "清真得分: " + halalPoints + "\n" +
-                            "印度得分: " + indiaPoints
-                        );
-                    }).Start();
-
-                    //Send alert and delete alert after 60 second
+                    if (result.ok)
+                    {
+                        new Thread(delegate () {
+                            TgApi.getDefaultApiConnection().sendMessage(
+                                Temp.AdminGroupID,
+                                BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
+                                BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
+                                "匹配到的規則: 清真或印度訊息\n" +
+                                "清真得分: " + halalPoints + "\n" +
+                                "印度得分: " + indiaPoints,
+                                result.result.message_id
+                                );
+                        }).Start();
+                    }
                     new Thread(delegate () {
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
-                            BaseMessage.GetMessageChatInfo().id,
-                            "偵測到台灣人無法理解的語言，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroupName + " 提供的群組以報告誤報。"
-                            );
+                        BaseMessage.GetMessageChatInfo().id,
+                        "偵測到台灣人無法理解的語言，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroupName + " 提供的群組以報告誤報。"
+                        );
                         Thread.Sleep(60000);
                         TgApi.getDefaultApiConnection().deleteMessage(
                             autodeletespammessagesendresult.result.chat.id,
@@ -178,20 +173,13 @@ namespace CNBlackListSoamChecker
                     }
                     if (points >= smsg.MinPoints)
                     {
-                        // forward to Reason Channel
-                        new Thread(delegate () {
-                            TgApi.getDefaultApiConnection().forwardMessage(
-                                Temp.ReasonChannelID,
-                                BaseMessage.GetMessageChatInfo().id,
-                                BaseMessage.message_id
+                        SendMessageResult result = TgApi.getDefaultApiConnection().forwardMessage(
+                            Temp.AdminGroupID,
+                            BaseMessage.GetMessageChatInfo().id,
+                            BaseMessage.message_id
                             );
-                        }).Start();
-
-                        //ProcessMessage (Ban Blacklist Delete kick mute)
                         ProcessMessage(smsg, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id, BaseMessage.GetSendUser());
-
                         BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
-
                         if (banstat.Ban == 0)
                         {
                             TgApi.getDefaultApiConnection().kickChatMember(
@@ -200,18 +188,19 @@ namespace CNBlackListSoamChecker
                                 GetTime.GetUnixTime() + 86400
                                 );
                         }
-                        //if forwarded send message to Channel
-
-                        new Thread(delegate () {
-                            TgApi.getDefaultApiConnection().sendMessage(
-                                Temp.MainChannelID,
-                                BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
-                                BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
-                                "匹配到的規則: " + smsg.FriendlyName + "\n" +
-                                "得分: " + points
-                                );
-                        }).Start();
-                        //Send alert and delete alert after 60 second
+                        if (result.ok)
+                        {
+                            new Thread(delegate () {
+                                TgApi.getDefaultApiConnection().sendMessage(
+                                    Temp.AdminGroupID,
+                                    BaseMessage.GetSendUser().GetUserTextInfo() + "\n\n" + banstat.GetBanMessage() + "\n\n" +
+                                    BaseMessage.GetMessageChatInfo().GetChatTextInfo() + "\n\n" +
+                                    "匹配到的規則: " + smsg.FriendlyName + "\n" +
+                                    "得分: " + points,
+                                    result.result.message_id
+                                    );
+                            }).Start();
+                        }
                         new Thread(delegate () {
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
@@ -286,10 +275,10 @@ namespace CNBlackListSoamChecker
                             SendUserInfo.id,
                             smsg.BanLevel,
                             banUtilTime,
-                            "自動封鎖 : \n" + smsg.FriendlyName,
-                            0,
-                            0,
-                            SendUserInfo 
+                            "自動封鎖: \n" + smsg.FriendlyName,
+                            ChatID,
+                            MsgID,
+                            SendUserInfo
                             );
                 }).Start();
             }
