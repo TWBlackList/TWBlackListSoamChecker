@@ -210,7 +210,7 @@ namespace CNBlackListSoamChecker
                         //            result.result.message_id
                         //            );
                         //    }).Start();
-                        }
+                        //}
                         new Thread(delegate () {
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
