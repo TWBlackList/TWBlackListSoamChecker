@@ -78,11 +78,12 @@ namespace CNBlackListSoamChecker
                 int indiaPoints = new SpamMessageChecker().GetIndiaPoints(chatText);
                 if (halalPoints >= 8 || indiaPoints >= 16)
                 {
-                    TgApi.getDefaultApiConnection().forwardMessage(
+                    new Thread(() => {TgApi.getDefaultApiConnection().forwardMessage(
                             Temp.ReasonChannelID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
-                        );
+                        );}).start()
+                    
                     //If not in ban status , ban user.
                     if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
                     {
@@ -165,11 +166,11 @@ namespace CNBlackListSoamChecker
                     }
                     if (points >= smsg.MinPoints)
                     {
-                        TgApi.getDefaultApiConnection().forwardMessage(
+                        new Thread(() => {TgApi.getDefaultApiConnection().forwardMessage(
                             Temp.ReasonChannelID,
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.message_id
-                        );
+                        );}).start()
                         //ProcessMessage (Ban Blacklist Delete kick mute)
                         ProcessMessage(smsg, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id, BaseMessage.GetSendUser());
 
