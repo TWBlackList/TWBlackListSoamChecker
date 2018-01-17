@@ -36,12 +36,7 @@ namespace CNBlackListSoamChecker.DbManager
             int ReasonID = 0;
             if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0)
             {
-                result = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID);
-                if (result.ok)
-                {
-                    ReasonID = result.result.message_id;
-                    result = null;
-                }
+                try{result = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID);}catch{}
             }
             int ChannelReasonID = 0;
             if (Temp.MainChannelID != 0)
@@ -81,11 +76,12 @@ namespace CNBlackListSoamChecker.DbManager
                 banmsg += "\n\n原因是 : \n" + Reason;
                 if (Temp.ReasonChannelID != 0 && ReasonID != 0)
                 {
-                    banmsg += "\n\n參考：\nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
+                    banmsg += "\n\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
                 }
                 else if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0) finalResult = false;
-                ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg).result.message_id;
                 ChangeDbBan(AdminID, UserID, Level, Expires, Reason, ChannelReasonID, ReasonID);
+                try{TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg);}catch{}
+                
             }
             CNBlacklistApi.PostToAPI(UserID, true, Level, Expires, Reason);
             return finalResult;
@@ -124,12 +120,9 @@ namespace CNBlackListSoamChecker.DbManager
                 banmsg += "\n\n已被解除封鎖";
                 if (Reason != null)
                 {
-                    banmsg += "，原因是 ：\n" + Reason;
+                    banmsg += "，原因是 : \n" + Reason;
                 }
-                try{ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(
-                    Temp.MainChannelID,
-                    banmsg
-                    ).result.message_id;}catch{}
+                try{ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID,banmsg).result.message_id;}catch{}
             }
             ChangeDbUnban(AdminID, UserID, Reason, ChannelReasonID);
             CNBlacklistApi.PostToAPI(UserID, false, 1, 0, Reason);
@@ -321,9 +314,9 @@ namespace CNBlackListSoamChecker.DbManager
                         BlackList = 0,
                         AutoKick = 0,
                         AntiHalal = 0,
-                        AutoDeleteSpamMessage = 0,
+                        AutoDeleteSpamMessage = 1,
                         AutoDeleteCommand = 1,
-                        SubscribeBanList = 1
+                        SubscribeBanList = 0
                     };
                     db.GroupConfig.Add(groupCfg);
                     Temp.groupConfig.TryAdd(gid, groupCfg);
