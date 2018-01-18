@@ -86,7 +86,6 @@ namespace CNBlackListSoamChecker.CommandObject
                 {
                     totalPoints += msg.Point;
                 }
-                System.Console.WriteLine("text : " + text + " spam msg : " + msg.Message + " Point : " + totalPoints);
             }
             return totalPoints;
         }
