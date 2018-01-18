@@ -171,7 +171,6 @@ namespace CNBlackListSoamChecker
                             points = new SpamMessageChecker().GetContainsPoints(text);
                             break;
                     }
-                    System.Console.WriteLine("Spam Name : " + smsg.FriendlyName + "Spam Point : " + points + " MinPoint : " + smsg.MinPoints);
                     if (points >= smsg.MinPoints)
                     {
 
