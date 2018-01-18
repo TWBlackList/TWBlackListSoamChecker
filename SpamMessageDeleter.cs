@@ -144,31 +144,31 @@ namespace CNBlackListSoamChecker
             if (Temp.DisableBanList == false && cfg.AutoDeleteSpamMessage == 0)
             {
                 List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+                int points = 0;
                 foreach (SpamMessage smsg in spamMsgList)
                 {
-                    int points = 0;
                     switch (smsg.Type)
                     {
                         case 0:
-                            points = new SpamMessageChecker().GetEqualsPoints(smsg.Messages, chatText);
+                            points =+ new SpamMessageChecker().GetEqualsPoints(smsg.Messages, chatText);
                             break;
                         case 1:
-                            points = new SpamMessageChecker().GetRegexPoints(smsg.Messages, chatText);
+                            points =+ new SpamMessageChecker().GetRegexPoints(smsg.Messages, chatText);
                             break;
                         case 2:
-                            points = new SpamMessageChecker().GetSpamPoints(smsg.Messages, chatText);
+                            points =+ new SpamMessageChecker().GetSpamPoints(smsg.Messages, chatText);
                             break;
                         case 3:
-                            points = new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, chatText);
+                            points =+ new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, chatText);
                             break;
                         case 4:
-                            points = new SpamMessageChecker().GetHalalPoints(chatText);
+                            points =+ new SpamMessageChecker().GetHalalPoints(chatText);
                             break;
                         case 5:
-                            points = new SpamMessageChecker().GetIndiaPoints(chatText);
+                            points =+ new SpamMessageChecker().GetIndiaPoints(chatText);
                             break;
                     }
-                    System.Console.WriteLine("Spam Point : " + points + " MinPoint : " + smsg.MinPoints);
+                    System.Console.WriteLine("Spam Name : " + smsg.FriendlyName + "Spam Point : " + points + " MinPoint : " + smsg.MinPoints);
                     if (points >= smsg.MinPoints)
                     {
 
