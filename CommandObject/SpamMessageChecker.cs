@@ -13,7 +13,7 @@ namespace CNBlackListSoamChecker.CommandObject
             int totalPoints = 0;
             foreach (SpamMessageObj msg in spamMessages)
             {
-                if (text.Equals(msg.Message))
+                if (text.ToLower().Equals(msg.Message.ToLower()))
                 {
                     totalPoints += msg.Point;
                 }
