@@ -77,26 +77,12 @@ namespace CNBlackListSoamChecker.CommandObject
         }
 
 
-        public int GetContainsPoints(SpamMessageObj[] spamMessages, string text) // Mode 6 如果包含
-        {
-            int totalPoints = 0;
-            foreach (SpamMessageObj msg in spamMessages)
-            {
-                if (text.Contains(msg.Message.ToLower()))
-                {
-                    totalPoints += msg.Point;
-                }
-            }
-            return totalPoints;
-        }
-
-
         public int GetIndexOfPoints(SpamMessageObj[] spamMessages, string text) // Mode 3 寻找匹配字符串
         {
             int totalPoints = 0;
             foreach (SpamMessageObj msg in spamMessages)
             {
-                if (text.IndexOf(msg.Message) != -1)
+                if (text.ToLower().IndexOf(msg.Message) != -1)
                 {
                     totalPoints += msg.Point;
                 }
