@@ -168,6 +168,7 @@ namespace CNBlackListSoamChecker
                             points = new SpamMessageChecker().GetIndiaPoints(chatText);
                             break;
                     }
+                    System.Console.WriteLine("Spam Point : " + points + " MinPoint : " + smsg.MinPoints)
                     if (points >= smsg.MinPoints)
                     {
 
