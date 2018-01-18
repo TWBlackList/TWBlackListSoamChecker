@@ -232,7 +232,7 @@ namespace CNBlackListSoamChecker.CommandObject
                     "关于 Type 的说明 : \n完全匹配 = 0" +
                     "\n正則表达式 = 1" +
                     "\n使用迷之算法匹配 = 2" +
-                    "\nstring.IndexOf(\"target\")!=-1 = 3" +
+                    "\n包含 = 3" +
                     "\n清真 = 4" +
                     "\n印度 = 5";
             int spacePath = RawMessage.text.IndexOf(" ");
