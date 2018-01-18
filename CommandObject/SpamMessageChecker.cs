@@ -77,7 +77,7 @@ namespace CNBlackListSoamChecker.CommandObject
         }
 
 
-        public int GetContainsPoints(SpamMessageObj[] spamMessages, string text) // Mode 3 寻找匹配字符串
+        public int GetContainsPoints(SpamMessageObj[] spamMessages, string text) // Mode 6 如果包含
         {
             int totalPoints = 0;
             foreach (SpamMessageObj msg in spamMessages)
@@ -86,6 +86,7 @@ namespace CNBlackListSoamChecker.CommandObject
                 {
                     totalPoints += msg.Point;
                 }
+                System.Console.WriteLine("text : " + text + " spam msg : " + msg.Message + " Point : " + totalPoints);
             }
             return totalPoints;
         }
