@@ -15,6 +15,7 @@ namespace CNBlackListSoamChecker.CommandObject
         public static int SPAMSTR_TYPE_SELFCHK = 2;
         public static int SPAMSTR_TYPE_HALAL = 3;
         public static int SPAMSTR_TYPE_INDIA = 4;
+        public static int SPAMSTR_TYPE_CONTAINS = 5;
 
         public void GetAllInfo(TgMessage RawMessage)
         {
@@ -232,9 +233,10 @@ namespace CNBlackListSoamChecker.CommandObject
                     "关于 Type 的说明 : \n完全匹配 = 0" +
                     "\n正則表达式 = 1" +
                     "\n使用迷之算法匹配 = 2" +
-                    "\n包含 = 3" +
+                    "\nstring.IndexOf(\"target\")!=-1 = 3" +
                     "\n清真 = 4" +
-                    "\n印度 = 5";
+                    "\n印度 = 5" +
+                    "\n包含 = 6";
             int spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
@@ -351,6 +353,9 @@ namespace CNBlackListSoamChecker.CommandObject
                     break;
                 case 5:
                     points = new SpamMessageChecker().GetIndiaPoints(text);
+                    break;
+                case 6:
+                    points = new SpamMessageChecker().GetContainsPoints(text);
                     break;
             }
             TgApi.getDefaultApiConnection().sendMessage(

@@ -159,13 +159,16 @@ namespace CNBlackListSoamChecker
                             points =+ new SpamMessageChecker().GetSpamPoints(smsg.Messages, chatText);
                             break;
                         case 3:
-                            points =+ new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, chatText);
+                            points =+ new SpamMessageChecker().GetContainsPoints(smsg.Messages, chatText);
                             break;
                         case 4:
                             points =+ new SpamMessageChecker().GetHalalPoints(chatText);
                             break;
                         case 5:
                             points =+ new SpamMessageChecker().GetIndiaPoints(chatText);
+                            break;
+                        case 6:
+                            points = new SpamMessageChecker().GetContainsPoints(text);
                             break;
                     }
                     System.Console.WriteLine("Spam Name : " + smsg.FriendlyName + "Spam Point : " + points + " MinPoint : " + smsg.MinPoints);
