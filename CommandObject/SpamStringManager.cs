@@ -355,7 +355,7 @@ namespace CNBlackListSoamChecker.CommandObject
                     points = new SpamMessageChecker().GetIndiaPoints(text);
                     break;
                 case 6:
-                    points = new SpamMessageChecker().GetContainsPoints(text);
+                    points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, text);
                     break;
             }
             TgApi.getDefaultApiConnection().sendMessage(
