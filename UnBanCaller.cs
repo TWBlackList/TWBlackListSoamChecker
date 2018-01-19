@@ -14,12 +14,12 @@ namespace CNBlackListSoamChecker
 {
     internal class UnBanCaller
     {
-        internal void UnBanCallerThread(Int user)
+        internal void UnBanCallerThread(int user)
         {
             new Thread(delegate () { CallGroups(user); }).Start();
         }
 
-        internal void CallGroups(Int user)
+        internal void CallGroups(int user)
         {
             if (Temp.DisableAdminTools)
             {
