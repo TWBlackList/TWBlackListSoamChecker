@@ -78,6 +78,10 @@ namespace CNBlackListSoamChecker.DbManager
                 {
                     banmsg += "\n\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
                 }
+                try{
+                    banmsg += "\n\n";
+                    banmsg += TgApi.getDefaultApiConnection().getChat(ChatID).GetChatTextInfo();
+                }catch{}
                 else if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0) finalResult = false;
                 ChangeDbBan(AdminID, UserID, Level, Expires, Reason, ChannelReasonID, ReasonID);
                 try{TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg);}catch{}
@@ -249,6 +253,7 @@ namespace CNBlackListSoamChecker.DbManager
                 db.Remove(bannedUser);
                 db.SaveChanges();
             }
+            new UnBanCaller().UnBanCallerThread(UserID);
         }
 
         public BanUser GetUserBanStatus(int uid)
