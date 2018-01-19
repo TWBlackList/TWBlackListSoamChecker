@@ -82,7 +82,7 @@ namespace CNBlackListSoamChecker.DbManager
                 
                 try{
                     banmsg += "\n\n";
-                    banmsg += TgApi.getDefaultApiConnection().getChatInfo(ChatID).GetChatTextInfo();
+                    banmsg += TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();
                 }catch{}
 
                 ChangeDbBan(AdminID, UserID, Level, Expires, Reason, ChannelReasonID, ReasonID);
