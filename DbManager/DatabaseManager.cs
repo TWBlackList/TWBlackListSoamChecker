@@ -62,18 +62,18 @@ namespace CNBlackListSoamChecker.DbManager
                 string textlevel;
                 if (Level == 0)
                 {
-                    textlevel = "0 （封鎖）";
+                    textlevel = "封鎖";
                 }
                 else if (Level == 1)
                 {
-                    textlevel = "1 （警告）";
+                    textlevel = "警告";
                 }
                 else
                 {
                     textlevel = Level + " （未知）";
                 }
-                banmsg += "\n已被處分，處分為 : " + textlevel + "，將於 " + GetTime.GetExpiresTime(Expires) + " 解除";
-                banmsg += "\n原因是 : " + Reason;
+                banmsg += "\n處分為 : " + textlevel + "，將於 " + GetTime.GetExpiresTime(Expires) + " 解除";
+                banmsg += "\n原因 : " + Reason;
                 if (Temp.ReasonChannelID != 0 && ReasonID != 0)
                 {
                     banmsg += "\n\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
@@ -126,7 +126,7 @@ namespace CNBlackListSoamChecker.DbManager
                 banmsg += "\n\n已被解除封鎖";
                 if (Reason != null)
                 {
-                    banmsg += "，原因是 : \n" + Reason;
+                    banmsg += "，原因 : \n" + Reason;
                 }
                 try{ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID,banmsg).result.message_id;}catch{}
             }
@@ -321,7 +321,7 @@ namespace CNBlackListSoamChecker.DbManager
                         BlackList = 0,
                         AutoKick = 0,
                         AntiHalal = 0,
-                        AutoDeleteSpamMessage = 1,
+                        AutoDeleteSpamMessage = 0,
                         AutoDeleteCommand = 1,
                         SubscribeBanList = 0
                     };
