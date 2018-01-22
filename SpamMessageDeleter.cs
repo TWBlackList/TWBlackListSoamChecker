@@ -90,7 +90,7 @@ namespace CNBlackListSoamChecker
                                     BaseMessage.from.id,
                                     1,
                                     0,
-                                    "自動封鎖 : \n台灣人無法理解的語言",
+                                    "自動封鎖 : 台灣人無法理解的語言",
                                     BaseMessage.GetMessageChatInfo().id,
                                     BaseMessage.message_id,
                                     BaseMessage.from
@@ -127,7 +127,7 @@ namespace CNBlackListSoamChecker
                     new Thread(delegate () {
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
-                            "偵測到台灣人無法理解的語言，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroupName + " 提供的群組以報告誤報。"
+                            "偵測到台灣人無法理解的語言，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
                             );
                         Thread.Sleep(60000);
                         TgApi.getDefaultApiConnection().deleteMessage(
@@ -199,7 +199,7 @@ namespace CNBlackListSoamChecker
                             SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
                             "偵測到 " + smsg.FriendlyName +
-                            " ，已自動回報使用者行為，如有誤報請加入 @" + Temp.ReportGroupName + " 提供的群組以報告誤報。"
+                            " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
                             );
                             Thread.Sleep(60000);
                             TgApi.getDefaultApiConnection().deleteMessage(
@@ -225,7 +225,7 @@ namespace CNBlackListSoamChecker
                         new Thread(delegate () {
                             SendMessageResult autodeletecommandsendresult = TgApi.getDefaultApiConnection().sendMessage(
                                 BaseMessage.GetMessageChatInfo().id,
-                                "請您不要亂玩機器人的指令，有問題請聯絡群組內的管理員。"
+                                "請您不要亂玩機器人的指令，有問題請聯絡群組管理員。"
                                 );
                             Thread.Sleep(60000);
                             TgApi.getDefaultApiConnection().deleteMessage(
@@ -269,7 +269,7 @@ namespace CNBlackListSoamChecker
                             SendUserInfo.id,
                             smsg.BanLevel,
                             banUtilTime,
-                            "自動封鎖 : \n" + smsg.FriendlyName,
+                            "自動封鎖 : " + smsg.FriendlyName,
                             ChatID,
                             MsgID,
                             SendUserInfo

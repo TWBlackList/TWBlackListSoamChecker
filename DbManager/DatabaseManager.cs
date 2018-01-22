@@ -72,8 +72,8 @@ namespace CNBlackListSoamChecker.DbManager
                 {
                     textlevel = Level + " （未知）";
                 }
-                banmsg += "\n\n已被封鎖，封鎖等级為: " + textlevel + "，該紀錄將於 " + GetTime.GetExpiresTime(Expires) + " 之後解除";
-                banmsg += "\n\n原因是 : \n" + Reason;
+                banmsg += "\n已被處分，處分為 : " + textlevel + "，將於 " + GetTime.GetExpiresTime(Expires) + " 解除";
+                banmsg += "\n原因是 : " + Reason;
                 if (Temp.ReasonChannelID != 0 && ReasonID != 0)
                 {
                     banmsg += "\n\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
