@@ -34,18 +34,18 @@ namespace CNBlackListSoamChecker.DbManager
             string msg = "未封鎖";
             if (Ban == 0)
             {
-                msg = "已封鎖";
+                msg = "已處分 : ";
                 if (Level == 0)
                 {
-                    msg += "，處分為 : 封鎖";
+                    msg += "封鎖";
                 }
                 else if (Level == 1)
                 {
-                    msg += "，處分為 : 警告";
+                    msg += "警告";
                 }
                 else
                 {
-                    msg += "，處分為: " + Level + " (未知)";
+                    msg += " : " + Level + " (未知)";
                 }
                 msg += "，將於 " + GetTime.GetExpiresTime(Expires) + " 解除";
                 msg += "\n原因是 : " + Reason;
