@@ -104,7 +104,7 @@ namespace CNBlackListSoamChecker
                         break;
                     }
                     throw new StopProcessException();
-                case "/__getallspamstr":
+                case "/__getallspamstr"://暫時不用
                     if (Temp.DisableBanList)
                     {
                         TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
@@ -112,7 +112,7 @@ namespace CNBlackListSoamChecker
                     }
                     new SpamStringManager().GetAllInfo(RawMessage);
                     return true;
-                case "/__kick":
+                case "/__kick"://暫時不用
                     if (Temp.DisableBanList)
                     {
                         TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
@@ -154,7 +154,7 @@ namespace CNBlackListSoamChecker
                     }
                     new SpamStringManager().GetSpamPoints(RawMessage);
                     throw new StopProcessException();
-                case "/jsonencode":
+                case "/jsonencode"://這不知道是三小用的，CBLR也沒看過 ~"~
                     int spacePath = RawMessage.text.IndexOf(" ");
                     if (spacePath == -1)
                     {

@@ -210,7 +210,7 @@ namespace CNBlackListSoamChecker.CommandObject
             string HelpContent =
                     "解析 JSON 时出现错误，請参考下面的例子 : \n```\n" +
                     "{\n    " +
-                    "\"FriendlyName\": \"示例广告\",\n    " +
+                    "\"FriendlyName\": \"規則名稱\",\n    " +
                     "\"Enabled\": true,\n    " +
                     "\"Type\": 0,\n    " +
                     "\"AutoBlackList\": false,\n    " +

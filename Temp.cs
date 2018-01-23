@@ -16,7 +16,7 @@ namespace CNBlackListSoamChecker
         public static long ReasonChannelID = -1001132678262; // If haven't, change it to 0
         public static string MainChannelName = null; // If haven't, change it to null
         public static string ReasonChannelName = null; // If haven't, change it to null
-        public static string ReportGroupName = "J_Court";
+        public static string ReportGroupName = "J_Court";//這ㄍ意思是：你他媽不能亂改群組username
 
         internal static DatabaseManager GetDatabaseManager()
         {

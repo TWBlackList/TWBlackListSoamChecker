@@ -13,7 +13,7 @@ namespace CNBlackListSoamChecker.CommandObject {
             if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                 string UID_Value = RawMessage.text.Replace("/addop","").Replace(" ","");
                 if (UID_Value.Length < 5){
-                    try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"使用方法 : /addsysop UID",RawMessage.message_id);}catch{}
+                    try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "使用方法 : /addop UID", RawMessage.message_id);}catch{}
                     return false;
                 }else{
                     string json = System.IO.File.ReadAllText("config.json");
@@ -35,7 +35,7 @@ namespace CNBlackListSoamChecker.CommandObject {
             if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                 string UID_Value = RawMessage.text.Replace("/delop","").Replace(" ","");;
                 if (UID_Value.Length < 5){
-                    try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"使用方法 : /removesysop UID",RawMessage.message_id);}catch{}
+                    try{TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "使用方法 : /delop UID", RawMessage.message_id);}catch{}
                     return false;
                 }else{
                     string json = System.IO.File.ReadAllText("config.json");
