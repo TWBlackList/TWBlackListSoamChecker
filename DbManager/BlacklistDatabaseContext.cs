@@ -50,12 +50,12 @@ namespace CNBlackListSoamChecker.DbManager
                 }
 
                 if (ExpTime != "永久封鎖"){
-                    msg += "\n時效 : 生效至 " + GetTime.GetExpiresTime(Expires) + " 後解除";
+                    msg += "\n時效至 : " + GetTime.GetExpiresTime(Expires);
                 }else{
                     msg += "\n時效 : 永久";
                 }
                 
-                msg += "\n原因 :\n" + Reason;
+                msg += "\n原因 : " + Reason;
 
                 if (ChannelMessageID != 0) msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
             }
