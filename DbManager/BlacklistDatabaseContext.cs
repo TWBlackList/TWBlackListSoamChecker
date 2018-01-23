@@ -49,17 +49,12 @@ namespace CNBlackListSoamChecker.DbManager
                     msg += " : " + Level + " (未知)";
                 }
                 if (ExpTime != "永久封鎖"){
-<<<<<<< HEAD
                     msg += "時效 : 生效至 " + GetTime.GetExpiresTime(Expires) + " 後解除";
                 }else{
                     msg += "時效 : 永久";
                 }
-<<<<<<< HEAD
                 msg += "\n原因 : \n" + Reason;
-=======
                 msg += "\n原因 :\n" + Reason;
->>>>>>> 3c9f70339351a29fab5f8915245c40e252334dad
-=======
                     msg += "\n時效 : 生效至 " + GetTime.GetExpiresTime(Expires) + " 後解除";
                 }else{
                     msg += "\n時效 : 永久";
