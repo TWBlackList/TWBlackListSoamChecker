@@ -46,7 +46,7 @@ namespace CNBlackListSoamChecker
                     }
                     else
                     {
-                        resultmsg += "，原因是 : \n" + banUser.Reason + "\nID : " + JoinedUser.id;
+                        resultmsg += "，原因 : \n" + banUser.Reason + "\nID : " + JoinedUser.id;
                     }
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,

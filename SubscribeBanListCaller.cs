@@ -50,12 +50,12 @@ namespace CNBlackListSoamChecker
                             if(result.ok){
                             TgApi.getDefaultApiConnection().sendMessage(
                                 cfg.GroupID,
-                                "已封鎖 : " + user.UserID + "\n" + user.GetBanMessage() + "\n由於開啟了 SubscribeBanList ，已自動移除。"
+                                "使用者 : " + user.UserID + "\n" + user.GetBanMessage() + "\n由於開啟了 SubscribeBanList ，已自動移除。"
                                 );
                             }else{
                                 TgApi.getDefaultApiConnection().sendMessage(
                                 cfg.GroupID,
-                                "已封鎖 : " + user.UserID + "\n" + user.GetBanMessage() + "\n由於開啟了 SubscribeBanList ，但沒有 (Ban User) 權限，請設定正確的權限。"
+                                "使用者 : " + user.UserID + "\n" + user.GetBanMessage() + "\n由於開啟了 SubscribeBanList ，但沒有 (Ban User) 權限，請設定正確的權限。"
                                 );
                             }
                         }

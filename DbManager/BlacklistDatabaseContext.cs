@@ -34,7 +34,7 @@ namespace CNBlackListSoamChecker.DbManager
             string msg = "未封鎖";
             if (Ban == 0)
             {
-                msg = "已處分 : ";
+                msg = "處分 : ";
                 if (Level == 0)
                 {
                     msg += "封鎖";
@@ -48,7 +48,7 @@ namespace CNBlackListSoamChecker.DbManager
                     msg += " : " + Level + " (未知)";
                 }
                 msg += "，將於 " + GetTime.GetExpiresTime(Expires) + " 解除";
-                msg += "\n原因是 : " + Reason;
+                msg += "\n原因 : \n : " + Reason;
                 if (ChannelMessageID != 0) msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
             }
             return msg;
