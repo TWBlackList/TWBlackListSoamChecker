@@ -108,7 +108,7 @@ namespace CNBlackListSoamChecker
                                 GetTime.GetUnixTime() + 86400
                                 );
                                 if (!result.ok){
-                                    resultmsg += "\n注意：由於開啟了 SubscribeBanList 但沒有 Ban Users 權限" +
+                                    resultmsg += "\n注意：由於開啟了 AutoKick 但沒有 Ban Users 權限" +
                                             "，請關閉此功能或給予權限（Ban users）。";
                             }
                             }catch{}
