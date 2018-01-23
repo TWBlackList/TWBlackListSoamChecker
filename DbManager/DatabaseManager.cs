@@ -72,7 +72,12 @@ namespace CNBlackListSoamChecker.DbManager
                 {
                     textlevel = Level + " （未知）";
                 }
-                banmsg += "\n處分為 : " + textlevel + "，將於 " + GetTime.GetExpiresTime(Expires) + " 解除";
+                banmsg += "\n處分為 : " + textlevel;
+                if (ExpTime != "永久封鎖"){
+                    msg += "\n時效 : 生效至 " + GetTime.GetExpiresTime(Expires) + " 後解除";
+                }else{
+                    msg += "\n時效 : 永久";
+                }
                 banmsg += "\n原因 : " + Reason;
                 if (Temp.ReasonChannelID != 0 && ReasonID != 0)
                 {
