@@ -49,11 +49,18 @@ namespace CNBlackListSoamChecker.DbManager
                     msg += " : " + Level + " (未知)";
                 }
                 if (ExpTime != "永久封鎖"){
+                    msg += "時效 : 生效至 " + GetTime.GetExpiresTime(Expires) + " 後解除";
+                }else{
+                    msg += "時效 : 永久";
+                }
+                msg += "\n原因 : \n" + Reason;
+                msg += "\n原因 :\n" + Reason;
                     msg += "\n時效 : 生效至 " + GetTime.GetExpiresTime(Expires) + " 後解除";
                 }else{
                     msg += "\n時效 : 永久";
                 }
                 msg += "\n原因 :\n" + Reason;
+>>>>>>> acd4f3d6aed13f9217d9775d028a78ea6d2ad944
                 if (ChannelMessageID != 0) msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
             }
             return msg;
