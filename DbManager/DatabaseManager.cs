@@ -75,9 +75,9 @@ namespace CNBlackListSoamChecker.DbManager
                 banmsg += "\n處分為 : " + textlevel;
                 string ExpTime = GetTime.GetExpiresTime(Expires);
                 if (ExpTime != "永久封鎖"){
-                    msg += "\n時效 : 生效至 " + GetTime.GetExpiresTime(Expires) + " 後解除";
+                    banmsg += "\n時效 : 生效至 " + GetTime.GetExpiresTime(Expires) + " 後解除";
                 }else{
-                    msg += "\n時效 : 永久";
+                    banmsg += "\n時效 : 永久";
                 }
                 banmsg += "\n原因 : " + Reason;
                 if (Temp.ReasonChannelID != 0 && ReasonID != 0)
