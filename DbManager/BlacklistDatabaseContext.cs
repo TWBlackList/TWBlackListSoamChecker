@@ -34,10 +34,14 @@ namespace CNBlackListSoamChecker.DbManager
             string msg = "未封鎖";
             if (Ban == 0)
             {
+                string ExpTime = GetTime.GetExpiresTime(Expires);
                 msg = "處分 : ";
                 if (Level == 0)
                 {
                     msg += "封鎖";
+                    if (ExpTime == "永久封鎖"){
+                        msg += ",永久";
+                    }
                 }
                 else if (Level == 1)
                 {
@@ -47,7 +51,9 @@ namespace CNBlackListSoamChecker.DbManager
                 {
                     msg += " : " + Level + " (未知)";
                 }
-                msg += "，將於 " + GetTime.GetExpiresTime(Expires) + " 解除";
+                if (ExpTime != "永久封鎖"){
+                    msg += "，將於 " + GetTime.GetExpiresTime(Expires) + " 解除";
+                }
                 msg += "\n原因 : \n : " + Reason;
                 if (ChannelMessageID != 0) msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
             }
