@@ -1,5 +1,5 @@
-﻿using TWBlackListSoamChecker.CommandObject;
-using TWBlackListSoamChecker.DbManager;
+﻿using CNBlackListSoamChecker.CommandObject;
+using CNBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.Interfaces;
 using ReimuAPI.ReimuBase.TgData;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TWBlackListSoamChecker
+namespace CNBlackListSoamChecker
 {
     class SpamMessageDeleter : IOtherMessageReceiver
     {

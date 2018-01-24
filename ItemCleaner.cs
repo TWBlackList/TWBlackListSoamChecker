@@ -1,8 +1,8 @@
-﻿using TWBlackListSoamChecker.DbManager;
+﻿using CNBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase.Interfaces;
 using System.Collections.Generic;
 
-namespace TWBlackListSoamChecker
+namespace CNBlackListSoamChecker
 {
     class ItemCleaner : IClearItemsReceiver
     {

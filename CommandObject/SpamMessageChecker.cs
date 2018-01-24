@@ -1,10 +1,10 @@
-﻿using TWBlackListSoamChecker.DbManager;
+﻿using CNBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using System.Text.RegularExpressions;
 
 // 这是迷之 Spam Message Checker
 
-namespace TWBlackListSoamChecker.CommandObject
+namespace CNBlackListSoamChecker.CommandObject
 {
     class SpamMessageChecker
     {

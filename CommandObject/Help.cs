@@ -1,8 +1,8 @@
-﻿using TWBlackListSoamChecker.DbManager;
+﻿using CNBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 
-namespace TWBlackListSoamChecker.CommandObject {
+namespace CNBlackListSoamChecker.CommandObject {
     internal class Help {
         internal bool HelpStatus(TgMessage RawMessage){
             string finalHelpMsg;

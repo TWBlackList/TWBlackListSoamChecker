@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace TWBlackListSoamChecker.DbManager
+namespace CNBlackListSoamChecker.DbManager
 {
     internal class BlacklistDatabaseContext : DbContext
     {

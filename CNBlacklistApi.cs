@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace TWBlackListSoamChecker
+namespace CNBlackListSoamChecker
 {
     internal class CNBlacklistApi
     {

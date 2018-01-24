@@ -2,12 +2,12 @@
 using System;
 using ReimuAPI.ReimuBase.TgData;
 using ReimuAPI.ReimuBase;
-using TWBlackListSoamChecker.DbManager;
+using CNBlackListSoamChecker.DbManager;
 using System.Collections.Generic;
 using System.Diagnostics;
-using TWBlackListSoamChecker.CommandObject;
+using CNBlackListSoamChecker.CommandObject;
 
-namespace TWBlackListSoamChecker
+namespace CNBlackListSoamChecker
 {
     class CommandListener : ICommandReceiver
     {

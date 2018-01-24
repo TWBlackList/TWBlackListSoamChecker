@@ -8,7 +8,7 @@ using System.Collections.Generic;
  * !!! DO NOT TOUCH, MAGIC !!!
  */
 
-namespace TWBlackListSoamChecker.CommandObject
+namespace CNBlackListSoamChecker.CommandObject
 {
     internal class GetValues
     {

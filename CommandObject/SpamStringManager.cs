@@ -1,4 +1,4 @@
-﻿using TWBlackListSoamChecker.DbManager;
+﻿using CNBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace TWBlackListSoamChecker.CommandObject
+namespace CNBlackListSoamChecker.CommandObject
 {
     public class SpamStringManager
     {

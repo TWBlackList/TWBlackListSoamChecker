@@ -2,7 +2,7 @@
 using ReimuAPI.ReimuBase.Interfaces;
 using ReimuAPI.ReimuBase.TgData;
 
-namespace TWBlackListSoamChecker
+namespace CNBlackListSoamChecker
 {
     class HelpMessage : IHelpMessage
     {

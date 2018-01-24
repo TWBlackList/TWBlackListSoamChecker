@@ -1,4 +1,4 @@
-﻿using TWBlackListSoamChecker.DbManager;
+﻿using CNBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 using ReimuAPI.ReimuBase.Interfaces;
@@ -10,7 +10,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Json;
 
-namespace TWBlackListSoamChecker
+namespace CNBlackListSoamChecker
 {
     internal class UnBanCaller
     {
