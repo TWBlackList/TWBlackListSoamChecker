@@ -1,8 +1,8 @@
-﻿using CNBlackListSoamChecker.DbManager;
+﻿using TWBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 
-namespace CNBlackListSoamChecker.CommandObject
+namespace TWBlackListSoamChecker.CommandObject
 {
     class SoamManager
     {

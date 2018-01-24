@@ -1,10 +1,10 @@
-﻿using CNBlackListSoamChecker.DbManager;
+﻿using TWBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.Interfaces;
 using ReimuAPI.ReimuBase.TgData;
 using System.Threading;
 
-namespace CNBlackListSoamChecker
+namespace TWBlackListSoamChecker
 {
     class MemberJoinReceiver : IMemberJoinLeftListener
     {
