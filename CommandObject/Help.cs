@@ -27,7 +27,7 @@ namespace CNBlackListSoamChecker.CommandObject {
             }
             if (RAPI.getIsBotAdmin(RawMessage.from.id))
             {
-                finalHelpMsg = finalHelpMsg + "\n\nOP指令:\n" +
+                finalHelpMsg = finalHelpMsg + "\n\nOperator指令:\n" +
                                 "/twban - 封鎖\n" +
                                 "/twunban - 解除封鎖\n" +
                                 "/getspampoints - 測試關鍵字\n\n" +
