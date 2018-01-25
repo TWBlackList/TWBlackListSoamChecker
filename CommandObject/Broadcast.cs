@@ -1,4 +1,4 @@
-﻿using CNBlackListSoamChecker.DbManager;
+﻿using TWBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace CNBlackListSoamChecker.CommandObject {
+namespace TWBlackListSoamChecker.CommandObject {
     internal class BroadCast {
         internal bool BroadCast_Status(TgMessage RawMessage)
         {

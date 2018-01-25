@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace CNBlackListSoamChecker.DbManager
+namespace TWBlackListSoamChecker.DbManager
 {
     public class DatabaseManager
     {

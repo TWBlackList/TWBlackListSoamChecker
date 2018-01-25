@@ -2,7 +2,7 @@
 using ReimuAPI.ReimuBase.TgData;
 using System.Collections.Generic;
 
-namespace CNBlackListSoamChecker.CommandObject
+namespace TWBlackListSoamChecker.CommandObject
 {
     internal class BanUserCommand
     {

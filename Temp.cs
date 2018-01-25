@@ -1,7 +1,7 @@
-﻿using CNBlackListSoamChecker.DbManager;
+﻿using TWBlackListSoamChecker.DbManager;
 using System.Collections.Generic;
 
-namespace CNBlackListSoamChecker
+namespace TWBlackListSoamChecker
 {
     internal static class Temp
     {

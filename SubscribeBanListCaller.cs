@@ -1,4 +1,4 @@
-﻿using CNBlackListSoamChecker.DbManager;
+﻿using TWBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 using ReimuAPI.ReimuBase.Interfaces;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace CNBlackListSoamChecker
+namespace TWBlackListSoamChecker
 {
     internal class SubscribeBanListCaller
     {
