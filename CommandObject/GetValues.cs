@@ -197,5 +197,17 @@ namespace TWBlackListSoamChecker.CommandObject
             }
             return BanUserInfo;
         }
+        internal int[] GetUserIDs(Dictionary<string, string> banValues, TgMessage RawMessage)
+        {
+            string tmpString = "";
+            tmpString = banValues.GetValueOrDefault("i", "__invalid__");
+            if (tmpString == "__invalid__")
+            {
+                tmpString = banValues.GetValueOrDefault("id", "__invalid__");
+            }
+            int[] users = System.Array.ConvertAll<string, int>(tmpString.Split(","), int.Parse);
+
+            return users;
+        }
     }
 }
