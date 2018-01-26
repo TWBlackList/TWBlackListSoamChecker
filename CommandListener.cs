@@ -146,8 +146,8 @@ namespace TWBlackListSoamChecker
                     return new OP().LsOP(RawMessage);
                 case "/help":
                     return new Help().HelpStatus(RawMessage);
-                case "/twbanstat":
-                case "/twbanstatus":
+                case "/banstat":
+                case "/banstatus":
                     if (Temp.DisableBanList)
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
