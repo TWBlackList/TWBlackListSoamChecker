@@ -162,13 +162,13 @@ namespace TWBlackListSoamChecker
                         break;
                     }
                     return new BanStatus().banstatus(RawMessage);
-                case "/clickmetobesb"://垃圾功能，之後拔掉，希望不要爆炸！
-                    TgApi.getDefaultApiConnection().sendMessage(
-                        RawMessage.chat.id,
-                        "Success, now you are SB.",
-                        RawMessage.message_id
-                        );
-                    break;
+                //case "/clickmetobesb"://垃圾功能，之後拔掉，希望不要爆炸！
+                //    TgApi.getDefaultApiConnection().sendMessage(
+                //        RawMessage.chat.id,
+                //        "Success, now you are SB.",
+                //        RawMessage.message_id
+                //        );
+                //    break;
             }
             return new AdminCommand().AdminCommands(RawMessage, JsonMessage, Command);
         }

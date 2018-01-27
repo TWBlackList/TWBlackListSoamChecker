@@ -296,13 +296,14 @@ namespace TWBlackListSoamChecker
                     );
         }
 
-                private void CallAdmin(TgMessage msg)
+        private void CallAdmin(TgMessage msg)
         {
             GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(msg.chat.id);
             List<string> temp = new List<string>();
             int step = 1;
             foreach (GroupUserInfo i in admins)
             {
+                temp.Add("<a href=\"tg://user?id=" + i.user.id.ToString() + "\">" + "." + "</a>");
                 if(temp.Count == 5){
                     if(step == 1){
                         TgApi.getDefaultApiConnection().sendMessage(
@@ -318,9 +319,9 @@ namespace TWBlackListSoamChecker
                             ParseMode : TgApi.PARSEMODE_HTML
                         );
                     }
+                    step += 1;
                     temp.Clear();
                 }
-                temp.Add("<a href=\"tg://user?id=" + i.user.id.ToString() + "\">" + "." + "</a>");
             }
 
             if(temp.Count != 0){
