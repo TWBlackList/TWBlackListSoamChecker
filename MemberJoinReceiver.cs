@@ -29,7 +29,7 @@ namespace TWBlackListSoamChecker
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
                         "機器人 : " + JoinedUser.GetUserTextInfo() + "\n由於開啟了 AntiBot ，但沒有 (Ban User) 權限，請設定正確的權限。"
-                        );
+                    );
                 }
             }
 
