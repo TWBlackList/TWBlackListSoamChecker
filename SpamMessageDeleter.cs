@@ -296,6 +296,26 @@ namespace TWBlackListSoamChecker
                     );
         }
 
+        private void CallAdmin_SendMessage(TgMessage msg , string content , int step)
+        {
+            new Thread(delegate () {
+                if(step != 1){
+                    msg.message_id = -1;
+                }
+                SendMessageResult calladmin = TgApi.getDefaultApiConnection().sendMessage(
+                    msg.chat.id,
+                    content,
+                    msg.message_id,
+                    ParseMode : TgApi.PARSEMODE_HTML
+                );
+                Thread.Sleep(60000);
+                TgApi.getDefaultApiConnection().deleteMessage(
+                    calladmin.result.chat.id,
+                    calladmin.result.message_id
+                    );
+            }).Start();
+        }
+
         private void CallAdmin(TgMessage msg)
         {
             GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(msg.chat.id);
@@ -305,40 +325,14 @@ namespace TWBlackListSoamChecker
             {
                 temp.Add("<a href=\"tg://user?id=" + i.user.id.ToString() + "\">" + "." + "</a>");
                 if(temp.Count == 5){
-                    if(step == 1){
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            msg.chat.id,
-                            System.String.Join("",temp),
-                            msg.message_id,
-                            ParseMode : TgApi.PARSEMODE_HTML
-                        );
-                    }else{
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            msg.chat.id,
-                            System.String.Join("",temp),
-                            ParseMode : TgApi.PARSEMODE_HTML
-                        );
-                    }
+                    CallAdmin_SendMessage(msg,System.String.Join("",temp),step);
                     step += 1;
                     temp.Clear();
                 }
             }
 
             if(temp.Count != 0){
-                if(step == 1){
-                    TgApi.getDefaultApiConnection().sendMessage(
-                        msg.chat.id,
-                        System.String.Join("",temp),
-                        msg.message_id,
-                        ParseMode : TgApi.PARSEMODE_HTML
-                    );
-                }else{
-                    TgApi.getDefaultApiConnection().sendMessage(
-                        msg.chat.id,
-                        System.String.Join("",temp),
-                        ParseMode : TgApi.PARSEMODE_HTML
-                    ); 
-                }
+                CallAdmin_SendMessage(msg,System.String.Join("",temp),step);
                 temp.Clear();
             }
             
