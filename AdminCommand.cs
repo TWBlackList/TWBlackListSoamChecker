@@ -75,7 +75,7 @@ namespace TWBlackListSoamChecker
                     }
                     new OP().DelOP(RawMessage);
                     throw new StopProcessException();
-                case "/ban":
+                case "/_ban":
                     if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                         if (Temp.DisableBanList)
                         {
@@ -88,6 +88,14 @@ namespace TWBlackListSoamChecker
                         break;
                     }
                     throw new StopProcessException();
+                case "/ban":
+                    if (Temp.DisableBanList || Temp.DisableAdminTools)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
+                        break;
+                    }
+                    new BanUserCommand().Ban(RawMessage, JsonMessage, Command);
+                    throw new StopProcessException();
                 case "/twban":
                     if (Temp.DisableBanList || Temp.DisableAdminTools)
                     {
@@ -96,7 +104,7 @@ namespace TWBlackListSoamChecker
                     }
                     new BanUserCommand().Ban(RawMessage, JsonMessage, Command);
                     throw new StopProcessException();
-                case "/unban":
+                case "/_unban":
                     if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                         if (Temp.DisableBanList)
                         {
@@ -108,6 +116,14 @@ namespace TWBlackListSoamChecker
                         TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
                         break;
                     }
+                    throw new StopProcessException();
+                case "/unban":
+                    if (Temp.DisableBanList)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
+                        break;
+                    }
+                    new UnbanUserCommand().Unban(RawMessage);
                     throw new StopProcessException();
                 case "/twunban":
                     if (Temp.DisableBanList)
