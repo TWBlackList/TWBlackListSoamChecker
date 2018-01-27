@@ -47,7 +47,10 @@ namespace TWBlackListSoamChecker
                 }
                 if (SharedCommand(RawMessage, JsonMessage, Command)) return new CallbackMessage();
                 switch (Command)
-                {                
+                {               
+                    case "/leave":
+                        new LeaveCommand().Leave(RawMessage);
+                        break; 
                     case "/soamenable":
                         if (cfg.AdminOnly == 0 && TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) == false)
                             return new CallbackMessage() { StopProcess = true };
@@ -146,8 +149,8 @@ namespace TWBlackListSoamChecker
                     return new OP().LsOP(RawMessage);
                 case "/help":
                     return new Help().HelpStatus(RawMessage);
-                case "/twbanstat":
-                case "/twbanstatus":
+                case "/banstat":
+                case "/banstatus":
                     if (Temp.DisableBanList)
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
