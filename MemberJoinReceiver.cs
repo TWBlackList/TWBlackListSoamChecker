@@ -15,6 +15,7 @@ namespace TWBlackListSoamChecker
 
         public CallbackMessage OnSupergroupMemberJoinReceive(TgMessage RawMessage, string JsonMessage, UserInfo JoinedUser)
         {
+            DatabaseManager dbmgr = Temp.GetDatabaseManager();
             GroupCfg groupCfg = dbmgr.GetGroupConfig(RawMessage.GetMessageChatInfo().id);
             
             if (groupCfg.AntiBot == 0 && JoinedUser.is_bot && !TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.GetMessageChatInfo().id, RawMessage.from.id))
@@ -51,7 +52,6 @@ namespace TWBlackListSoamChecker
             {
                 return new CallbackMessage();
             }
-            DatabaseManager dbmgr = Temp.GetDatabaseManager();
             if (RawMessage.GetMessageChatInfo().id == -1001132136235)
             {
                 BanUser banUser = dbmgr.GetUserBanStatus(JoinedUser.id);
