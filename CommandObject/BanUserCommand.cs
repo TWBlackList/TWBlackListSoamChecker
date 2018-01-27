@@ -41,7 +41,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 if (value.Substring(0, 5) == "halal")
                 {
                     NotHalal = false;
-                    Reason = "Halal （台灣人無法理解的語言）";
+                    Reason = "無法理解的語言";
                     if (valLen > 6)
                     {
                         if (value[5] != ' ')
@@ -138,7 +138,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     if (Reason == null) return true; // 如果 Reason 是 null 则代表出现了异常
                     if (Reason.ToLower() == "halal")
                     {
-                        Reason = "Halal （台灣人無法理解的語言）";
+                        Reason = "無法理解的語言";
                     }
                 }
                 catch (DecodeException)

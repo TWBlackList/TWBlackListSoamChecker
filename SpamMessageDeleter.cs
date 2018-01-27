@@ -90,7 +90,7 @@ namespace TWBlackListSoamChecker
                                     BaseMessage.from.id,
                                     1,
                                     0,
-                                    "\n自動封鎖 : 台灣人無法理解的語言",
+                                    "\n自動封鎖 : 無法理解的語言",
                                     BaseMessage.GetMessageChatInfo().id,
                                     BaseMessage.message_id,
                                     BaseMessage.from
@@ -127,7 +127,7 @@ namespace TWBlackListSoamChecker
                     new Thread(delegate () {
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
-                            "偵測到台灣人無法理解的語言，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
+                            "偵測到無法理解的語言，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
                             );
                         Thread.Sleep(60000);
                         TgApi.getDefaultApiConnection().deleteMessage(
