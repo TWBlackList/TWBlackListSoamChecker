@@ -15,6 +15,24 @@ namespace TWBlackListSoamChecker
 
         public CallbackMessage OnSupergroupMemberJoinReceive(TgMessage RawMessage, string JsonMessage, UserInfo JoinedUser)
         {
+            GroupCfg groupCfg = dbmgr.GetGroupConfig(RawMessage.GetMessageChatInfo().id);
+            
+            if (groupCfg.AntiBot == 0 && JoinedUser.is_bot && !TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.GetMessageChatInfo().id, RawMessage.from.id))
+            {
+                SetActionResult result = TgApi.getDefaultApiConnection().kickChatMember(RawMessage.GetMessageChatInfo().id, JoinedUser.id, GetTime.GetUnixTime() + 86400);
+                if(result.ok){
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        "機器人 : " + JoinedUser.GetUserTextInfo() + "\n由於開啟了 AntiBot ，已自動移除機器人。"
+                    );
+                }else{
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        "機器人 : " + JoinedUser.GetUserTextInfo() + "\n由於開啟了 AntiBot ，但沒有 (Ban User) 權限，請設定正確的權限。"
+                        );
+                }
+            }
+
             if (JoinedUser.id == TgApi.getDefaultApiConnection().getMe().id)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -80,7 +98,7 @@ namespace TWBlackListSoamChecker
                 }
                 return new CallbackMessage();
             }
-            GroupCfg groupCfg = dbmgr.GetGroupConfig(RawMessage.GetMessageChatInfo().id);
+            
             if (groupCfg.BlackList == 0)
             {
                 BanUser banUser = dbmgr.GetUserBanStatus(JoinedUser.id);
