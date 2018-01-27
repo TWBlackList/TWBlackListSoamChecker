@@ -33,6 +33,8 @@ namespace TWBlackListSoamChecker.CommandObject {
                                 "/twunban - 解除封鎖\n" +
                                 "/getspampoints - 測試關鍵字\n\n" +
                                 "Admin指令:\n" +
+                                "/ban - 封鎖\n" +
+                                "/unban - 解除封鎖\n" +
                                 "/addspamstr - 新增 1 個自動規則\n" +
                                 "/delspamstr - 刪除 1 個自動規則\n" +
                                 "/getspamstr - 查看自動規則列表\n" +
