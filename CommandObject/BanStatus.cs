@@ -33,7 +33,7 @@
                                     ban.GetBanMessage();
                             }
                         }
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, banmsg, RawMessage.message_id,ParseMode : TgApi.PARSEMODE_MARKDOWN);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, banmsg, RawMessage.message_id);
                         return true;
                     }
                     else
