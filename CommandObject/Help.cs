@@ -31,7 +31,7 @@ namespace TWBlackListSoamChecker.CommandObject {
                 finalHelpMsg = finalHelpMsg + "\n\nOperator指令:\n" +
                                 "/twban - 封鎖\n" +
                                 "/twunban - 解除封鎖\n" +
-                                "/getspampoints - 測試關鍵字\n\n";
+                                "/getspampoints - 測試關鍵字";
             }
             if (RAPI.getIsBotOP(RawMessage.from.id))
             {
@@ -45,7 +45,7 @@ namespace TWBlackListSoamChecker.CommandObject {
                                 "/getspamstr - 查看自動規則列表\n" +
                                 "/say - 廣播\n" +
                                 "/addop - 新增 Operator\n" +
-                                "/delop - 解除 Operator\n";
+                                "/delop - 解除 Operator";
             }
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,finalHelpMsg,RawMessage.message_id);
             return true;
