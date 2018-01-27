@@ -97,6 +97,7 @@ namespace TWBlackListSoamChecker.DbManager
         public int AdminOnly { get; set; }
         public int BlackList { get; set; }
         public int AutoKick { get; set; }
+        public int AntiBot { get; set; }
         public int AntiHalal { get; set; }
         public int AutoDeleteCommand { get; set; }
         public int AutoDeleteSpamMessage { get; set; }

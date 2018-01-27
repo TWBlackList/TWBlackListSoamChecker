@@ -18,6 +18,7 @@ namespace TWBlackListSoamChecker.CommandObject
             int AdminOnly = 3;
             int Blacklist = 3;
             int AutoKick = 3;
+            int AntiBot = 3;
             int AntiHalal = 3;
             int AutoDeleteSpamMessage = 3;
             int AutoDeleteCommand = 3;
@@ -51,6 +52,11 @@ namespace TWBlackListSoamChecker.CommandObject
                 {
                     enabled += " AutoKick";
                 }
+            }
+            if (text.IndexOf(" antibot") != -1)
+            {
+                AntiBot = 0;
+                enabled += " AntiBot";
             }
             if (text.IndexOf(" antihalal") != -1)
             {
@@ -92,6 +98,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 AdminOnly: AdminOnly,
                 BlackList: Blacklist,
                 AutoKick: AutoKick,
+                AntiBot: AntiBot,
                 AntiHalal: AntiHalal,
                 AutoDeleteSpamMessage: AutoDeleteSpamMessage,
                 AutoDeleteCommand: AutoDeleteCommand,
@@ -134,6 +141,7 @@ namespace TWBlackListSoamChecker.CommandObject
             int AdminOnly = 3;
             int Blacklist = 3;
             int AutoKick = 3;
+            int AntiBot = 3;
             int AntiHalal = 3;
             int AutoDeleteSpamMessage = 3;
             int AutoDeleteCommand = 3;
@@ -153,6 +161,11 @@ namespace TWBlackListSoamChecker.CommandObject
             {
                 AutoKick = 1;
                 enabled += " AutoKick";
+            }
+            if (text.IndexOf(" antibot") != -1)
+            {
+                AntiBot = 1;
+                enabled += " AntiBot";
             }
             if (text.IndexOf(" antihalal") != -1)
             {
@@ -179,6 +192,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 AdminOnly: AdminOnly,
                 BlackList: Blacklist,
                 AutoKick: AutoKick,
+                AntiBot: AntiBot,
                 AntiHalal: AntiHalal,
                 AutoDeleteSpamMessage: AutoDeleteSpamMessage,
                 AutoDeleteCommand: AutoDeleteCommand,
@@ -221,6 +235,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 message.chat.id,
                 "BlackList" + byChannelName + ": " + (gc.BlackList == 0) + "\n" +
                 "AutoKick: " + (gc.AutoKick == 0) + "\n" +
+                "AntiBot: " + (gc.AntiBot == 0) + "\n" +
                 "AntiHalal: " + (gc.AntiHalal == 0) + "\n" +
                 "AutoDeleteSpamMessage: " + (gc.AutoDeleteSpamMessage == 0) + "\n" +
                 "AutoDeleteCommand: " + (gc.AutoDeleteCommand == 0) + "\n" +
