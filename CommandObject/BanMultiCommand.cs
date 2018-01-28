@@ -13,7 +13,7 @@ namespace TWBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "/cnban [i|id=1] [l|level=0] [m|minutes=0] [h|hours=0] [d|days=15] [f|from=f|fwd|r|reply] [halal [f|fwd|r|reply]]" +
+                    "/suban [i|id=1] [l|level=0] [m|minutes=0] [h|hours=0] [d|days=15] [f|from=f|fwd|r|reply] [halal [f|fwd|r|reply]]" +
                     " r|reason=\"asdfsadf asdfadsf\"\n\n" +
                     "m: 分鐘, h: 小時, d: 天\n" +
                     "from 選項僅在 id 未被定義時起作用\n" +
@@ -21,9 +21,9 @@ namespace TWBlackListSoamChecker.CommandObject
                     "選項優先度: 簡寫 > 全名\n" +
                     "halal 選項只能單獨使用，不能與其他選項共同使用，並且需要回覆一則訊息，否則將觸發異常。\n\n" +
                     "Example:\n" +
-                    "/cnban id=1 m=0 h=0 d=15 level=0 reason=\"aaa bbb\\n\\\"ccc\\\" ddd\"\n" +
-                    "/cnban halal\n" +
-                    "/cnban halal=reply",
+                    "/suban id=1 m=0 h=0 d=15 level=0 reason=\"aaa bbb\\n\\\"ccc\\\" ddd\"\n" +
+                    "/suban halal\n" +
+                    "/suban halal=reply",
                     RawMessage.message_id
                     );
                 return true;
