@@ -89,17 +89,12 @@ namespace TWBlackListSoamChecker
                     }
                     throw new StopProcessException();
                 case "/ban":
-                    if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
-                        if (Temp.DisableBanList)
-                        {
-                            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
-                            break;
-                        }
-                        new BanUserCommand().Ban(RawMessage, JsonMessage, Command);
-                    }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
+                    if (Temp.DisableBanList || Temp.DisableAdminTools)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                         break;
                     }
+                    new BanUserCommand().Ban(RawMessage, JsonMessage, Command);
                     throw new StopProcessException();
                 case "/twban":
                     if (Temp.DisableBanList || Temp.DisableAdminTools)
@@ -123,17 +118,12 @@ namespace TWBlackListSoamChecker
                     }
                     throw new StopProcessException();
                 case "/unban":
-                    if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
-                        if (Temp.DisableBanList)
-                        {
-                            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
-                            break;
-                        }
-                        new UnbanUserCommand().Unban(RawMessage);
-                    }else{
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"你沒有權限",RawMessage.message_id);
+                    if (Temp.DisableBanList)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
                         break;
                     }
+                    new UnbanUserCommand().Unban(RawMessage);
                     throw new StopProcessException();
                 case "/twunban":
                     if (Temp.DisableBanList)
