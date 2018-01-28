@@ -75,7 +75,7 @@ namespace TWBlackListSoamChecker
                     }
                     new OP().DelOP(RawMessage);
                     throw new StopProcessException();
-                case "/_ban":
+                case "/suban":
                     if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                         if (Temp.DisableBanList)
                         {
@@ -109,7 +109,7 @@ namespace TWBlackListSoamChecker
                     }
                     new BanUserCommand().Ban(RawMessage, JsonMessage, Command);
                     throw new StopProcessException();
-                case "/_unban":
+                case "/suunban":
                     if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                         if (Temp.DisableBanList)
                         {
