@@ -80,6 +80,7 @@ namespace TWBlackListSoamChecker.DbManager
                     banmsg += "\n時效 : 永久";
                 }
                 banmsg += "\n原因 : " + Reason;
+                banmsg += "OID : " + AdminID.ToString() + "\n";
                 if (Temp.ReasonChannelID != 0 && ReasonID != 0)
                 {
                     banmsg += "\n\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
@@ -90,8 +91,6 @@ namespace TWBlackListSoamChecker.DbManager
                     banmsg += "\n\n";
                     banmsg += TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();
                 }catch{}
-
-                banmsg = "OID : " + AdminID.ToString() + "\n" + banmsg;
                 
                 ChangeDbBan(AdminID, UserID, Level, Expires, Reason, ChannelReasonID, ReasonID);
                 try{TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg);}catch{}
@@ -136,7 +135,7 @@ namespace TWBlackListSoamChecker.DbManager
                 {
                     banmsg += "，原因 : \n" + Reason;
                 }
-                banmsg = "OID : " + AdminID.ToString() + "\n" + banmsg;
+                banmsg += "OID : " + AdminID.ToString() + "\n";
                 try{ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID,banmsg).result.message_id;}catch{}
             }
             
