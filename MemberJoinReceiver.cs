@@ -36,7 +36,7 @@ namespace TWBlackListSoamChecker
                                 
                 new Task(() =>
                 {
-                    banUtilTime = GetTime.GetUnixTime() + 86400;
+                    long anUtilTime = GetTime.GetUnixTime() + 86400;
                     Temp.GetDatabaseManager().BanUser(
                             0,
                             RawMessage.GetSendUser().id,
