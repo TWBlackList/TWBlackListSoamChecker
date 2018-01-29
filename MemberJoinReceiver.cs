@@ -3,6 +3,7 @@ using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.Interfaces;
 using ReimuAPI.ReimuBase.TgData;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace TWBlackListSoamChecker
 {
@@ -32,6 +33,21 @@ namespace TWBlackListSoamChecker
                         "機器人 : " + JoinedUser.GetUserTextInfo() + "\n由於開啟了 AntiBot ，但沒有 (Ban User) 權限，請設定正確的權限。"
                     );
                 }
+                                
+                new Task(() =>
+                {
+                    banUtilTime = GetTime.GetUnixTime() + 86400;
+                    Temp.GetDatabaseManager().BanUser(
+                            0,
+                            RawMessage.GetSendUser().id,
+                            0,
+                            banUtilTime,
+                            "自動封鎖 - 拉入機器人",
+                            RawMessage.GetMessageChatInfo().id,
+                            0,
+                            RawMessage.GetSendUser()
+                            );
+                }).Start();
             }
 
             if (JoinedUser.id == TgApi.getDefaultApiConnection().getMe().id)
