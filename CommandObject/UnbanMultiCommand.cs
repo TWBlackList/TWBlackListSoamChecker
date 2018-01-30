@@ -71,7 +71,6 @@ namespace TWBlackListSoamChecker.CommandObject
                             "操作失敗，這位使用者(" + BanUserId.ToString() + ")目前可能没有被封鎖。",
                             RawMessage.message_id
                             );
-                        return true;
                     }
                     Thread.Sleep(3000);
                 }
