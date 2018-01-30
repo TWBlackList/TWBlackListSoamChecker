@@ -1,7 +1,10 @@
 ﻿using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
-using System.Collections.Generic;
+using ReimuAPI.ReimuBase.Interfaces;
+using System;
+using System.Linq;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
@@ -79,7 +82,6 @@ namespace TWBlackListSoamChecker.CommandObject
                         "操作成功。",
                         RawMessage.message_id
                         );
-                    return true;
                 //}
                 //else
                 //{
@@ -91,6 +93,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 //    return true;
                 //}
              }).Start();
+             return true;
         }
     }
 }
