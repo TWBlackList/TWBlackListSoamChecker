@@ -1,6 +1,7 @@
 ﻿using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
@@ -115,37 +116,38 @@ namespace TWBlackListSoamChecker.CommandObject
                 }
             }
             
-            foreach (int userid in UsersArray){
-                BanUserId = userid;
-                status = Temp.GetDatabaseManager().BanUser(
-                    RawMessage.GetSendUser().id,
-                    BanUserId,
-                    Level,
-                    ExpiresTime,
-                    Reason
-                );
-            }
-            
-
-            //if (status)
-            //{
-                TgApi.getDefaultApiConnection().sendMessage(
-                    RawMessage.GetMessageChatInfo().id,
-                    "操作成功。",
-                    RawMessage.message_id
+            new Thread(delegate () { 
+                foreach (int userid in UsersArray){
+                    BanUserId = userid;
+                    status = Temp.GetDatabaseManager().BanUser(
+                        RawMessage.GetSendUser().id,
+                        BanUserId,
+                        Level,
+                        ExpiresTime,
+                        Reason
                     );
-                return true;
-            //}
-            //else
-            //{
-            //    TgApi.getDefaultApiConnection().sendMessage(
-            //        RawMessage.GetMessageChatInfo().id,
-            //        "操作成功。\n\n請注意 : 轉發使用者訊息到頻道或是發送使用者訊息到頻道失敗，請您手動發送至 @" + Temp.MainChannelName + " 。 err11",
-            //        RawMessage.message_id
-            //        );
-            //    return true;
-            //}
-            //return false;
+                    Thread.Sleep(3000);
+                }
+                //if (status)
+                //{
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        "操作成功。",
+                        RawMessage.message_id
+                        );
+                    return true;
+                //}
+                //else
+                //{
+                //    TgApi.getDefaultApiConnection().sendMessage(
+                //        RawMessage.GetMessageChatInfo().id,
+                //        "操作成功。\n\n請注意 : 轉發使用者訊息到頻道或是發送使用者訊息到頻道失敗，請您手動發送至 @" + Temp.MainChannelName + " 。 err11",
+                //        RawMessage.message_id
+                //        );
+                //    return true;
+                //}
+                //return false;
+             }).Start();
         }
     }
 }

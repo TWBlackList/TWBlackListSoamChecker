@@ -1,6 +1,7 @@
 ﻿using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
@@ -49,46 +50,47 @@ namespace TWBlackListSoamChecker.CommandObject
                 return true;
             }
 
-
-            foreach (int userid in UsersArray){
-                BanUserId = userid;
-                try
-                {
-                    status = Temp.GetDatabaseManager().UnbanUser(
-                            RawMessage.GetSendUser().id,
-                            BanUserId,
-                            Reason
+            new Thread(delegate () { 
+                foreach (int userid in UsersArray){
+                    BanUserId = userid;
+                    try
+                    {
+                        status = Temp.GetDatabaseManager().UnbanUser(
+                                RawMessage.GetSendUser().id,
+                                BanUserId,
+                                Reason
+                                );
+                    }
+                    catch (System.InvalidOperationException)
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(
+                            RawMessage.GetMessageChatInfo().id,
+                            "操作失敗，這位使用者(" + BanUserId.ToString() + ")目前可能没有被封鎖。",
+                            RawMessage.message_id
                             );
+                        return true;
+                    }
+                    Thread.Sleep(3000);
                 }
-                catch (System.InvalidOperationException)
-                {
+                //if (status)
+                //{
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
-                        "操作失敗，這位使用者(" + BanUserId.ToString() + ")目前可能没有被封鎖。",
+                        "操作成功。",
                         RawMessage.message_id
                         );
                     return true;
-                }
-            }
-
-            //if (status)
-            //{
-                TgApi.getDefaultApiConnection().sendMessage(
-                    RawMessage.GetMessageChatInfo().id,
-                    "操作成功。",
-                    RawMessage.message_id
-                    );
-                return true;
-            //}
-            //else
-            //{
-            //    TgApi.getDefaultApiConnection().sendMessage(
-            //        RawMessage.GetMessageChatInfo().id,
-            //        "操作成功。\n\n請注意 : 轉發使用者訊息到頻道或是發送使用者訊息到頻道失敗，請您手動發送至  @" + Temp.MainChannelName + " 。 err11",
-            //        RawMessage.message_id
-            //        );
-            //    return true;
-            //}
+                //}
+                //else
+                //{
+                //    TgApi.getDefaultApiConnection().sendMessage(
+                //        RawMessage.GetMessageChatInfo().id,
+                //        "操作成功。\n\n請注意 : 轉發使用者訊息到頻道或是發送使用者訊息到頻道失敗，請您手動發送至  @" + Temp.MainChannelName + " 。 err11",
+                //        RawMessage.message_id
+                //        );
+                //    return true;
+                //}
+             }).Start();
         }
     }
 }
