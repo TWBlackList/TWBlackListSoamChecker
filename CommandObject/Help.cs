@@ -13,6 +13,7 @@ namespace TWBlackListSoamChecker.CommandObject {
                                 "/twkick - 將一個已在封鎖列表內的使用這從群組中移除出去";
             string privateHelp = "";
             string sharedHelp = "/banstat - 查詢處分狀態\n" + 
+                                "/user - 取得 User ID\n" + 
                                 "/lsop - Operator 名冊";
             switch (RawMessage.chat.type){
                 case "group":
