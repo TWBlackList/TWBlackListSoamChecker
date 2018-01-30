@@ -8,10 +8,10 @@ namespace TWBlackListSoamChecker.CommandObject {
                 {
                     if (RawMessage.reply_to_message.forward_from != null)
                     {
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,RawMessage.reply_to_message.forward_from.id,RawMessage.message_id);
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,RawMessage.reply_to_message.forward_from.id.ToString(),RawMessage.message_id);
                         return true;
                     }
-                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,RawMessage.reply_to_message.GetSendUser().id,RawMessage.message_id);
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,RawMessage.reply_to_message.GetSendUser().id.ToString(),RawMessage.message_id);
                     return true;
                 }
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,RawMessage.GetSendUser().id.ToString(),RawMessage.message_id);
