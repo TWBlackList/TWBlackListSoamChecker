@@ -61,6 +61,39 @@ namespace TWBlackListSoamChecker.DbManager
             }
             return msg;
         }
+        public string GetBanMessage_ESCMD()
+        {
+            string msg = "未封鎖";
+            if (Ban == 0)
+            {
+                string ExpTime = GetTime.GetExpiresTime(Expires);
+                msg = "處分 : ";
+                if (Level == 0)
+                {
+                    msg += "封鎖";
+                }
+                else if (Level == 1)
+                {
+                    msg += "警告";
+                }
+                else
+                {
+                    msg += " : " + Level + " (未知)";
+                }
+
+                if (ExpTime != "永久封鎖"){
+                    msg += "\n時效至 : " + GetTime.GetExpiresTime(Expires);
+                }else{
+                    msg += "\n時效 : 永久";
+                }
+                
+                msg += "\n原因 : " + Reason;
+
+                if (ChannelMessageID != 0) msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
+            }
+            msg = RAPI.escapeMarkdown(msg);
+            return msg;
+        }
     }
 
     public class BanHistory
