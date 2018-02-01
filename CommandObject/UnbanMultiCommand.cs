@@ -72,7 +72,7 @@ namespace TWBlackListSoamChecker.CommandObject
                             RawMessage.message_id
                             );
                     }
-                    Thread.Sleep(3000);
+                    Thread.Sleep(3500);
                 }
                 //if (status)
                 //{
