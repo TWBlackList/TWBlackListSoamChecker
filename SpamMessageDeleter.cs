@@ -88,7 +88,7 @@ namespace TWBlackListSoamChecker
                             Temp.GetDatabaseManager().BanUser(
                                     0,
                                     BaseMessage.from.id,
-                                    1,
+                                    0,
                                     0,
                                     "\n自動封鎖 : 無法理解的語言",
                                     BaseMessage.GetMessageChatInfo().id,
