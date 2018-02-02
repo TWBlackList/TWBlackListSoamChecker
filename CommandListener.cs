@@ -69,67 +69,67 @@ namespace TWBlackListSoamChecker
                             return new CallbackMessage() { StopProcess = true };
                         new SoamManager().SoamStatus(RawMessage);
                         break;
-                    case "/twkick":
-                        if (Temp.DisableBanList)
-                        {
-                            TgApi.getDefaultApiConnection().sendMessage(
-                                RawMessage.chat.id,
-                                "非常抱歉，目前版本已禁用封鎖用戶的功能，請聯絡管理員開啟此功能。",
-                                RawMessage.message_id
-                                );
-                            break;
-                        }
-                        if (RawMessage.reply_to_message == null)
-                        {
-                            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "請回覆一則訊息", RawMessage.message_id);
-                            return new CallbackMessage();
-                        }
-                        BanUser ban = Temp.GetDatabaseManager().GetUserBanStatus(RawMessage.reply_to_message.from.id);
-                        if (ban.Ban == 0)
-                        {
-                            if (ban.Level == 0)
-                            {
-                                SetActionResult bkick_result = TgApi.getDefaultApiConnection().kickChatMember(
-                                    RawMessage.chat.id,
-                                    RawMessage.reply_to_message.from.id,
-                                    GetTime.GetUnixTime() + 86400
-                                    );
-                                if (bkick_result.ok)
-                                {
-                                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "已移除", RawMessage.message_id);
-                                    return new CallbackMessage();
-                                }
-                                else
-                                {
-                                    TgApi.getDefaultApiConnection().sendMessage(
-                                        RawMessage.chat.id,
-                                        "無法移除，可能是機器人沒有適當的管理員權限。",
-                                        RawMessage.message_id
-                                        );
-                                    return new CallbackMessage();
-                                }
-                            }
-                            else
-                            {
-                                TgApi.getDefaultApiConnection().sendMessage(
-                                    RawMessage.chat.id,
-                                    "無法移除，因為此使用者不在黑名單，請您聯絡群組的管理員處理。" +
-                                    "如果你認為這位使用者將會影響大量群組，您可連絡 @" + Temp.MainChannelName + " 提供的群組。",
-                                    RawMessage.message_id
-                                    );
-                                return new CallbackMessage();
-                            }
-                        }
-                        else
-                        {
-                            TgApi.getDefaultApiConnection().sendMessage(
-                                RawMessage.chat.id,
-                                "無法移除，因為此使用者不在黑名單，請您聯絡群組的管理員處理。" +
-                                "如果你認為這位使用者將會影響大量群組，您可連絡 @" + Temp.MainChannelName + " 提供的群組。",
-                                RawMessage.message_id
-                                );
-                            return new CallbackMessage();
-                        }
+                    //case "/twkick":
+                    //    if (Temp.DisableBanList)
+                    //    {
+                    //        TgApi.getDefaultApiConnection().sendMessage(
+                    //            RawMessage.chat.id,
+                    //            "非常抱歉，目前版本已禁用封鎖用戶的功能，請聯絡管理員開啟此功能。",
+                    //            RawMessage.message_id
+                    //            );
+                    //        break;
+                    //    }
+                    //    if (RawMessage.reply_to_message == null)
+                    //    {
+                    //        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "請回覆一則訊息", RawMessage.message_id);
+                    //        return new CallbackMessage();
+                    //    }
+                    //    BanUser ban = Temp.GetDatabaseManager().GetUserBanStatus(RawMessage.reply_to_message.from.id);
+                    //    if (ban.Ban == 0)
+                    //    {
+                    //        if (ban.Level == 0)
+                    //        {
+                    //            SetActionResult bkick_result = TgApi.getDefaultApiConnection().kickChatMember(
+                    //                RawMessage.chat.id,
+                    //                RawMessage.reply_to_message.from.id,
+                    //                GetTime.GetUnixTime() + 86400
+                    //                );
+                    //            if (bkick_result.ok)
+                    //            {
+                    //                TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "已移除", RawMessage.message_id);
+                    //                return new CallbackMessage();
+                    //            }
+                    //            else
+                    //            {
+                    //                TgApi.getDefaultApiConnection().sendMessage(
+                    //                    RawMessage.chat.id,
+                    //                    "無法移除，可能是機器人沒有適當的管理員權限。",
+                    //                    RawMessage.message_id
+                    //                    );
+                    //                return new CallbackMessage();
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            TgApi.getDefaultApiConnection().sendMessage(
+                    //                RawMessage.chat.id,
+                    //                "無法移除，因為此使用者不在黑名單，請您聯絡群組的管理員處理。" +
+                    //                "如果你認為這位使用者將會影響大量群組，您可連絡 @" + Temp.MainChannelName + " 提供的群組。",
+                    //                RawMessage.message_id
+                    //                );
+                    //            return new CallbackMessage();
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        TgApi.getDefaultApiConnection().sendMessage(
+                    //            RawMessage.chat.id,
+                    //            "無法移除，因為此使用者不在黑名單，請您聯絡群組的管理員處理。" +
+                    //            "如果你認為這位使用者將會影響大量群組，您可連絡 @" + Temp.MainChannelName + " 提供的群組。",
+                    //            RawMessage.message_id
+                    //            );
+                    //        return new CallbackMessage();
+                    //    }
                 }
                 return new CallbackMessage();
             }

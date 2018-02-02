@@ -9,8 +9,7 @@ namespace TWBlackListSoamChecker.CommandObject {
             string groupHelp =  "/leave - 離開群組\n" +
                                 "/soamenable - 啟用功能\n" +
                                 "/soamdisable - 關閉功能\n" +
-                                "/soamstatus - 取得目前群組開啟功能\n" +
-                                "/twkick - 將一個已在封鎖列表內的使用這從群組中移除出去";
+                                "/soamstatus - 取得目前群組開啟功能";
             string privateHelp = "";
             string sharedHelp = "/banstat - 查詢處分狀態\n" + 
                                 "/user - 取得 User ID\n" + 
