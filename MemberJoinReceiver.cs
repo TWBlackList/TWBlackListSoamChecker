@@ -54,12 +54,12 @@ namespace TWBlackListSoamChecker
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "觀迎使用 @" + TgApi.getDefaultApiConnection().getMe().username + "\n" +
-                    "請您進行一些設定 : \n" +
-                    "1.在您的群組中给予 @" + TgApi.getDefaultApiConnection().getMe().username + " 管理員權限\n" +
-                    "2.使用 /soamenable 開啟一些功能\n" +
-                    "3.Enjoy it!\n\n" +
-                    "注: 預設開啟的功能有 BlackList AutoKick AntiHalal SubscribeBanList 這 4 個，您可以根據您的需要來關閉或啟用。",
+                    "歡迎使用 @" + TgApi.getDefaultApiConnection().getMe().username + "\n" +
+                    "1.請在群組中给予 @" + TgApi.getDefaultApiConnection().getMe().username + " 管理員權限\n" +
+                    "2.使用 /help 可查閱使用說明\n" +
+                    "預設開啟的功能有 BlackList AutoKick AntiHalal SubscribeBanList，可以根據需要來調整。\n\n" +
+                    "注意：加入機器人即同意讓渡部分 Ban Users 權限予本項目組，並授權本組依據 @J_Court 置頂規定，代表群管理對群組內成員逕行封鎖\n" +
+                    "如不同意請立即移除此機器人，且禁止違背群主意願私自添加",
                     RawMessage.message_id
                     );
                 return new CallbackMessage();
