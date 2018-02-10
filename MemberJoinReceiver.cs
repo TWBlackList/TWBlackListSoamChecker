@@ -132,7 +132,7 @@ namespace TWBlackListSoamChecker
                     }
                     if (banUser.Level == 0)
                     {
-                        resultmsg += "警告：這個使用者「將會」對群組造成負面影響，已自動封鎖" + banReason + "\n" +
+                        resultmsg += "警告：這個使用者「將會」對群組造成負面影響，已自動封鎖" + RAPI.escapeMarkdown(banReason) + "\n" +
                             "被封鎖的用戶，可以到 [這個群組](https://t.me/J_Court) 尋求申訴";
                         if (groupCfg.AutoKick == 0)
                         {
@@ -152,7 +152,7 @@ namespace TWBlackListSoamChecker
                     }
                     else if (banUser.Level == 1)
                     {
-                        resultmsg += "警告：這個使用者「可能」對群組造成負面影響" + banReason  + "\n" +
+                        resultmsg += "警告：這個使用者「可能」對群組造成負面影響" + RAPI.escapeMarkdown(banReason)  + "\n" +
                             "請群組管理員多加留意\n"+
                             "對於被警告的使用者，你可以通過 [這個群組](https://t.me/J_Court) 以請求解除。";
 
