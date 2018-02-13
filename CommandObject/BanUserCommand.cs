@@ -134,7 +134,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     return true;
                 }
 
-            if (RAPI.getIsInWhitelist(UserID)) 
+            if (RAPI.getIsInWhitelist(RawMessage.GetSendUser().id)) 
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
@@ -143,7 +143,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 );
                 return false;
             }
-            
+
             bool status;
             if (BanUserInfo == null)
                 status = Temp.GetDatabaseManager().BanUser(
