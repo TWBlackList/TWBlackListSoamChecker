@@ -67,7 +67,7 @@ namespace TWBlackListSoamChecker.CommandObject {
         internal bool listWhitelist(TgMessage RawMessage){
             string json = System.IO.File.ReadAllText("config.json");
             dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"SYSOP : \n" + System.String.Join("\n",jsonObj["whitelist"]),RawMessage.message_id);
+            TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"Whitelist : \n" + System.String.Join("\n",jsonObj["whitelist"]),RawMessage.message_id);
             return true;
         }
         
