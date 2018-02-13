@@ -29,6 +29,8 @@ namespace TWBlackListSoamChecker.CommandObject
                 string json = File.ReadAllText("config.json");
                 dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
 
+                int i = 0;
+                bool found = false;
                 foreach (var item in jsonObj["whitelist"])
                 {
                     if (jsonObj["whitelist"][i] == UID_Value)
