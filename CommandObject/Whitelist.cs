@@ -28,6 +28,24 @@ namespace TWBlackListSoamChecker.CommandObject
 
                 string json = File.ReadAllText("config.json");
                 dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+                foreach (var item in jsonObj["whitelist"])
+                {
+                    if (jsonObj["whitelist"][i] == UID_Value)
+                    {
+                        found = true;
+                        break;
+                    }
+
+                    i = i + 1;
+                }
+
+                if(found)
+                {
+                     TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "已經在名單內了!", RawMessage.message_id);
+                     return false;
+                }
+
                 jsonObj["whitelist"].Add(Convert.ToInt32(UID_Value));
                 string output =
                     Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
