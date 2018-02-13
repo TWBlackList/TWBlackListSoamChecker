@@ -1,15 +1,13 @@
-﻿using ReimuAPI.ReimuBase.Interfaces;
-using System;
-using ReimuAPI.ReimuBase.TgData;
+﻿using System;
 using ReimuAPI.ReimuBase;
-using TWBlackListSoamChecker.DbManager;
-using System.Collections.Generic;
-using System.Diagnostics;
+using ReimuAPI.ReimuBase.Interfaces;
+using ReimuAPI.ReimuBase.TgData;
 using TWBlackListSoamChecker.CommandObject;
+using TWBlackListSoamChecker.DbManager;
 
 namespace TWBlackListSoamChecker
 {
-    class CommandListener : ICommandReceiver
+    internal class CommandListener : ICommandReceiver
     {
         public CommandListener()
         {
@@ -28,7 +26,10 @@ namespace TWBlackListSoamChecker
                 if (SharedCommand(RawMessage, JsonMessage, Command)) return new CallbackMessage();
                 return new CallbackMessage();
             }
-            catch (StopProcessException) { return new CallbackMessage() { StopProcess = true }; }
+            catch (StopProcessException)
+            {
+                return new CallbackMessage {StopProcess = true};
+            }
             catch (Exception e)
             {
                 RAPI.GetExceptionListener().OnException(e, JsonMessage);
@@ -41,32 +42,37 @@ namespace TWBlackListSoamChecker
             try
             {
                 GroupCfg cfg = Temp.GetDatabaseManager().GetGroupConfig(RawMessage.chat.id);
-                if (cfg.AdminOnly == 0 && TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) == false && RAPI.getIsBotOP(RawMessage.from.id) == false)
-                {
-                    return new CallbackMessage() {  };
-                }
+                if (cfg.AdminOnly == 0 &&
+                    TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) == false &&
+                    RAPI.getIsBotOP(RawMessage.from.id) == false) return new CallbackMessage();
                 if (SharedCommand(RawMessage, JsonMessage, Command)) return new CallbackMessage();
                 switch (Command)
-                {               
+                {
                     case "/leave":
                         new LeaveCommand().Leave(RawMessage);
-                        break; 
+                        break;
                     case "/soamenable":
-                        if (cfg.AdminOnly == 0 && TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) == false && RAPI.getIsBotOP(RawMessage.from.id) == false)
-                            return new CallbackMessage() { StopProcess = true };
+                        if (cfg.AdminOnly == 0 &&
+                            TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ==
+                            false && RAPI.getIsBotOP(RawMessage.from.id) == false)
+                            return new CallbackMessage {StopProcess = true};
                         new SoamManager().SoamEnable(RawMessage);
                         break;
                     case "/soamdisable":
-                        if (cfg.AdminOnly == 0 && TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) == false && RAPI.getIsBotOP(RawMessage.from.id) == false)
-                            return new CallbackMessage() { StopProcess = true };
+                        if (cfg.AdminOnly == 0 &&
+                            TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ==
+                            false && RAPI.getIsBotOP(RawMessage.from.id) == false)
+                            return new CallbackMessage {StopProcess = true};
                         new SoamManager().SoamDisable(RawMessage);
                         break;
                     case "/__get_exception":
                         throw new Exception();
                     case "/soamstat":
                     case "/soamstatus":
-                        if (cfg.AdminOnly == 0 && TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) == false && RAPI.getIsBotOP(RawMessage.from.id) == false)
-                            return new CallbackMessage() { StopProcess = true };
+                        if (cfg.AdminOnly == 0 &&
+                            TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ==
+                            false && RAPI.getIsBotOP(RawMessage.from.id) == false)
+                            return new CallbackMessage {StopProcess = true};
                         new SoamManager().SoamStatus(RawMessage);
                         break;
                     //case "/twkick":
@@ -131,9 +137,13 @@ namespace TWBlackListSoamChecker
                     //        return new CallbackMessage();
                     //    }
                 }
+
                 return new CallbackMessage();
             }
-            catch (StopProcessException) { return new CallbackMessage() { StopProcess = true }; }
+            catch (StopProcessException)
+            {
+                return new CallbackMessage {StopProcess = true};
+            }
             catch (Exception e)
             {
                 RAPI.GetExceptionListener().OnException(e, JsonMessage);
@@ -160,9 +170,10 @@ namespace TWBlackListSoamChecker
                             RawMessage.chat.id,
                             "非常抱歉，目前版本已禁用封鎖用戶的功能，請聯絡管理員開啟此功能。",
                             RawMessage.message_id
-                            );
+                        );
                         break;
                     }
+
                     return new BanStatus().banstatus(RawMessage);
                 //case "/clickmetobesb"://垃圾功能，之後拔掉，希望不要爆炸！
                 //    TgApi.getDefaultApiConnection().sendMessage(
@@ -172,6 +183,7 @@ namespace TWBlackListSoamChecker
                 //        );
                 //    break;
             }
+
             return new AdminCommand().AdminCommands(RawMessage, JsonMessage, Command);
         }
     }

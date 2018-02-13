@@ -1,23 +1,22 @@
-﻿namespace TWBlackListSoamChecker
+﻿using System;
+
+namespace TWBlackListSoamChecker
 {
-    class ConfigManager
+    internal class ConfigManager
     {
-        private static string ConfigPath = null;
+        private static string ConfigPath;
 
         internal static string GetConfigPath()
         {
             if (ConfigPath == null)
             {
-                string configPath = System.Environment.GetEnvironmentVariable("BOT_CONFIGPATH");
+                string configPath = Environment.GetEnvironmentVariable("BOT_CONFIGPATH");
                 if (configPath == "" || configPath == null)
-                {
                     ConfigPath = @"plugincfg/soamchecker/";
-                }
                 else
-                {
                     ConfigPath = configPath + "/";
-                }
             }
+
             return ConfigPath;
         }
     }

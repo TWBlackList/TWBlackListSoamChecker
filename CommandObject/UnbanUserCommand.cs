@@ -1,10 +1,11 @@
-﻿using ReimuAPI.ReimuBase;
-using ReimuAPI.ReimuBase.TgData;
+﻿using System;
 using System.Collections.Generic;
+using ReimuAPI.ReimuBase;
+using ReimuAPI.ReimuBase.TgData;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
-    class UnbanUserCommand
+    internal class UnbanUserCommand
     {
         internal bool Unban(TgMessage RawMessage)
         {
@@ -22,33 +23,30 @@ namespace TWBlackListSoamChecker.CommandObject
                     "/twunban id=1 reason=\"aaa bbb\\n\\\"ccc\\\" ddd\"\n" +
                     "/twunban",
                     RawMessage.message_id
-                    );
+                );
                 return true;
             }
+
             int BanUserId = 0;
             string Reason;
             UserInfo BanUserInfo = null;
             try
             {
-                Dictionary<string, string> banValues = CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(banSpace + 1));
+                Dictionary<string, string> banValues =
+                    CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(banSpace + 1));
 
                 // 获取使用者信息
                 UserInfo tmpUinfo = new GetValues().GetByTgMessage(banValues, RawMessage);
                 if (tmpUinfo == null) return true; // 如果没拿到使用者信息則代表出现了异常
+
+                BanUserId = tmpUinfo.id;
+                if (tmpUinfo.language_code != null)
+                {
+                    if (tmpUinfo.language_code != "__CAN_NOT_GET_USERINFO__") BanUserInfo = tmpUinfo;
+                }
                 else
                 {
-                    BanUserId = tmpUinfo.id;
-                    if (tmpUinfo.language_code != null)
-                    {
-                        if (tmpUinfo.language_code != "__CAN_NOT_GET_USERINFO__")
-                        {
-                            BanUserInfo = tmpUinfo;
-                        }
-                    }
-                    else
-                    {
-                        BanUserInfo = tmpUinfo;
-                    }
+                    BanUserInfo = tmpUinfo;
                 }
 
                 // 获取 Reason
@@ -61,47 +59,45 @@ namespace TWBlackListSoamChecker.CommandObject
                     RawMessage.GetMessageChatInfo().id,
                     "您的輸入有錯誤，請檢查您的輸入，或使用 /ban 取得幫助 err10",
                     RawMessage.message_id
-                    );
+                );
                 return true;
             }
+
             bool status;
             try
             {
                 if (BanUserInfo == null)
-                {
                     status = Temp.GetDatabaseManager().UnbanUser(
                         RawMessage.GetSendUser().id,
                         BanUserId,
                         Reason
-                        );
-                }
+                    );
                 else
-                {
                     status = Temp.GetDatabaseManager().UnbanUser(
                         RawMessage.GetSendUser().id,
                         BanUserId,
                         Reason,
                         BanUserInfo
-                        );
-                }
+                    );
             }
-            catch (System.InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
                     "操作失敗，這位使用者目前可能没有被封鎖。",
                     RawMessage.message_id
-                    );
+                );
                 return true;
             }
+
             //if (status)
             //{
-                TgApi.getDefaultApiConnection().sendMessage(
-                    RawMessage.GetMessageChatInfo().id,
-                    "操作成功。",
-                    RawMessage.message_id
-                    );
-                return true;
+            TgApi.getDefaultApiConnection().sendMessage(
+                RawMessage.GetMessageChatInfo().id,
+                "操作成功。",
+                RawMessage.message_id
+            );
+            return true;
             //}
             //else
             //{
@@ -117,18 +113,10 @@ namespace TWBlackListSoamChecker.CommandObject
 
         private UserInfo GetUserInfo(TgMessage RawMessage, string from)
         {
-            if (RawMessage.reply_to_message == null)
-            {
-                return null;
-            }
+            if (RawMessage.reply_to_message == null) return null;
             if (from == "r" || from == "reply")
-            {
                 return RawMessage.GetReplyMessage().GetSendUser();
-            }
-            else if (from == "f" || from == "fwd")
-            {
-                return RawMessage.GetForwardedFromUser();
-            }
+            if (from == "f" || from == "fwd") return RawMessage.GetForwardedFromUser();
             return null;
         }
     }

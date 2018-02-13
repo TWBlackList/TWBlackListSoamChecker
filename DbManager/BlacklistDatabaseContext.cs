@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 using ReimuAPI.ReimuBase;
 
 namespace TWBlackListSoamChecker.DbManager
@@ -20,8 +20,8 @@ namespace TWBlackListSoamChecker.DbManager
 
     public class BanUser
     {
-        [Key]
-        public int UserID { get; set; }
+        [Key] public int UserID { get; set; }
+
         public int Ban { get; set; } = 1;
         public int Level { get; set; } = 0;
         public int ChannelMessageID { get; set; } = 0;
@@ -38,30 +38,26 @@ namespace TWBlackListSoamChecker.DbManager
                 string ExpTime = GetTime.GetExpiresTime(Expires);
                 msg = "處分 : ";
                 if (Level == 0)
-                {
                     msg += "封鎖";
-                }
                 else if (Level == 1)
-                {
                     msg += "警告";
-                }
                 else
-                {
                     msg += " : " + Level + " (未知)";
-                }
 
-                if (ExpTime != "永久封鎖"){
+                if (ExpTime != "永久封鎖")
                     msg += "\n時效至 : " + GetTime.GetExpiresTime(Expires);
-                }else{
+                else
                     msg += "\n時效 : 永久";
-                }
-                
+
                 msg += "\n原因 : " + Reason;
 
-                if (ChannelMessageID != 0) msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
+                if (ChannelMessageID != 0)
+                    msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
             }
+
             return msg;
         }
+
         public string GetBanMessage_ESCMD()
         {
             string msg = "未封鎖";
@@ -70,28 +66,23 @@ namespace TWBlackListSoamChecker.DbManager
                 string ExpTime = GetTime.GetExpiresTime(Expires);
                 msg = "處分 : ";
                 if (Level == 0)
-                {
                     msg += "封鎖";
-                }
                 else if (Level == 1)
-                {
                     msg += "警告";
-                }
                 else
-                {
                     msg += " : " + Level + " (未知)";
-                }
 
-                if (ExpTime != "永久封鎖"){
+                if (ExpTime != "永久封鎖")
                     msg += "\n時效至 : " + GetTime.GetExpiresTime(Expires);
-                }else{
+                else
                     msg += "\n時效 : 永久";
-                }
-                
+
                 msg += "\n原因 : " + Reason;
 
-                if (ChannelMessageID != 0) msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
+                if (ChannelMessageID != 0)
+                    msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
             }
+
             msg = RAPI.escapeMarkdown(msg);
             return msg;
         }
@@ -99,8 +90,8 @@ namespace TWBlackListSoamChecker.DbManager
 
     public class BanHistory
     {
-        [Key]
-        public int ID { get; set; }
+        [Key] public int ID { get; set; }
+
         public int UserID { get; set; }
         public int Ban { get; set; } = 0;
         public int Level { get; set; } = 0;
@@ -114,8 +105,8 @@ namespace TWBlackListSoamChecker.DbManager
 
     public class UnbanRequest
     {
-        [Key]
-        public int ID { get; set; }
+        [Key] public int ID { get; set; }
+
         public int UserID { get; set; }
         public int Pass { get; set; }
         public long UserReplyTime { get; set; }
@@ -126,8 +117,8 @@ namespace TWBlackListSoamChecker.DbManager
 
     public class GroupCfg
     {
-        [Key]
-        public long GroupID { get; set; }
+        [Key] public long GroupID { get; set; }
+
         public int AdminOnly { get; set; }
         public int BlackList { get; set; }
         public int AutoKick { get; set; }
@@ -140,8 +131,8 @@ namespace TWBlackListSoamChecker.DbManager
 
     public class UnbanRequestCount
     {
-        [Key]
-        public int UserID { get; set; }
+        [Key] public int UserID { get; set; }
+
         public int RequestCount { get; set; }
         public int RequestLock { get; set; }
     }

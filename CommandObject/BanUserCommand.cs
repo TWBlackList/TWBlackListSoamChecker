@@ -1,6 +1,6 @@
-﻿using ReimuAPI.ReimuBase;
+﻿using System.Collections.Generic;
+using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
-using System.Collections.Generic;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
@@ -25,9 +25,10 @@ namespace TWBlackListSoamChecker.CommandObject
                     "/twban halal\n" +
                     "/twban halal=reply",
                     RawMessage.message_id
-                    );
+                );
                 return true;
             }
+
             int BanUserId = 0;
             long ExpiresTime = 0;
             int Level = 0;
@@ -37,7 +38,6 @@ namespace TWBlackListSoamChecker.CommandObject
             int valLen = value.Length;
             bool NotHalal = true;
             if (valLen >= 5)
-            {
                 if (value.Substring(0, 5) == "halal")
                 {
                     NotHalal = false;
@@ -50,44 +50,38 @@ namespace TWBlackListSoamChecker.CommandObject
                                 RawMessage.GetMessageChatInfo().id,
                                 "您的輸入有錯誤，請檢查您的輸入，或使用 /twban 查詢幫助。 err_a1",
                                 RawMessage.message_id
-                                );
+                            );
                             return true;
                         }
-                        UserInfo tmpUinfo = new GetValues().GetByTgMessage(new Dictionary<string, string> { { "from" , value.Substring(6) } }, RawMessage);
+
+                        UserInfo tmpUinfo =
+                            new GetValues().GetByTgMessage(
+                                new Dictionary<string, string> {{"from", value.Substring(6)}}, RawMessage);
                         if (tmpUinfo == null) return true; // 如果没拿到使用者信息则代表出现了异常
-                        else
-                        {
-                            BanUserId = tmpUinfo.id;
-                            if (tmpUinfo.language_code != null && tmpUinfo.language_code != "__CAN_NOT_GET_USERINFO__")
-                            {
-                                BanUserInfo = tmpUinfo;
-                            }
-                        }
+
+                        BanUserId = tmpUinfo.id;
+                        if (tmpUinfo.language_code != null && tmpUinfo.language_code != "__CAN_NOT_GET_USERINFO__")
+                            BanUserInfo = tmpUinfo;
                     }
                     else
                     {
-                        UserInfo tmpUinfo = new GetValues().GetByTgMessage(new Dictionary<string, string> {  }, RawMessage);
+                        UserInfo tmpUinfo =
+                            new GetValues().GetByTgMessage(new Dictionary<string, string>(), RawMessage);
                         if (tmpUinfo == null) return true; // 如果没拿到使用者信息则代表出现了异常
+
+                        BanUserId = tmpUinfo.id;
+                        if (tmpUinfo.language_code != null)
+                        {
+                            if (tmpUinfo.language_code != "__CAN_NOT_GET_USERINFO__") BanUserInfo = tmpUinfo;
+                        }
                         else
                         {
-                            BanUserId = tmpUinfo.id;
-                            if (tmpUinfo.language_code != null)
-                            {
-                                if (tmpUinfo.language_code != "__CAN_NOT_GET_USERINFO__")
-                                {
-                                    BanUserInfo = tmpUinfo;
-                                }
-                            }
-                            else
-                            {
-                                BanUserInfo = tmpUinfo;
-                            }
+                            BanUserInfo = tmpUinfo;
                         }
                     }
                 }
-            }
+
             if (NotHalal)
-            {
                 try
                 {
                     Dictionary<string, string> banValues = CommandDecoder.cutKeyIsValue(value);
@@ -96,50 +90,39 @@ namespace TWBlackListSoamChecker.CommandObject
                     // 获取使用者信息
                     UserInfo tmpUinfo = new GetValues().GetByTgMessage(banValues, RawMessage);
                     if (tmpUinfo == null) return true; // 如果没拿到使用者信息则代表出现了异常
+
+                    BanUserId = tmpUinfo.id;
+                    if (tmpUinfo.language_code != null)
+                    {
+                        if (tmpUinfo.language_code != "__CAN_NOT_GET_USERINFO__") BanUserInfo = tmpUinfo;
+                    }
                     else
                     {
-                        BanUserId = tmpUinfo.id;
-                        if (tmpUinfo.language_code != null)
-                        {
-                            if (tmpUinfo.language_code != "__CAN_NOT_GET_USERINFO__")
-                            {
-                                BanUserInfo = tmpUinfo;
-                            }
-                        }
-                        else
-                        {
-                            BanUserInfo = tmpUinfo;
-                        }
+                        BanUserInfo = tmpUinfo;
                     }
 
                     // 获取 ExpiresTime
                     long tmpExpiresTime = new GetValues().GetBanUnixTime(banValues, RawMessage);
                     if (tmpExpiresTime == -1) return true; // 如果过期时间是 -1 则代表出现了异常
-                    else ExpiresTime = tmpExpiresTime;
+                    ExpiresTime = tmpExpiresTime;
 
                     // 获取 Level
                     tmpString = banValues.GetValueOrDefault("l", "__invalid__");
-                    if (tmpString == "__invalid__")
-                    {
-                        tmpString = banValues.GetValueOrDefault("level", "0");
-                    }
+                    if (tmpString == "__invalid__") tmpString = banValues.GetValueOrDefault("level", "0");
                     if (!int.TryParse(tmpString, out Level))
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.GetMessageChatInfo().id,
                             "您的輸入有錯誤，請檢查您的輸入，或使用 /twban 查詢幫助。 err8",
                             RawMessage.message_id
-                            );
+                        );
                         return true;
                     }
 
                     // 获取 Reason
                     Reason = new GetValues().GetReason(banValues, RawMessage);
                     if (Reason == null) return true; // 如果 Reason 是 null 则代表出现了异常
-                    if (Reason.ToLower() == "halal")
-                    {
-                        Reason = "無法理解的語言";
-                    }
+                    if (Reason.ToLower() == "halal") Reason = "無法理解的語言";
                 }
                 catch (DecodeException)
                 {
@@ -147,23 +130,20 @@ namespace TWBlackListSoamChecker.CommandObject
                         RawMessage.GetMessageChatInfo().id,
                         "您的輸入有錯誤，請檢查您的輸入，或使用 /twban 查詢幫助 err10",
                         RawMessage.message_id
-                        );
+                    );
                     return true;
                 }
-            }
+
             bool status;
             if (BanUserInfo == null)
-            {
                 status = Temp.GetDatabaseManager().BanUser(
                     RawMessage.GetSendUser().id,
                     BanUserId,
                     Level,
                     ExpiresTime,
                     Reason
-                    );
-            }
+                );
             else
-            {
                 status = Temp.GetDatabaseManager().BanUser(
                     RawMessage.GetSendUser().id,
                     BanUserId,
@@ -173,16 +153,15 @@ namespace TWBlackListSoamChecker.CommandObject
                     RawMessage.GetMessageChatInfo().id,
                     RawMessage.GetReplyMessage().message_id,
                     BanUserInfo
-                    );
-            }
+                );
             //if (status)
             //{
-                TgApi.getDefaultApiConnection().sendMessage(
-                    RawMessage.GetMessageChatInfo().id,
-                    "操作成功。",
-                    RawMessage.message_id
-                    );
-                return true;
+            TgApi.getDefaultApiConnection().sendMessage(
+                RawMessage.GetMessageChatInfo().id,
+                "操作成功。",
+                RawMessage.message_id
+            );
+            return true;
             //}
             //else
             //{

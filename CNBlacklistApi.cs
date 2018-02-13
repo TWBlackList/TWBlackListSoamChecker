@@ -1,14 +1,15 @@
-﻿using ReimuAPI.ReimuBase;
+﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using ReimuAPI.ReimuBase;
 
 namespace TWBlackListSoamChecker
 {
     internal class CNBlacklistApi
     {
-        private static string ApiURL = null;
-        private static string ApiKey = null;
+        private static string ApiURL;
+        private static string ApiKey;
 
         internal static void PostToAPI(int uid, bool ban, int level, long expires, string reason = null)
         {
@@ -17,13 +18,10 @@ namespace TWBlackListSoamChecker
                 string configPath;
                 if (ApiURL == null)
                 {
-                    configPath = System.Environment.GetEnvironmentVariable("CNBLACKLIST_CONFIGPATH");
-                    if (configPath == "" || configPath == null)
-                    {
-                        configPath = "./plugincfg/soamchecker/api.json";
-                    }
+                    configPath = Environment.GetEnvironmentVariable("CNBLACKLIST_CONFIGPATH");
+                    if (configPath == "" || configPath == null) configPath = "./plugincfg/soamchecker/api.json";
                     string configContent = File.ReadAllText(configPath);
-                    PrivateApiConfig data = (PrivateApiConfig)new DataContractJsonSerializer(
+                    PrivateApiConfig data = (PrivateApiConfig) new DataContractJsonSerializer(
                         typeof(PrivateApiConfig)
                     ).ReadObject(
                         new MemoryStream(
@@ -34,27 +32,20 @@ namespace TWBlackListSoamChecker
                     ApiKey = data.ApiKey;
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return;
             }
+
             string realBan;
             if (ban)
-            {
                 realBan = "true";
-            }
             else
-            {
                 realBan = "false";
-            }
             if (reason != null)
-            {
                 reason = "&reason=" + reason;
-            }
             else
-            {
                 reason = "";
-            }
             try
             {
                 string resultMsg = TgApi.getDefaultApiConnection().postWeb(
@@ -64,12 +55,11 @@ namespace TWBlackListSoamChecker
                     "&ban=" + realBan +
                     "&level=" + level +
                     "&expires=" + expires + reason
-                    ).Content;
+                ).Content;
                 if (resultMsg.IndexOf("\"ok\": false") != -1)
-                {
-                    throw new System.Exception("API result = false:\n\n" + resultMsg);
-                }
-            } catch (System.Exception e)
+                    throw new Exception("API result = false:\n\n" + resultMsg);
+            }
+            catch (Exception e)
             {
                 RAPI.GetExceptionListener().OnException(e);
             }

@@ -1,10 +1,7 @@
-﻿using ReimuAPI.ReimuBase;
-using ReimuAPI.ReimuBase.TgData;
-using ReimuAPI.ReimuBase.Interfaces;
-using System;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
-using System.Collections.Generic;
+using ReimuAPI.ReimuBase;
+using ReimuAPI.ReimuBase.TgData;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
@@ -29,12 +26,12 @@ namespace TWBlackListSoamChecker.CommandObject
                     "/suban halal\n" +
                     "/suban halal=reply",
                     RawMessage.message_id
-                    );
+                );
                 return true;
             }
 
             int BanUserId = 0;
-            int[] UsersArray = new int[]{};
+            int[] UsersArray = { };
             long ExpiresTime = 0;
             int Level = 0;
             string Reason = "";
@@ -42,9 +39,8 @@ namespace TWBlackListSoamChecker.CommandObject
             int valLen = value.Length;
             bool NotHalal = true;
             bool status = false;
-            
+
             if (valLen >= 5)
-            {
                 if (value.Substring(0, 5) == "halal")
                 {
                     NotHalal = false;
@@ -57,20 +53,21 @@ namespace TWBlackListSoamChecker.CommandObject
                                 RawMessage.GetMessageChatInfo().id,
                                 "您的輸入有錯誤，請檢查您的輸入，或使用 /cnban 查詢幫助。 err_a1",
                                 RawMessage.message_id
-                                );
+                            );
                             return true;
                         }
-                        UsersArray = new GetValues().GetUserIDs(new Dictionary<string, string> { { "from" , value.Substring(6) } }, RawMessage); 
-                        
+
+                        UsersArray =
+                            new GetValues().GetUserIDs(new Dictionary<string, string> {{"from", value.Substring(6)}},
+                                RawMessage);
                     }
                     else
                     {
-                        UsersArray = new GetValues().GetUserIDs(new Dictionary<string, string> {  }, RawMessage);
+                        UsersArray = new GetValues().GetUserIDs(new Dictionary<string, string>(), RawMessage);
                     }
                 }
-            }
+
             if (NotHalal)
-            {
                 try
                 {
                     Dictionary<string, string> banValues = CommandDecoder.cutKeyIsValue(value);
@@ -82,31 +79,25 @@ namespace TWBlackListSoamChecker.CommandObject
                     // 获取 ExpiresTime
                     long tmpExpiresTime = new GetValues().GetBanUnixTime(banValues, RawMessage);
                     if (tmpExpiresTime == -1) return true; // 如果过期时间是 -1 则代表出现了异常
-                    else ExpiresTime = tmpExpiresTime;
+                    ExpiresTime = tmpExpiresTime;
 
                     // 获取 Level
                     tmpString = banValues.GetValueOrDefault("l", "__invalid__");
-                    if (tmpString == "__invalid__")
-                    {
-                        tmpString = banValues.GetValueOrDefault("level", "0");
-                    }
+                    if (tmpString == "__invalid__") tmpString = banValues.GetValueOrDefault("level", "0");
                     if (!int.TryParse(tmpString, out Level))
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.GetMessageChatInfo().id,
                             "您的輸入有錯誤，請檢查您的輸入，或使用 /cnban 查詢幫助。 err8",
                             RawMessage.message_id
-                            );
+                        );
                         return true;
                     }
 
                     // 获取 Reason
                     Reason = new GetValues().GetReason(banValues, RawMessage);
                     if (Reason == null) return true; // 如果 Reason 是 null 则代表出现了异常
-                    if (Reason.ToLower() == "halal")
-                    {
-                        Reason = "無法理解的語言";
-                    }
+                    if (Reason.ToLower() == "halal") Reason = "無法理解的語言";
                 }
                 catch (DecodeException)
                 {
@@ -114,13 +105,14 @@ namespace TWBlackListSoamChecker.CommandObject
                         RawMessage.GetMessageChatInfo().id,
                         "您的輸入有錯誤，請檢查您的輸入，或使用 /cnban 查詢幫助 err10",
                         RawMessage.message_id
-                        );
+                    );
                     return true;
                 }
-            }
-            
-            new Thread(delegate () { 
-                foreach (int userid in UsersArray){
+
+            new Thread(delegate()
+            {
+                foreach (int userid in UsersArray)
+                {
                     BanUserId = userid;
                     status = Temp.GetDatabaseManager().BanUser(
                         RawMessage.GetSendUser().id,
@@ -131,13 +123,14 @@ namespace TWBlackListSoamChecker.CommandObject
                     );
                     Thread.Sleep(3500);
                 }
+
                 //if (status)
                 //{
-                    TgApi.getDefaultApiConnection().sendMessage(
-                        RawMessage.GetMessageChatInfo().id,
-                        "操作成功。",
-                        RawMessage.message_id
-                        );
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    "操作成功。",
+                    RawMessage.message_id
+                );
                 //}
                 //else
                 //{
@@ -149,8 +142,8 @@ namespace TWBlackListSoamChecker.CommandObject
                 //    return true;
                 //}
                 //return false;
-             }).Start();
-             return true;
+            }).Start();
+            return true;
         }
     }
 }

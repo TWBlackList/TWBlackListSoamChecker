@@ -1,14 +1,12 @@
-﻿using ReimuAPI.ReimuBase;
-using ReimuAPI.ReimuBase.TgData;
-using ReimuAPI.ReimuBase.Interfaces;
-using System;
-using System.Linq;
-using System.Threading;
+﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using ReimuAPI.ReimuBase;
+using ReimuAPI.ReimuBase.TgData;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
-    class UnBanMultiUserCommand
+    internal class UnBanMultiUserCommand
     {
         internal bool UnbanMulti(TgMessage RawMessage)
         {
@@ -26,20 +24,22 @@ namespace TWBlackListSoamChecker.CommandObject
                     "/suunban id=1 reason=\"aaa bbb\\n\\\"ccc\\\" ddd\"\n" +
                     "/suunban",
                     RawMessage.message_id
-                    );
+                );
                 return true;
             }
-            int[] UsersArray = new int[]{};
+
+            int[] UsersArray = { };
             bool status = false;
             int BanUserId = 0;
             string Reason;
             try
             {
-                Dictionary<string, string> banValues = CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(banSpace + 1));
+                Dictionary<string, string> banValues =
+                    CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(banSpace + 1));
 
                 // 获取使用者信息
-                UsersArray = new GetValues().GetUserIDs(banValues, RawMessage); 
-                
+                UsersArray = new GetValues().GetUserIDs(banValues, RawMessage);
+
                 Reason = new GetValues().GetReason(banValues, RawMessage);
                 if (Reason == null) return true; // 如果 Reason 是 null 則代表出现了异常
             }
@@ -49,38 +49,42 @@ namespace TWBlackListSoamChecker.CommandObject
                     RawMessage.GetMessageChatInfo().id,
                     "您的輸入有錯誤，請檢查您的輸入，或使用 /ban 取得幫助 err10",
                     RawMessage.message_id
-                    );
+                );
                 return true;
             }
 
-            new Thread(delegate () { 
-                foreach (int userid in UsersArray){
+            new Thread(delegate()
+            {
+                foreach (int userid in UsersArray)
+                {
                     BanUserId = userid;
                     try
                     {
                         status = Temp.GetDatabaseManager().UnbanUser(
-                                RawMessage.GetSendUser().id,
-                                BanUserId,
-                                Reason
-                                );
+                            RawMessage.GetSendUser().id,
+                            BanUserId,
+                            Reason
+                        );
                     }
-                    catch (System.InvalidOperationException)
+                    catch (InvalidOperationException)
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.GetMessageChatInfo().id,
-                            "操作失敗，這位使用者(" + BanUserId.ToString() + ")目前可能没有被封鎖。",
+                            "操作失敗，這位使用者(" + BanUserId + ")目前可能没有被封鎖。",
                             RawMessage.message_id
-                            );
+                        );
                     }
+
                     Thread.Sleep(3500);
                 }
+
                 //if (status)
                 //{
-                    TgApi.getDefaultApiConnection().sendMessage(
-                        RawMessage.GetMessageChatInfo().id,
-                        "操作成功。",
-                        RawMessage.message_id
-                        );
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    "操作成功。",
+                    RawMessage.message_id
+                );
                 //}
                 //else
                 //{
@@ -91,8 +95,8 @@ namespace TWBlackListSoamChecker.CommandObject
                 //        );
                 //    return true;
                 //}
-             }).Start();
-             return true;
+            }).Start();
+            return true;
         }
     }
 }
