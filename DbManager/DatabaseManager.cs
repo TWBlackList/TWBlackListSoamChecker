@@ -30,6 +30,9 @@ namespace TWBlackListSoamChecker.DbManager
             UserInfo userinfo = null
             )
         {
+            if(RAPI.getIsInWhitelist(UserID)){
+                return false;
+            }
             bool finalResult = true;
             string banmsg = "";
             SendMessageResult result = null;

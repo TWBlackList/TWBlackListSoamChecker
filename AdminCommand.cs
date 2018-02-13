@@ -11,69 +11,61 @@ namespace TWBlackListSoamChecker
         {
             if (!RAPI.getIsBotAdmin(RawMessage.GetSendUser().id))
             {
-                
-        if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
-            switch (Command)
-            {
-                case "/say":
-                    new BroadCast().BroadCast_Status(RawMessage);
-                    throw new StopProcessException();
-                case "/addop":
-                    if (Temp.DisableBanList)
+                if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
+                    switch (Command)
                     {
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
-                        break;
+                        case "/say":
+                            new BroadCast().BroadCast_Status(RawMessage);
+                            throw new StopProcessException();
+                        case "/addop":
+                            if (Temp.DisableBanList)
+                            {
+                                TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
+                                break;
+                            }
+                            new OP().addOP(RawMessage);
+                            throw new StopProcessException();
+                        case "/delop":
+                            if (Temp.DisableBanList)
+                            {
+                                TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
+                                break;
+                            }
+                            new OP().delOP(RawMessage);
+                            throw new StopProcessException();
                     }
-                    new OP().AddOP(RawMessage);
-                    throw new StopProcessException();
-                case "/delop":
-                    if (Temp.DisableBanList)
-                    {
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
-                        break;
-                    }
-                    new OP().DelOP(RawMessage);
-                    throw new StopProcessException();
-
-            }
-            return false;}else{return false;}
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
             }
             switch (Command)
-            {
+            {                
                 case "/say":
                     new BroadCast().BroadCast_Status(RawMessage);
                     throw new StopProcessException();
                 case "/sdall":
-                    if (Temp.DisableBanList)
-                    {
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
-                        break;
-                    }
                     new OP().SDAll(RawMessage);
                     throw new StopProcessException();
                 case "/seall":
-                    if (Temp.DisableBanList)
-                    {
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
-                        break;
-                    }
                     new OP().SEAll(RawMessage);
                     throw new StopProcessException();
                 case "/addop":
-                    if (Temp.DisableBanList)
-                    {
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
-                        break;
-                    }
-                    new OP().AddOP(RawMessage);
+                    new OP().addOP(RawMessage);
                     throw new StopProcessException();
                 case "/delop":
-                    if (Temp.DisableBanList)
-                    {
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,Disabled_Ban_Msg,RawMessage.message_id);
-                        break;
-                    }
-                    new OP().DelOP(RawMessage);
+                    new OP().delOP(RawMessage);
+                    throw new StopProcessException();
+                case "/addwl":
+                    new Whitelist().addWhitelist(RawMessage);
+                    throw new StopProcessException();
+                case "/delwl":
+                    new Whitelist().deleteWhitelist(RawMessage);
+                    throw new StopProcessException();
+                case "/lswl":
+                    new Whitelist().listWhitelist(RawMessage);
                     throw new StopProcessException();
                 case "/suban":
                     if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){

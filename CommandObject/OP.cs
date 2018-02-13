@@ -9,7 +9,7 @@ using System.Threading;
 namespace TWBlackListSoamChecker.CommandObject {
     internal class OP {
 
-        internal bool AddOP(TgMessage RawMessage){
+        internal bool addOP(TgMessage RawMessage){
             if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                 string UID_Value = RawMessage.text.Replace("/addop","").Replace(" ","");
                 if (UID_Value.Length < 5){
@@ -31,7 +31,7 @@ namespace TWBlackListSoamChecker.CommandObject {
             return true;
         }
 
-        internal bool DelOP(TgMessage RawMessage){
+        internal bool delOP(TgMessage RawMessage){
             if (RAPI.getIsBotOP(RawMessage.GetSendUser().id)){
                 string UID_Value = RawMessage.text.Replace("/delop","").Replace(" ","");;
                 if (UID_Value.Length < 5){
@@ -69,7 +69,7 @@ namespace TWBlackListSoamChecker.CommandObject {
             return true;
         }
 
-        internal bool LsOP(TgMessage RawMessage){
+        internal bool lsOP(TgMessage RawMessage){
             string json = System.IO.File.ReadAllText("config.json");
             dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,"SYSOP : \n" + System.String.Join("\n",jsonObj["admin_list"]),RawMessage.message_id);

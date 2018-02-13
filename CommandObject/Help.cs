@@ -44,6 +44,9 @@ namespace TWBlackListSoamChecker.CommandObject {
                                 "/delspamstr - 刪除 1 個自動規則\n" +
                                 "/getspamstr - 查看自動規則列表\n" +
                                 "/say - 廣播\n" +
+                                "/addwl - 新增使用者至白名單\n" +
+                                "/delwl - 從白名單中刪除使用者\n" +
+                                "/lswl - 取得白名單列表\n" +
                                 "/addop - 新增 Operator\n" +
                                 "/delop - 解除 Operator";
             }

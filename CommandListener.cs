@@ -148,7 +148,7 @@ namespace TWBlackListSoamChecker
                 case "/user":
                     return new UserCommand().User(RawMessage);
                 case "/lsop":
-                    return new OP().LsOP(RawMessage);
+                    return new OP().lsOP(RawMessage);
                 case "/help":
                     return new Help().HelpStatus(RawMessage);
                 case "/banstat":
