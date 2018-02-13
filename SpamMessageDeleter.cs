@@ -276,11 +276,12 @@ namespace TWBlackListSoamChecker
                             );
                 }).Start();
             }
-            if (smsg.AutoDelete)
-                new Task(() =>
-                {
+            if (smsg.AutoDelete){
+                new Thread(delegate () {
+                    Thread.Sleep(5000);
                     TgApi.getDefaultApiConnection().deleteMessage(ChatID, MsgID);
                 }).Start();
+            }
             if (smsg.AutoKick)
                 new Task(() =>
                 {
