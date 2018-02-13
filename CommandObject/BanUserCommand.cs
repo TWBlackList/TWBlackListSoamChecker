@@ -134,6 +134,16 @@ namespace TWBlackListSoamChecker.CommandObject
                     return true;
                 }
 
+            if (RAPI.getIsInWhitelist(UserID)) 
+            {
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    "操作失敗：使用者在白名單",
+                    RawMessage.message_id
+                );
+                return false;
+            }
+            
             bool status;
             if (BanUserInfo == null)
                 status = Temp.GetDatabaseManager().BanUser(

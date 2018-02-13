@@ -121,6 +121,14 @@ namespace TWBlackListSoamChecker.CommandObject
                         ExpiresTime,
                         Reason
                     );
+                    if (RAPI.getIsInWhitelist(UserID)) 
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(
+                            RawMessage.GetSendUser().id,
+                            "操作失敗：使用者在白名單 UID" + RawMessage.GetSendUser().id.toString(),
+                            RawMessage.message_id
+                        );
+                    }
                     Thread.Sleep(3500);
                 }
 
