@@ -164,8 +164,9 @@ namespace TWBlackListSoamChecker
                         //        BaseMessage.message_id);
                         //}).Start();
                         //ProcessMessage (Ban Blacklist Delete kick mute)
+
                         ProcessMessage(smsg, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id,
-                            BaseMessage.GetSendUser());
+                            BaseMessage.GetSendUser(),points);
 
                         BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
 
@@ -237,7 +238,7 @@ namespace TWBlackListSoamChecker
             throw new NotImplementedException();
         }
 
-        private void ProcessMessage(SpamMessage smsg, int MsgID, long ChatID, UserInfo SendUserInfo)
+        private void ProcessMessage(SpamMessage smsg, int MsgID, long ChatID, UserInfo SendUserInfo, int point)
         {
             long banUtilTime;
             if (smsg.BanDays == 0 && smsg.BanHours == 0 && smsg.BanMinutes == 0)
@@ -263,7 +264,7 @@ namespace TWBlackListSoamChecker
                         SendUserInfo.id,
                         smsg.BanLevel,
                         banUtilTime,
-                        "自動封鎖 - " + smsg.FriendlyName,
+                        "自動封鎖 - " + smsg.FriendlyName + "\n分數 : " + point.ToString(),
                         ChatID,
                         MsgID,
                         SendUserInfo
