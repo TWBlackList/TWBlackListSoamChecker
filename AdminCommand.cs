@@ -1,4 +1,4 @@
-﻿using CNBlackListSoamChecker.CommandObject;
+﻿using TWBlackListSoamChecker.CommandObject;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 
@@ -97,7 +97,7 @@ namespace TWBlackListSoamChecker
 
                     new BanUserCommand().Ban(RawMessage, JsonMessage, Command);
                     throw new StopProcessException();
-                case "/cnban":
+                case "/twban":
                     if (Temp.DisableBanList || Temp.DisableAdminTools)
                     {
                         TgApi.getDefaultApiConnection()
@@ -136,7 +136,7 @@ namespace TWBlackListSoamChecker
 
                     new UnbanUserCommand().Unban(RawMessage);
                     throw new StopProcessException();
-                case "/cnunban":
+                case "/twunban":
                     if (Temp.DisableBanList)
                     {
                         TgApi.getDefaultApiConnection()

@@ -48,6 +48,9 @@ namespace TWBlackListSoamChecker.CommandObject
                                "/addwl - 新增使用者至白名單\n" +
                                "/delwl - 從白名單中刪除使用者\n" +
                                "/lswl - 取得白名單列表\n" +
+                               "/block - 新增群組至禁止使用名單\n" +
+                               "/unblock - 從禁止使用名單中刪除群組\n" +
+                               "/blocks - 取得禁止使用名單\n" +
                                "/addop - 新增 Operator\n" +
                                "/delop - 解除 Operator";
             TgApi.getDefaultApiConnection()
