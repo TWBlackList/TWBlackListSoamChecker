@@ -30,14 +30,14 @@ namespace TWBlackListSoamChecker.CommandObject
                     break;
             }
 
-            if (RAPI.getIsBotAdmin(RawMessage.from.id))
+            if (RAPI.getIsBotOP(RawMessage.from.id))
                 finalHelpMsg = finalHelpMsg + "\n\nOperator指令:\n" +
                                "/twban - 封鎖\n" +
                                "/ban - 封鎖\n" +
                                "/twunban - 解除封鎖\n" +
                                "/unban - 解除封鎖\n" +
                                "/getspampoints - 測試關鍵字";
-            if (RAPI.getIsBotSYSOP(RawMessage.from.id))
+            if (RAPI.getIsBotAdmin(RawMessage.from.id))
                 finalHelpMsg = finalHelpMsg + "\n\nAdmin指令:\n" +
                                "/suban - 批次封鎖\n" +
                                "/suunban - 批次解除封鎖\n" +

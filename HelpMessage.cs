@@ -29,7 +29,7 @@ namespace TWBlackListSoamChecker
                     break;
             }
 
-            if (RAPI.getIsBotAdmin(RawMessage.from.id))
+            if (RAPI.getIsBotOP(RawMessage.from.id))
                 finalHelpMsg = finalHelpMsg + "\n\nOP指令:\n" +
                                "/twban - 封鎖\n" +
                                "/twunban - 解除封鎖\n" +
