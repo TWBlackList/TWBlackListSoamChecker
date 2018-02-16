@@ -78,7 +78,7 @@ namespace TWBlackListSoamChecker
                 if (banUser.Ban == 0)
                 {
                     string resultmsg = "這位使用者被封鎖了";
-                    resultmsg += "，原因 : \n" + banUser.Reason + "\nID : " + JoinedUser.id;
+                    resultmsg += "，原因 : \n" + RAPI.escapeMarkdown(banUser.Reason) + "\nID : " + JoinedUser.id;
                     if (banUser.ChannelMessageID != 0)
                         resultmsg += "\n參考 : https://t.me/" + Temp.MainChannelName + "/" + banUser.ChannelMessageID ;
                     TgApi.getDefaultApiConnection().sendMessage(
