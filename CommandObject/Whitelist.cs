@@ -9,7 +9,7 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool addWhitelist(TgMessage RawMessage)
         {
-            if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+            if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
             {
                 string UID_Value = RawMessage.text.Replace("/addwl", "").Replace(" ", "");
                 if (UID_Value.Length < 5)
@@ -73,7 +73,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         internal bool deleteWhitelist(TgMessage RawMessage)
         {
-            if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+            if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
             {
                 string UID_Value = RawMessage.text.Replace("/delwl", "").Replace(" ", "");
                 ;

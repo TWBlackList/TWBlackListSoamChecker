@@ -13,7 +13,7 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool addOP(TgMessage RawMessage)
         {
-            if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+            if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
             {
                 string UID_Value = RawMessage.text.Replace("/addop", "").Replace(" ", "");
                 if (UID_Value.Length < 5)
@@ -57,7 +57,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         internal bool delOP(TgMessage RawMessage)
         {
-            if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+            if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
             {
                 string UID_Value = RawMessage.text.Replace("/delop", "").Replace(" ", "");
                 ;
@@ -152,7 +152,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         internal bool SoamDisable_All(TgMessage RawMessage)
         {
-            if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+            if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
             {
                 string enabled = "";
                 string groupChatID = "";
@@ -255,7 +255,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         internal bool SoamEnable_All(TgMessage RawMessage)
         {
-            if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+            if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
             {
                 string enabled = "";
                 string otherMsg = "";

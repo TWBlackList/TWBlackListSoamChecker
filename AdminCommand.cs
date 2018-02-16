@@ -11,7 +11,7 @@ namespace TWBlackListSoamChecker
         internal bool AdminCommands(TgMessage RawMessage, string JsonMessage, string Command)
         {
             if (!RAPI.getIsBotAdmin(RawMessage.GetSendUser().id))
-                if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+                if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
                 {
                     switch (Command)
                     {
@@ -74,7 +74,7 @@ namespace TWBlackListSoamChecker
                     new Whitelist().listWhitelist(RawMessage);
                     throw new StopProcessException();
                 case "/suban":
-                    if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+                    if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
                     {
                         if (Temp.DisableBanList)
                         {
@@ -113,7 +113,7 @@ namespace TWBlackListSoamChecker
                     new BanUserCommand().Ban(RawMessage, JsonMessage, Command);
                     throw new StopProcessException();
                 case "/suunban":
-                    if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+                    if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
                     {
                         if (Temp.DisableBanList)
                         {
@@ -152,7 +152,7 @@ namespace TWBlackListSoamChecker
                     new UnbanUserCommand().Unban(RawMessage);
                     throw new StopProcessException();
                 case "/getspamstr":
-                    if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+                    if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
                     {
                         if (Temp.DisableBanList)
                         {
@@ -191,7 +191,7 @@ namespace TWBlackListSoamChecker
                     //new SpamStringManager().GetAllInfo(RawMessage);
                     return true;
                 case "/addspamstr":
-                    if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+                    if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
                     {
                         if (Temp.DisableBanList)
                         {
@@ -210,7 +210,7 @@ namespace TWBlackListSoamChecker
 
                     throw new StopProcessException();
                 case "/delspamstr":
-                    if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+                    if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
                     {
                         if (Temp.DisableBanList)
                         {

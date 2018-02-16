@@ -37,7 +37,7 @@ namespace TWBlackListSoamChecker.CommandObject
                                "/twunban - 解除封鎖\n" +
                                "/unban - 解除封鎖\n" +
                                "/getspampoints - 測試關鍵字";
-            if (RAPI.getIsBotOP(RawMessage.from.id))
+            if (RAPI.getIsBotSYSOP(RawMessage.from.id))
                 finalHelpMsg = finalHelpMsg + "\n\nAdmin指令:\n" +
                                "/suban - 批次封鎖\n" +
                                "/suunban - 批次解除封鎖\n" +

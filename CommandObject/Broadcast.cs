@@ -19,7 +19,7 @@ namespace TWBlackListSoamChecker.CommandObject
         internal bool BC(TgMessage RawMessage)
         {
             string Msg = RawMessage.text.Replace("/say", "");
-            if (RAPI.getIsBotOP(RawMessage.GetSendUser().id))
+            if (RAPI.getIsBotSYSOP(RawMessage.GetSendUser().id))
             {
                 Console.WriteLine("Broadcasting " + Msg + " ......");
                 using (var db = new BlacklistDatabaseContext())

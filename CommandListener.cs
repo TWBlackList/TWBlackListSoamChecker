@@ -44,7 +44,7 @@ namespace TWBlackListSoamChecker
                 GroupCfg cfg = Temp.GetDatabaseManager().GetGroupConfig(RawMessage.chat.id);
                 if (cfg.AdminOnly == 0 &&
                     TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) == false &&
-                    RAPI.getIsBotOP(RawMessage.from.id) == false) return new CallbackMessage();
+                    RAPI.getIsBotSYSOP(RawMessage.from.id) == false) return new CallbackMessage();
                 if (SharedCommand(RawMessage, JsonMessage, Command)) return new CallbackMessage();
                 switch (Command)
                 {
@@ -54,14 +54,14 @@ namespace TWBlackListSoamChecker
                     case "/soamenable":
                         if (cfg.AdminOnly == 0 &&
                             TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ==
-                            false && RAPI.getIsBotOP(RawMessage.from.id) == false)
+                            false && RAPI.getIsBotSYSOP(RawMessage.from.id) == false)
                             return new CallbackMessage {StopProcess = true};
                         new SoamManager().SoamEnable(RawMessage);
                         break;
                     case "/soamdisable":
                         if (cfg.AdminOnly == 0 &&
                             TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ==
-                            false && RAPI.getIsBotOP(RawMessage.from.id) == false)
+                            false && RAPI.getIsBotSYSOP(RawMessage.from.id) == false)
                             return new CallbackMessage {StopProcess = true};
                         new SoamManager().SoamDisable(RawMessage);
                         break;
@@ -71,7 +71,7 @@ namespace TWBlackListSoamChecker
                     case "/soamstatus":
                         if (cfg.AdminOnly == 0 &&
                             TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ==
-                            false && RAPI.getIsBotOP(RawMessage.from.id) == false)
+                            false && RAPI.getIsBotSYSOP(RawMessage.from.id) == false)
                             return new CallbackMessage {StopProcess = true};
                         new SoamManager().SoamStatus(RawMessage);
                         break;
