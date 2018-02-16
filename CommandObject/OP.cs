@@ -18,14 +18,8 @@ namespace TWBlackListSoamChecker.CommandObject
                 string UID_Value = RawMessage.text.Replace("/addop", "").Replace(" ", "");
                 if (UID_Value.Length < 5)
                 {
-                    try
-                    {
                         TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "使用方法 : /addop UID",
                             RawMessage.message_id);
-                    }
-                    catch
-                    {
-                    }
 
                     return false;
                 }
@@ -36,13 +30,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 string output =
                     Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                 File.WriteAllText("config.json", output);
-                try
-                {
                     TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "新增成功!", RawMessage.message_id);
-                }
-                catch
-                {
-                }
 
                 RAPI.reloadConfig();
             }
@@ -63,14 +51,8 @@ namespace TWBlackListSoamChecker.CommandObject
                 ;
                 if (UID_Value.Length < 5)
                 {
-                    try
-                    {
                         TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "使用方法 : /delop UID",
                             RawMessage.message_id);
-                    }
-                    catch
-                    {
-                    }
 
                     return false;
                 }
@@ -98,26 +80,14 @@ namespace TWBlackListSoamChecker.CommandObject
                     string output =
                         Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                     File.WriteAllText("config.json", output);
-                    try
-                    {
                         TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "刪除成功!", RawMessage.message_id);
-                    }
-                    catch
-                    {
-                    }
 
                     RAPI.reloadConfig();
                 }
                 else
                 {
-                    try
-                    {
                         TgApi.getDefaultApiConnection()
                             .sendMessage(RawMessage.chat.id, "找不到OP!", RawMessage.message_id);
-                    }
-                    catch
-                    {
-                    }
                 }
             }
             else
@@ -134,7 +104,7 @@ namespace TWBlackListSoamChecker.CommandObject
             string json = File.ReadAllText("config.json");
             dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,
-                "SYSOP : \n" + string.Join("\n", jsonObj["admin_list"]), RawMessage.message_id);
+                "OP : \n" + string.Join("\n", jsonObj["op_list"]), RawMessage.message_id);
             return true;
         }
 
