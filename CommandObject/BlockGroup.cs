@@ -129,7 +129,7 @@ namespace TWBlackListSoamChecker.CommandObject
             string json = File.ReadAllText("config.json");
             dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,
-                "BlockGroup : \n" + string.Join("\n", jsonObj["blockgroup_list"]), RawMessage.message_id);
+                "Block List : \n" + string.Join("\n", jsonObj["blockgroup_list"]), RawMessage.message_id);
             return true;
         }
     }
