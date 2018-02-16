@@ -39,6 +39,11 @@ namespace TWBlackListSoamChecker.DbManager
             if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0)
             {
                 result = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID);
+                if(result.ok)
+                {
+                    ReasonID = result.result.message_id;  
+                    result = null;  
+                }
             }
 
             int ChannelReasonID = 0;
@@ -78,7 +83,7 @@ namespace TWBlackListSoamChecker.DbManager
                     banmsg += "\n時效 : 永久";
                 banmsg += "\n原因 : " + Reason;
                 banmsg += "\nOID : " + AdminID + "\n";
-                if (Temp.ReasonChannelID != 0 && ReasonID != 0)
+                if (Temp.ReasonChannelID != 0 && ReasonID != 0 && Temp.ReasonChannelName != null)
                     banmsg += "\n\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
                 else if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0) finalResult = false;
 
