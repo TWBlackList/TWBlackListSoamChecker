@@ -46,7 +46,6 @@ namespace TWBlackListSoamChecker.DbManager
                 }
             }
 
-            int ChannelReasonID = 0;
             if (Temp.MainChannelID != 0)
             {
                 if (userinfo == null)
@@ -87,13 +86,12 @@ namespace TWBlackListSoamChecker.DbManager
                     banmsg += "\n\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
                 else if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0) finalResult = false;
 
-                banmsg += "\n\n";
+                banmsg += "\n";
                 banmsg += TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();
 
-                ChangeDbBan(AdminID, UserID, Level, Expires, Reason, ChannelReasonID, ReasonID);
-                TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg);
+                int ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg).result.message_id;
             }
-
+            ChangeDbBan(AdminID, UserID, Level, Expires, Reason, ChannelReasonID, ReasonID);
             CNBlacklistApi.PostToAPI(UserID, true, Level, Expires, Reason);
             return finalResult;
         }
