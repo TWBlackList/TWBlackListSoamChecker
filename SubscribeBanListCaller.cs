@@ -58,7 +58,7 @@ namespace TWBlackListSoamChecker
                                 );
                         }
 
-                    Thread.Sleep(3000);
+                    Thread.Sleep(1500);
                 }
             }
         }
