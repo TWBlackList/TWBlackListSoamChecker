@@ -67,7 +67,7 @@ namespace TWBlackListSoamChecker
             }
 
             if (Temp.DisableBanList) return new CallbackMessage();
-            if (RawMessage.GetMessageChatInfo().id == Temp.ReportGroupID)
+            if (Temp.ReportGroupName != null & RawMessage.GetMessageChatInfo().username == Temp.ReportGroupName)
             {
                 BanUser banUser = dbmgr.GetUserBanStatus(JoinedUser.id);
                 if (banUser.Ban == 0)
