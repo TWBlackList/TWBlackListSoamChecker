@@ -81,7 +81,7 @@ namespace TWBlackListSoamChecker.DbManager
                 
                 msg = RAPI.escapeMarkdown(msg);
 
-                if (ChannelMessageID != 0)
+                if (ChannelMessageID != 0 && Temp.MainChannelName != null)
                     msg += "\n\n參考: https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
             }
 
