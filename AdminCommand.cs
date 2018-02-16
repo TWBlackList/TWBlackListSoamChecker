@@ -1,6 +1,6 @@
-﻿using ReimuAPI.ReimuBase;
+﻿using CNBlackListSoamChecker.CommandObject;
+using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
-using TWBlackListSoamChecker.CommandObject;
 
 namespace TWBlackListSoamChecker
 {
@@ -19,23 +19,9 @@ namespace TWBlackListSoamChecker
                             new BroadCast().BroadCast_Status(RawMessage);
                             throw new StopProcessException();
                         case "/addop":
-                            if (Temp.DisableBanList)
-                            {
-                                TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, Disabled_Ban_Msg,
-                                    RawMessage.message_id);
-                                break;
-                            }
-
                             new OP().addOP(RawMessage);
                             throw new StopProcessException();
                         case "/delop":
-                            if (Temp.DisableBanList)
-                            {
-                                TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, Disabled_Ban_Msg,
-                                    RawMessage.message_id);
-                                break;
-                            }
-
                             new OP().delOP(RawMessage);
                             throw new StopProcessException();
                     }
@@ -73,6 +59,15 @@ namespace TWBlackListSoamChecker
                 case "/lswl":
                     new Whitelist().listWhitelist(RawMessage);
                     throw new StopProcessException();
+                case "/block":
+                    new BlockGroup().addBlockGroup(RawMessage);
+                    throw new StopProcessException();
+                case "/unblock":
+                    new BlockGroup().deleteBlockGroup(RawMessage);
+                    throw new StopProcessException();
+                case "/blocks":
+                    new BlockGroup().listBlockGroup(RawMessage);
+                    throw new StopProcessException();
                 case "/suban":
                     if (RAPI.getIsBotAdmin(RawMessage.GetSendUser().id))
                     {
@@ -102,7 +97,7 @@ namespace TWBlackListSoamChecker
 
                     new BanUserCommand().Ban(RawMessage, JsonMessage, Command);
                     throw new StopProcessException();
-                case "/twban":
+                case "/cnban":
                     if (Temp.DisableBanList || Temp.DisableAdminTools)
                     {
                         TgApi.getDefaultApiConnection()
@@ -141,7 +136,7 @@ namespace TWBlackListSoamChecker
 
                     new UnbanUserCommand().Unban(RawMessage);
                     throw new StopProcessException();
-                case "/twunban":
+                case "/cnunban":
                     if (Temp.DisableBanList)
                     {
                         TgApi.getDefaultApiConnection()

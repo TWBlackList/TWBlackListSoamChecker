@@ -12,18 +12,15 @@ namespace TWBlackListSoamChecker.CommandObject
             if (RAPI.getIsBotAdmin(RawMessage.GetSendUser().id))
             {
                 string ChatID_Value = RawMessage.text.Replace("/block", "").Replace(" ", "");
-                if (ChatID_Value.Length < 5)
+                if (ChatID_Value.Length < 10)
                 {
-                    try
-                    {
-                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "使用方法 : /block ChatID",
-                            RawMessage.message_id);
-                    }
-                    catch
-                    {
-                    }
-
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "使用方法 : /block ChatID",
+                        RawMessage.message_id);
                     return false;
+                }
+                if(ChatID_Value.Length == 10)
+                {
+                    ChatID_Value = "-100" + ChatID_Value;
                 }
 
                 string json = File.ReadAllText("config.json");
@@ -74,15 +71,18 @@ namespace TWBlackListSoamChecker.CommandObject
             if (RAPI.getIsBotAdmin(RawMessage.GetSendUser().id))
             {
                 string ChatID_Value = RawMessage.text.Replace("/unblock", "").Replace(" ", "");
-                ;
-                if (ChatID_Value.Length < 5)
+                
+                if (ChatID_Value.Length < 10)
                 {
-                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "使用方法 : /unblock ChatID",
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "使用方法 : /block ChatID",
                         RawMessage.message_id);
-
                     return false;
                 }
-
+                if(ChatID_Value.Length == 10)
+                {
+                    ChatID_Value = "-100" + ChatID_Value;
+                }
+                
                 string json = File.ReadAllText("config.json");
                 dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
 
@@ -129,7 +129,7 @@ namespace TWBlackListSoamChecker.CommandObject
             string json = File.ReadAllText("config.json");
             dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,
-                "BlockGroup : \n" + string.Join("\n", jsonObj["blockgroup_list"]), RawMessage.message_id);
+                "Whitelist : \n" + string.Join("\n", jsonObj["blockgroup_list"]), RawMessage.message_id);
             return true;
         }
     }
