@@ -37,16 +37,10 @@ namespace TWBlackListSoamChecker.DbManager
             SendMessageResult result = null;
             int ReasonID = 0;
             int ChannelReasonID = 0;
-            if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0)
+            if(Temp.ReasonChannelID != 0 , ChatID != 0 ,MessageID != 0)
             {
-                try{
-                    result = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID);
-                    if(result.ok)
-                    {
-                        ReasonID = result.result.message_id;  
-                        result = null;  
-                    }
-                }catch{}
+                ReasonID = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID).result.message_id;
+                result = null;
             }
 
             if (Temp.MainChannelID != 0)
