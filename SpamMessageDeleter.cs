@@ -123,10 +123,10 @@ namespace TWBlackListSoamChecker
             // ALTI HALAL AND INDIA END
 
             // AUTO DELETE SPAM MESSAGE START
-            int max_point = 0;
-            SpamMessage max_point_spam;
             if (Temp.DisableBanList == false && cfg.AutoDeleteSpamMessage == 0)
             {
+                int max_point = 0;
+                SpamMessage max_point_spam = new SpamMessage();
                 List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
                 foreach (SpamMessage smsg in spamMsgList)
                 {
@@ -174,36 +174,35 @@ namespace TWBlackListSoamChecker
 
                     }
                 }
-            }
+                if(max_point > 0){
+                    ProcessMessage(max_point_spam, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id,
+                    BaseMessage.GetSendUser(),max_point);
 
-            if(max_point > 0){
-                ProcessMessage(max_point_spam, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id,
-                BaseMessage.GetSendUser(),max_point);
+                    BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
 
-                BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
-
-                if (banstat.Ban == 0)
-                    TgApi.getDefaultApiConnection().kickChatMember(
-                        BaseMessage.GetMessageChatInfo().id,
-                        BaseMessage.GetSendUser().id,
-                        GetTime.GetUnixTime() + 86400
-                );
-                //Send alert and delete alert after 60 second
-                new Thread(delegate()
-                {
-                    SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
-                        .sendMessage(
-                        BaseMessage.GetMessageChatInfo().id,
-                        "偵測到 " + smsg.FriendlyName +
-                        " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
+                    if (banstat.Ban == 0)
+                        TgApi.getDefaultApiConnection().kickChatMember(
+                            BaseMessage.GetMessageChatInfo().id,
+                            BaseMessage.GetSendUser().id,
+                            GetTime.GetUnixTime() + 86400
                     );
-                    Thread.Sleep(60000);
-                    TgApi.getDefaultApiConnection().deleteMessage(
-                        autodeletespammessagesendresult.result.chat.id,
-                        autodeletespammessagesendresult.result.message_id
-                    );
-                }).Start();
-                return new CallbackMessage {StopProcess = true};
+                    //Send alert and delete alert after 60 second
+                    new Thread(delegate()
+                    {
+                        SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
+                            .sendMessage(
+                            BaseMessage.GetMessageChatInfo().id,
+                            "偵測到 " + max_point_spam.FriendlyName +
+                            " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
+                        );
+                        Thread.Sleep(60000);
+                        TgApi.getDefaultApiConnection().deleteMessage(
+                            autodeletespammessagesendresult.result.chat.id,
+                            autodeletespammessagesendresult.result.message_id
+                        );
+                    }).Start();
+                    return new CallbackMessage {StopProcess = true};
+                }
             }
             // AUTO DELETE SPAM MESSAGE END
 
