@@ -3,6 +3,7 @@ using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.Interfaces;
 using ReimuAPI.ReimuBase.TgData;
 using TWBlackListSoamChecker.DbManager;
+using System.Threading;
 
 namespace TWBlackListSoamChecker
 {
@@ -54,8 +55,12 @@ namespace TWBlackListSoamChecker
             if (JoinedUser.id == TgApi.getDefaultApiConnection().getMe().id)
             {
                 if(RAPI.getIsBlockGroup(RawMessage.GetMessageChatInfo().id)){
-                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, "此群組禁止使用本服務。");
-                    TgApi.getDefaultApiConnection().leaveChat(RawMessage.GetMessageChatInfo().id);
+                    new Thread(delegate()
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, "此群組禁止使用本服務。");
+                        Thread.Sleep(2000);
+                        TgApi.getDefaultApiConnection().leaveChat(RawMessage.GetMessageChatInfo().id);
+                    }).Start();
                     return new CallbackMessage();
                 }
                 TgApi.getDefaultApiConnection().sendMessage(
