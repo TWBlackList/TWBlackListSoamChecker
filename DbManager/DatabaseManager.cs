@@ -37,13 +37,9 @@ namespace TWBlackListSoamChecker.DbManager
             SendMessageResult result = null;
             int ReasonID = 0;
             if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0)
-                try
-                {
-                    result = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID);
-                }
-                catch
-                {
-                }
+            {
+                result = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID);
+            }
 
             int ChannelReasonID = 0;
             if (Temp.MainChannelID != 0)
@@ -86,23 +82,11 @@ namespace TWBlackListSoamChecker.DbManager
                     banmsg += "\n\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
                 else if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0) finalResult = false;
 
-                try
-                {
-                    banmsg += "\n\n";
-                    banmsg += TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();
-                }
-                catch
-                {
-                }
+                banmsg += "\n\n";
+                banmsg += TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();
 
                 ChangeDbBan(AdminID, UserID, Level, Expires, Reason, ChannelReasonID, ReasonID);
-                try
-                {
-                    TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg);
-                }
-                catch
-                {
-                }
+                TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg);
             }
 
             CNBlacklistApi.PostToAPI(UserID, true, Level, Expires, Reason);

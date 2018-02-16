@@ -75,13 +75,13 @@ namespace TWBlackListSoamChecker
                             );
                         }).Start();
 
-                    new Task(() =>
-                    {
-                        TgApi.getDefaultApiConnection().forwardMessage(
-                            Temp.ReasonChannelID,
-                            BaseMessage.GetMessageChatInfo().id,
-                            BaseMessage.message_id);
-                    }).Start();
+                    //new Task(() =>
+                    //{
+                    //    TgApi.getDefaultApiConnection().forwardMessage(
+                    //        Temp.ReasonChannelID,
+                    //        BaseMessage.GetMessageChatInfo().id,
+                    //        BaseMessage.message_id);
+                    //}).Start();
 
                     //Kick user and delete spam message
                     new Task(() =>
@@ -151,13 +151,13 @@ namespace TWBlackListSoamChecker
 
                     if (points >= smsg.MinPoints)
                     {
-                        new Task(() =>
-                        {
-                            TgApi.getDefaultApiConnection().forwardMessage(
-                                Temp.ReasonChannelID,
-                                BaseMessage.GetMessageChatInfo().id,
-                                BaseMessage.message_id);
-                        }).Start();
+                        //new Task(() =>
+                        //{
+                        //    TgApi.getDefaultApiConnection().forwardMessage(
+                        //        Temp.ReasonChannelID,
+                        //        BaseMessage.GetMessageChatInfo().id,
+                        //        BaseMessage.message_id);
+                        //}).Start();
                         //ProcessMessage (Ban Blacklist Delete kick mute)
                         ProcessMessage(smsg, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.GetSendUser());
