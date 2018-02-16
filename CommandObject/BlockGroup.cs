@@ -18,7 +18,7 @@ namespace TWBlackListSoamChecker.CommandObject
                         RawMessage.message_id);
                     return false;
                 }
-                if(ChatID_Value.Length == 10)
+                if(ChatID_Value.Length == 10 && Convert.ToInt64(ChatID_Value) > 0)
                 {
                     ChatID_Value = "-100" + ChatID_Value;
                 }
@@ -78,7 +78,7 @@ namespace TWBlackListSoamChecker.CommandObject
                         RawMessage.message_id);
                     return false;
                 }
-                if(ChatID_Value.Length == 10)
+                if(ChatID_Value.Length == 10 && Convert.ToInt64(ChatID_Value) > 0)
                 {
                     ChatID_Value = "-100" + ChatID_Value;
                 }
@@ -129,7 +129,7 @@ namespace TWBlackListSoamChecker.CommandObject
             string json = File.ReadAllText("config.json");
             dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,
-                "Whitelist : \n" + string.Join("\n", jsonObj["blockgroup_list"]), RawMessage.message_id);
+                "BlockGroup : \n" + string.Join("\n", jsonObj["blockgroup_list"]), RawMessage.message_id);
             return true;
         }
     }
