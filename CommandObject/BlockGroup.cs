@@ -48,14 +48,14 @@ namespace TWBlackListSoamChecker.CommandObject
                      return false;
                 }
 
-                jsonObj["blockgroup_list"].Add(Convert.ToInt32(ChatID_Value));
+                jsonObj["blockgroup_list"].Add(Convert.ToInt64(ChatID_Value));
                 string output =
                     Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                 File.WriteAllText("config.json", output);
                 TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "新增成功!", RawMessage.message_id);
                 try{
-                    TgApi.getDefaultApiConnection().sendMessage(ChatID_Value, "此群組禁止使用本服務。");
-                    TgApi.getDefaultApiConnection().leaveChat(ChatID_Value);
+                    TgApi.getDefaultApiConnection().sendMessage(Convert.ToInt64(ChatID_Value), "此群組禁止使用本服務。");
+                    TgApi.getDefaultApiConnection().leaveChat(Convert.ToInt64(ChatID_Value));
                 }catch{}
                 
                 RAPI.reloadConfig();
