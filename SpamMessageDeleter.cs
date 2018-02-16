@@ -15,8 +15,8 @@ namespace TWBlackListSoamChecker
         public CallbackMessage ReceiveAllNormalMessage(TgMessage BaseMessage, string JsonMessage)
         {
             if(RAPI.getIsBlockGroup(BaseMessage.GetMessageChatInfo().id)){
-                TgApi.getDefaultApiConnection().sendMessage(BaseMessage.GetMessageChatInfo().id), "此群組禁止使用本服務。");
-                TgApi.getDefaultApiConnection().leaveChat(BaseMessage.GetMessageChatInfo().id));
+                TgApi.getDefaultApiConnection().sendMessage(BaseMessage.GetMessageChatInfo().id, "此群組禁止使用本服務。");
+                TgApi.getDefaultApiConnection().leaveChat(BaseMessage.GetMessageChatInfo().id);
                 return new CallbackMessage();
             }
             if (BaseMessage.chat.type != "group" && BaseMessage.chat.type != "supergroup")

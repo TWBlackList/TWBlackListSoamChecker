@@ -54,8 +54,8 @@ namespace TWBlackListSoamChecker
             if (JoinedUser.id == TgApi.getDefaultApiConnection().getMe().id)
             {
                 if(RAPI.getIsBlockGroup(RawMessage.GetMessageChatInfo().id)){
-                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id), "此群組禁止使用本服務。");
-                    TgApi.getDefaultApiConnection().leaveChat(RawMessage.GetMessageChatInfo().id));
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, "此群組禁止使用本服務。");
+                    TgApi.getDefaultApiConnection().leaveChat(RawMessage.GetMessageChatInfo().id);
                     return new CallbackMessage();
                 }
                 TgApi.getDefaultApiConnection().sendMessage(
