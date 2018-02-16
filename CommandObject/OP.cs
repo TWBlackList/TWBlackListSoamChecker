@@ -26,7 +26,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
                 string json = File.ReadAllText("config.json");
                 dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-                jsonObj["admin_list"].Add(Convert.ToInt32(UID_Value));
+                jsonObj["op_list"].Add(Convert.ToInt32(UID_Value));
                 string output =
                     Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                 File.WriteAllText("config.json", output);
@@ -63,9 +63,9 @@ namespace TWBlackListSoamChecker.CommandObject
                 int i = 0;
                 bool found = false;
 
-                foreach (var item in jsonObj["admin_list"])
+                foreach (var item in jsonObj["op_list"])
                 {
-                    if (jsonObj["admin_list"][i] == UID_Value)
+                    if (jsonObj["op_list"][i] == UID_Value)
                     {
                         found = true;
                         break;
@@ -76,7 +76,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
                 if (found)
                 {
-                    jsonObj["admin_list"].Remove(jsonObj["admin_list"][i]);
+                    jsonObj["op_list"].Remove(jsonObj["op_list"][i]);
                     string output =
                         Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                     File.WriteAllText("config.json", output);
