@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using TWBlackListSoamChecker.CommandObject;
+using TWBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.Interfaces;
 using ReimuAPI.ReimuBase.TgData;
-using TWBlackListSoamChecker.CommandObject;
-using TWBlackListSoamChecker.DbManager;
 
 namespace TWBlackListSoamChecker
 {
@@ -14,6 +14,7 @@ namespace TWBlackListSoamChecker
     {
         public CallbackMessage ReceiveAllNormalMessage(TgMessage BaseMessage, string JsonMessage)
         {
+            
             if(RAPI.getIsBlockGroup(BaseMessage.GetMessageChatInfo().id)){
                 TgApi.getDefaultApiConnection().sendMessage(BaseMessage.GetMessageChatInfo().id, "此群組禁止使用本服務。");
                 TgApi.getDefaultApiConnection().leaveChat(BaseMessage.GetMessageChatInfo().id);
@@ -154,6 +155,9 @@ namespace TWBlackListSoamChecker
                         case 6:
                             points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, chatText);
                             break;
+                        case 7:
+                            points = new SpamMessageChecker().GetMultiContainsPoints(smsg.Messages, text);
+                            break;
                     }
 
                     if (points >= smsg.MinPoints)
@@ -204,6 +208,8 @@ namespace TWBlackListSoamChecker
                     return new CallbackMessage {StopProcess = true};
                 }
             }
+
+            
             // AUTO DELETE SPAM MESSAGE END
 
             // Auto DELETE Command START
@@ -255,16 +261,16 @@ namespace TWBlackListSoamChecker
             else
                 banUtilTime = GetTime.GetUnixTime() + smsg.BanDays * 86400 + smsg.BanHours * 3600 +
                               smsg.BanMinutes * 60;
+            if (smsg.AutoMute)
+                TgApi.getDefaultApiConnection().restrictChatMember(
+                    ChatID,
+                    SendUserInfo.id,
+                    banUtilTime,
+                    true,
+                    false
+                );
             if (smsg.AutoBlackList)
             {
-                if (smsg.AutoMute)
-                    TgApi.getDefaultApiConnection().restrictChatMember(
-                        ChatID,
-                        SendUserInfo.id,
-                        banUtilTime,
-                        true,
-                        false
-                    );
                 if (Temp.GetDatabaseManager().GetUserBanStatus(SendUserInfo.id).Ban == 0) return;
                 new Task(() =>
                 {
