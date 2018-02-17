@@ -228,7 +228,8 @@ namespace TWBlackListSoamChecker.CommandObject
                 "\nstring.IndexOf(\"target\")!=-1 = 3" +
                 "\n清真 = 4" +
                 "\n印度 = 5" +
-                "\n包含 = 6";
+                "\n包含 = 6" +
+                "\n多重包含 = 7" ;
             int spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
@@ -313,7 +314,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(spacePath + 1));
             string text = banValues.GetValueOrDefault("text", null);
             string rule = banValues.GetValueOrDefault("rule", null);
-            if (text == null || rule == null)
+            if (text == null)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
@@ -322,49 +323,96 @@ namespace TWBlackListSoamChecker.CommandObject
                 );
                 return;
             }
-
-            SpamMessage smsg = Temp.GetDatabaseManager().GetSpamRule(rule);
-            if (smsg == null)
-            {
+            if (rule == null){
+                List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+                string msg = "";
+                foreach (SpamMessage smsg in spamMsgList)
+                {
+                    int points = 0;
+                    switch (smsg.Type)
+                    {
+                        case 0:
+                            msg = + smsg.FriendlyName + " : " + new SpamMessageChecker().GetEqualsPoints(smsg.Messages, chatText).ToString();
+                            break;
+                        case 1:
+                            msg = + smsg.FriendlyName + " : " + new SpamMessageChecker().GetRegexPoints(smsg.Messages, chatText).ToString();
+                            break;
+                        case 2:
+                            msg = + smsg.FriendlyName + " : " + new SpamMessageChecker().GetSpamPoints(smsg.Messages, chatText).ToString();
+                            break;
+                        case 3:
+                            msg = + smsg.FriendlyName + " : " + new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, chatText).ToString();
+                            break;
+                        case 4:
+                            msg = + smsg.FriendlyName + " : " + new SpamMessageChecker().GetHalalPoints(chatText).ToString();
+                            break;
+                        case 5:
+                            msg = + smsg.FriendlyName + " : " + new SpamMessageChecker().GetIndiaPoints(chatText);.ToString();
+                            break;
+                        case 6:
+                            msg = + smsg.FriendlyName + " : " + new SpamMessageChecker().GetContainsPoints(smsg.Messages, chatText).ToString();
+                            break;
+                        case 7:
+                            msg = + smsg.FriendlyName + " : " + new SpamMessageChecker().GetMultiContainsPoints(smsg.Messages, text);.ToString();
+                            break;
+                    }
+                    msg = + "\n"
+                }
+                
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "没有找到您指定的规則，請重新指定。您可使用 /getspamstr 獲取所以規則。",
+                    msg,
                     RawMessage.message_id
                 );
-                return;
             }
+            else{
+                SpamMessage smsg = Temp.GetDatabaseManager().GetSpamRule(rule);
+                if (smsg == null)
+                {
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        "没有找到您指定的规則，請重新指定。您可使用 /getspamstr 獲取所以規則。",
+                        RawMessage.message_id
+                    );
+                    return;
+                }
 
-            int points = 0;
-            switch (smsg.Type)
-            {
-                case 0:
-                    points = new SpamMessageChecker().GetEqualsPoints(smsg.Messages, text);
-                    break;
-                case 1:
-                    points = new SpamMessageChecker().GetRegexPoints(smsg.Messages, text);
-                    break;
-                case 2:
-                    points = new SpamMessageChecker().GetSpamPoints(smsg.Messages, text);
-                    break;
-                case 3:
-                    points = new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, text);
-                    break;
-                case 4:
-                    points = new SpamMessageChecker().GetHalalPoints(text);
-                    break;
-                case 5:
-                    points = new SpamMessageChecker().GetIndiaPoints(text);
-                    break;
-                case 6:
-                    points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, text);
-                    break;
+                int points = 0;
+                switch (smsg.Type)
+                {
+                    case 0:
+                        points = new SpamMessageChecker().GetEqualsPoints(smsg.Messages, text);
+                        break;
+                    case 1:
+                        points = new SpamMessageChecker().GetRegexPoints(smsg.Messages, text);
+                        break;
+                    case 2:
+                        points = new SpamMessageChecker().GetSpamPoints(smsg.Messages, text);
+                        break;
+                    case 3:
+                        points = new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, text);
+                        break;
+                    case 4:
+                        points = new SpamMessageChecker().GetHalalPoints(text);
+                        break;
+                    case 5:
+                        points = new SpamMessageChecker().GetIndiaPoints(text);
+                        break;
+                    case 6:
+                        points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, text);
+                        break;
+                    case 7:
+                        points = new SpamMessageChecker().GetMultiContainsPoints(smsg.Messages, text);
+                        break;
+                }
+
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    "得分: " + points,
+                    RawMessage.message_id
+                );
             }
-
-            TgApi.getDefaultApiConnection().sendMessage(
-                RawMessage.GetMessageChatInfo().id,
-                "得分: " + points,
-                RawMessage.message_id
-            );
         }
+        
     }
 }
