@@ -332,31 +332,31 @@ namespace TWBlackListSoamChecker.CommandObject
                     switch (smsg.Type)
                     {
                         case 0:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetEqualsPoints(smsg.Messages, chatText).ToString();
+                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetEqualsPoints(smsg.Messages, text).ToString();
                             break;
                         case 1:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetRegexPoints(smsg.Messages, chatText).ToString();
+                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetRegexPoints(smsg.Messages, text).ToString();
                             break;
                         case 2:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetSpamPoints(smsg.Messages, chatText).ToString();
+                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetSpamPoints(smsg.Messages, text).ToString();
                             break;
                         case 3:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, chatText).ToString();
+                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, text).ToString();
                             break;
                         case 4:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetHalalPoints(chatText).ToString();
+                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetHalalPoints(text).ToString();
                             break;
                         case 5:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetIndiaPoints(chatText).ToString();
+                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetIndiaPoints(text).ToString();
                             break;
                         case 6:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetContainsPoints(smsg.Messages, chatText).ToString();
+                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetContainsPoints(smsg.Messages, text).ToString();
                             break;
                         case 7:
                             msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetMultiContainsPoints(smsg.Messages, text).ToString();
                             break;
                     }
-                    msg = + "\n";
+                    msg = msg + "\n";
                 }
                 
                 TgApi.getDefaultApiConnection().sendMessage(
