@@ -138,7 +138,7 @@ namespace TWBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "操作失敗：使用者在白名單",
+                    "操作失敗 : 使用者在白名單",
                     RawMessage.message_id
                 );
                 return false;

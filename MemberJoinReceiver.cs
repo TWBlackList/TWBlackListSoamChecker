@@ -69,7 +69,7 @@ namespace TWBlackListSoamChecker
                     "1.請在群組中给予 @" + TgApi.getDefaultApiConnection().getMe().username + " 管理員權限\n" +
                     "2.使用 /help 可查閱使用說明\n" +
                     "預設開啟的功能有 BlackList AutoKick AntiHalal SubscribeBanList，可以根據需要來調整。\n\n" +
-                    "注意：加入機器人即同意讓渡部分 Ban Users 權限予本項目組，並授權本組依據 @J_Court 置頂規定，代表群管理對群組內成員逕行封鎖\n" +
+                    "注意 : 加入機器人即同意讓渡部分 Ban Users 權限予本項目組，並授權本組依據 @J_Court 置頂規定，代表群管理對群組內成員逕行封鎖\n" +
                     "如不同意請立即移除此機器人，且禁止違背群主意願私自添加",
                     RawMessage.message_id
                 );
@@ -111,7 +111,7 @@ namespace TWBlackListSoamChecker
                         banReason = "\n原因 : " + RAPI.escapeMarkdown(banUser.Reason);
                     if (banUser.Level == 0)
                     {
-                        resultmsg += "警告：這個使用者「將會」對群組造成負面影響，原因 : " + RAPI.escapeMarkdown(banReason) + "\n" +
+                        resultmsg += "警告 : 這個使用者「將會」對群組造成負面影響，原因 : " + RAPI.escapeMarkdown(banReason) + "\n" +
                                      "若有開啟 AutoKick 功能，將會自動踢出使用者\n" +
                                      "被封鎖的用戶，可以到 [這個群組](https://t.me/" + Temp.CourtGroupName + ") 尋求申訴";
                         if (groupCfg.AutoKick == 0)
@@ -123,7 +123,7 @@ namespace TWBlackListSoamChecker
                                     GetTime.GetUnixTime() + 86400
                                 );
                                 if (!result.ok)
-                                    resultmsg += "\n注意：由於開啟了 AutoKick 但沒有 Ban Users 權限" +
+                                    resultmsg += "\n注意 : 由於開啟了 AutoKick 但沒有 Ban Users 權限" +
                                                  "，請關閉此功能或給予權限（Ban users）。";
                             }
                             catch
@@ -132,7 +132,7 @@ namespace TWBlackListSoamChecker
                     }
                     else if (banUser.Level == 1)
                     {
-                        resultmsg += "警告：這個使用者「可能」對群組造成負面影響" + RAPI.escapeMarkdown(banReason) + "\n" +
+                        resultmsg += "警告 : 這個使用者「可能」對群組造成負面影響" + RAPI.escapeMarkdown(banReason) + "\n" +
                                      "請群組管理員多加留意\n" +
                                      "對於被警告的使用者，你可以通過 [這個群組](https://t.me/" + Temp.CourtGroupName + ") 以請求解除。";
                     }

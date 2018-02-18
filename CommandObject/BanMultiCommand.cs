@@ -125,7 +125,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.GetSendUser().id,
-                            "操作失敗：使用者在白名單 UID" + BanUserId.ToString(),
+                            "操作失敗 : 使用者在白名單 UID" + BanUserId.ToString(),
                             RawMessage.message_id
                         );
                     }
