@@ -326,44 +326,56 @@ namespace TWBlackListSoamChecker.CommandObject
             if (rule == null){
                 List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
                 string msg = "";
+                bool found = false;
                 foreach (SpamMessage smsg in spamMsgList)
                 {
                     int points = 0;
                     switch (smsg.Type)
                     {
                         case 0:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetEqualsPoints(smsg.Messages, text).ToString();
+                            points = new SpamMessageChecker().GetEqualsPoints(smsg.Messages, text);
                             break;
                         case 1:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetRegexPoints(smsg.Messages, text).ToString();
+                            points = new SpamMessageChecker().GetRegexPoints(smsg.Messages, text);
                             break;
                         case 2:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetSpamPoints(smsg.Messages, text).ToString();
+                            points = new SpamMessageChecker().GetSpamPoints(smsg.Messages, text);
                             break;
                         case 3:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, text).ToString();
+                            points = new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, text);
                             break;
                         case 4:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetHalalPoints(text).ToString();
+                            points = new SpamMessageChecker().GetHalalPoints(text);
                             break;
                         case 5:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetIndiaPoints(text).ToString();
+                            points = new SpamMessageChecker().GetIndiaPoints(text);
                             break;
                         case 6:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetContainsPoints(smsg.Messages, text).ToString();
+                            points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, text);
                             break;
                         case 7:
-                            msg = msg + smsg.FriendlyName + " : " + new SpamMessageChecker().GetMultiContainsPoints(smsg.Messages, text).ToString();
+                            points = new SpamMessageChecker().GetMultiContainsPoints(smsg.Messages, text);
                             break;
                     }
-                    msg = msg + "\n";
+                    if(points > 0){
+                        found = true;
+                        msg = msg + smsg.FriendlyName + " : " + points.ToString() + "\n";
+                    }
+                    
                 }
-                
-                TgApi.getDefaultApiConnection().sendMessage(
-                    RawMessage.GetMessageChatInfo().id,
-                    msg,
-                    RawMessage.message_id
-                );
+                if(found){
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        msg,
+                        RawMessage.message_id
+                    );
+                }else{
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        "未得分",
+                        RawMessage.message_id
+                    );
+                }
             }
             else{
                 SpamMessage smsg = Temp.GetDatabaseManager().GetSpamRule(rule);
