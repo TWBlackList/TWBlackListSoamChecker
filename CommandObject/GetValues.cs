@@ -29,6 +29,39 @@ namespace TWBlackListSoamChecker.CommandObject
 
             return Reason;
         }
+        internal long GetGroupID(Dictionary<string, string> banValues, TgMessage RawMessage)
+        {
+            string GroupID = "";
+            GroupID = banValues.GetValueOrDefault("g", "__invalid__");
+            if (GroupID == "__invalid__") GroupID = banValues.GetValueOrDefault("group", "__invalid__");
+            if (GroupID == "__invalid__") GroupID = banValues.GetValueOrDefault("groupid", "__invalid__");
+            if (GroupID == "__invalid__") return 0;
+            long id = 0 ;
+            if(System.Int64.TryParse(GroupID,out id))
+            {
+                return id;
+            }else{
+                return 0;
+            }
+        }
+
+        internal string GetText(Dictionary<string, string> banValues, TgMessage RawMessage)
+        {
+            string Text = "";
+            Text = banValues.GetValueOrDefault("t", "__invalid__");
+            if (Text == "__invalid__") Text = banValues.GetValueOrDefault("text", "__invalid__");
+            if (Text == "__invalid__") return null;
+            return Text;
+        }
+
+        internal UserInfo GetUserInfo(TgMessage RawMessage, string from)
+        {
+            if (RawMessage.reply_to_message == null) return null;
+            if (from == "r" || from == "reply")
+                return RawMessage.GetReplyMessage().GetSendUser();
+            if (from == "f" || from == "fwd") return RawMessage.GetReplyMessage().GetForwardedFromUser();
+            return null;
+        }
 
         internal UserInfo GetUserInfo(TgMessage RawMessage, string from)
         {
