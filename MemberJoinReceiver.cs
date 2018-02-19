@@ -116,8 +116,7 @@ namespace TWBlackListSoamChecker
                     {
                         resultmsg += "警告 : 這個使用者「將會」對群組造成負面影響\n" +
                                      banReason +
-                                     "\n若有開啟 AutoKick 功能，將會自動踢出使用者\n" +
-                                     "\n被封鎖的用戶，可以到 [這個群組](https://t.me/" + Temp.CourtGroupName + ") 尋求申訴";
+                                     "\n若有誤判，可以到 [這個群組](https://t.me/" + Temp.CourtGroupName + ") 尋求申訴";
                         if (groupCfg.AutoKick == 0)
                             try
                             {
