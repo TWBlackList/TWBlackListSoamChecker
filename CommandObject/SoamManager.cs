@@ -227,19 +227,25 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void SoamStatus(TgMessage message)
         {
-            string byChannelName = "";
-            if (Temp.MainChannelName != null) byChannelName = " (by @TWBlackList )";
             GroupCfg gc = Temp.GetDatabaseManager().GetGroupConfig(message.chat.id);
             TgApi.getDefaultApiConnection().sendMessage(
                 message.chat.id,
-                "BlackList" + byChannelName + ": " + (gc.BlackList == 0) + "\n" +
-                "AutoKick: " + (gc.AutoKick == 0) + "\n" +
-                "AntiBot: " + (gc.AntiBot == 0) + "\n" +
-                "AntiHalal: " + (gc.AntiHalal == 0) + "\n" +
-                "AutoDeleteSpamMessage: " + (gc.AutoDeleteSpamMessage == 0) + "\n" +
-                "AutoDeleteCommand: " + (gc.AutoDeleteCommand == 0) + "\n" +
-                "AdminOnly: " + (gc.AdminOnly == 0) + "\n" +
-                "SubscribeBanList: " + (gc.SubscribeBanList == 0),
+                "BlackList (By @" + TgApi.getDefaultApiConnection().getMe().username + ") : " + (gc.BlackList == 0) + "\n" +
+                "AutoKick : " + (gc.AutoKick == 0) + "\n" +
+                "AntiBot : " + (gc.AntiBot == 0) + "\n" +
+                "AntiHalal : " + (gc.AntiHalal == 0) + "\n" +
+                "AutoDeleteSpamMessage : " + (gc.AutoDeleteSpamMessage == 0) + "\n" +
+                "AutoDeleteCommand : " + (gc.AutoDeleteCommand == 0) + "\n" +
+                "AdminOnly : " + (gc.AdminOnly == 0) + "\n" +
+                "SubscribeBanList : " + (gc.SubscribeBanList == 0) + "\n\n" +
+                "功能說明\n" +
+                "1. BlackList : 黑名單使用者進群會有提示\n" +
+                "2. AutoKick : 黑名單(封鎖)的使用者進群會自動踢出\n" +
+                "3. AutoDeleteSpamMessage : 使用本服務的自動偵測規則\n" +
+                "4. AutoDeleteCommand : 自動刪除非 Admin 發出的指令訊息並顯示提示\n" +
+                "5. AdminOnly : 機器人只回應 Admin 的指令\n" +
+                "6. SubscribeBanList : 黑名單(封鎖)中於此群組的現存使用者會被踢出\n" +
+                "7. Antibot : 自動踢出非管理加入的 bot 並把拉入者封鎖 1 日",
                 message.message_id
             );
         }
