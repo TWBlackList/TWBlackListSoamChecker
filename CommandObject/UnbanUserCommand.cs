@@ -7,21 +7,21 @@ namespace TWBlackListSoamChecker.CommandObject
 {
     internal class UnbanUserCommand
     {
-        internal bool Unban(TgMessage RawMessage)
+internal bool Unban(TgMessage RawMessage)
         {
             int banSpace = RawMessage.text.IndexOf(" ");
             if (banSpace == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "/twunban [i|id=1] [f|from=f|fwd|r|reply]" +
+                    "/cnunban [i|id=1] [f|from=f|fwd|r|reply]" +
                     " r|reason=\"asdfsadf asdfadsf\"\n\n" +
                     "from 選項僅在 id 未被定義時起作用\n" +
                     "ID 選擇優先度: 手動輸入 ID > 回覆的被轉發訊息 > 回覆的訊息\n" +
                     "選項優先度: 簡寫 > 全名\n" +
                     "Example:\n" +
-                    "/twunban id=1 reason=\"aaa bbb\\n\\\"ccc\\\" ddd\"\n" +
-                    "/twunban",
+                    "/cnunban id=1 reason=\"aaa bbb\\n\\\"ccc\\\" ddd\"\n" +
+                    "/cnunban",
                     RawMessage.message_id
                 );
                 return true;
@@ -90,24 +90,30 @@ namespace TWBlackListSoamChecker.CommandObject
                 return true;
             }
 
-            //if (status)
-            //{
-            TgApi.getDefaultApiConnection().sendMessage(
-                RawMessage.GetMessageChatInfo().id,
-                "操作成功。",
-                RawMessage.message_id
-            );
-            return true;
-            //}
-            //else
-            //{
+            if (status)
+            {
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    "操作成功。",
+                    RawMessage.message_id
+                );
+                return true;
+            }
+            else
+            {
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    "操作失敗，或許使用者未被封鎖。",
+                    RawMessage.message_id
+                );
+                return false;
             //    TgApi.getDefaultApiConnection().sendMessage(
             //        RawMessage.GetMessageChatInfo().id,
             //        "操作成功。\n\n請注意 : 轉發使用者訊息到頻道或是發送使用者訊息到頻道失敗，請您手動發送至  @" + Temp.MainChannelName + " 。 err11",
             //        RawMessage.message_id
             //        );
             //    return true;
-            //}
+            }
             //return false;
         }
 
