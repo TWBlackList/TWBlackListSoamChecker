@@ -105,13 +105,14 @@ namespace TWBlackListSoamChecker
                 {
                     string banReason;
                     if (banUser.ChannelMessageID != 0 && Temp.MainChannelName != null)
-                        banReason = "， [原因請點選這裡查看](https://t.me/" + Temp.MainChannelName + "/" +
-                                    banUser.ChannelMessageID + ")";
+                        banReason = " [原因請點選這裡查看](https://t.me/" + Temp.MainChannelName + "/" +
+                                    banUser.ChannelMessageID + ")\n";
                     else
-                        banReason = "\n原因 : " + RAPI.escapeMarkdown(banUser.Reason);
+                        banReason = "\n原因 : " + RAPI.escapeMarkdown(banUser.Reason) + "\n";
                     if (banUser.Level == 0)
                     {
-                        resultmsg += "警告 : 這個使用者「將會」對群組造成負面影響，原因 : " + banReason + "\n" +
+                        resultmsg += "警告 : 這個使用者「將會」對群組造成負面影響\n" +
+                                     banReason + 
                                      "若有開啟 AutoKick 功能，將會自動踢出使用者\n" +
                                      "被封鎖的用戶，可以到 [這個群組](https://t.me/" + Temp.CourtGroupName + ") 尋求申訴";
                         if (groupCfg.AutoKick == 0)
