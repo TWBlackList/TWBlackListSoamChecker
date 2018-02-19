@@ -42,41 +42,29 @@ namespace TWBlackListSoamChecker
             try
             {
                 GroupCfg cfg = Temp.GetDatabaseManager().GetGroupConfig(RawMessage.chat.id);
-                if (cfg.AdminOnly == 0 &&
-                    TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) == false &&
-                    RAPI.getIsBotAdmin(RawMessage.from.id) == false && RAPI.getIsBotOP(RawMessage.from.id) == false
-                    ) return new CallbackMessage();
                 if (SharedCommand(RawMessage, JsonMessage, Command)) return new CallbackMessage();
+                if(TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ==
+                false && RAPI.getIsBotAdmin(RawMessage.from.id) == false && RAPI.getIsBotAdmin(RawMessage.from.id) == false && cfg.AdminOnly == 0)
+                return new CallbackMessage {StopProcess = true};
                 switch (Command)
                 {
+                    
                     case "/leave":
                         new LeaveCommand().Leave(RawMessage);
                         break;
                     case "/soamenable":
-                        if (cfg.AdminOnly == 0 &&
-                            TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ==
-                            false && RAPI.getIsBotAdmin(RawMessage.from.id) == false)
-                            return new CallbackMessage {StopProcess = true};
                         new SoamManager().SoamEnable(RawMessage);
                         break;
                     case "/soamdisable":
-                        if (cfg.AdminOnly == 0 &&
-                            TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ==
-                            false && RAPI.getIsBotAdmin(RawMessage.from.id) == false)
-                            return new CallbackMessage {StopProcess = true};
                         new SoamManager().SoamDisable(RawMessage);
                         break;
                     case "/__get_exception":
                         throw new Exception();
                     case "/soamstat":
                     case "/soamstatus":
-                        if (cfg.AdminOnly == 0 &&
-                            TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ==
-                            false && RAPI.getIsBotAdmin(RawMessage.from.id) == false)
-                            return new CallbackMessage {StopProcess = true};
                         new SoamManager().SoamStatus(RawMessage);
                         break;
-                    //case "/twkick":
+                    //case "/cnkick":
                     //    if (Temp.DisableBanList)
                     //    {
                     //        TgApi.getDefaultApiConnection().sendMessage(
