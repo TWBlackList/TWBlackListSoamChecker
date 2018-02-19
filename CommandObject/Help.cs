@@ -52,7 +52,7 @@ namespace TWBlackListSoamChecker.CommandObject
                                "/unblock - 從禁止使用名單中刪除群組\n" +
                                "/blocks - 取得禁止使用名單\n" +
                                "/addop - 新增 Operator\n" +
-                               "/delop - 解除 Operator" +
+                               "/delop - 解除 Operator\n" +
                                "/seall - 開啟所有群組功能\n" +
                                "/sdall - 關閉所有群組功能\n";
             TgApi.getDefaultApiConnection()
