@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
@@ -37,9 +38,10 @@ namespace TWBlackListSoamChecker.DbManager
             SendMessageResult result = null;
             int ReasonID = 0;
             int ChannelReasonID = 0;
-            if(Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0)
+            if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0)
             {
-                ReasonID = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID).result.message_id;
+                ReasonID = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID)
+                    .result.message_id;
                 result = null;
             }
 
@@ -80,14 +82,22 @@ namespace TWBlackListSoamChecker.DbManager
                 banmsg += "\n原因 : " + Reason;
                 banmsg += "\nOID : " + AdminID + "\n";
                 if (Temp.ReasonChannelID != 0 && ReasonID != 0 && Temp.ReasonChannelName != null)
-                    banmsg += "\n" +"\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
+                    banmsg += "\n" + "\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
                 else if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0) finalResult = false;
 
                 banmsg += "\n";
-                try{banmsg += TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();}catch{}
+                try
+                {
+                    banmsg += TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();
+                }
+                catch
+                {
+                }
 
-                ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg).result.message_id;
+                ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg).result
+                    .message_id;
             }
+
             ChangeDbBan(AdminID, UserID, Level, Expires, Reason, ChannelReasonID, ReasonID);
             CNBlacklistApi.PostToAPI(UserID, true, Level, Expires, Reason);
             return finalResult;
@@ -167,7 +177,7 @@ namespace TWBlackListSoamChecker.DbManager
                     db.BanUsers.Add(baninfo);
                     db.SaveChanges();
                 }
-                catch (Microsoft.Data.Sqlite.SqliteException)
+                catch (SqliteException)
                 {
                     db.BanUsers.Update(baninfo);
                     db.SaveChanges();
@@ -222,7 +232,7 @@ namespace TWBlackListSoamChecker.DbManager
                     db.BanUsers.Add(baninfo);
                     db.SaveChanges();
                 }
-                catch (Microsoft.Data.Sqlite.SqliteException)
+                catch (SqliteException)
                 {
                     db.BanUsers.Update(baninfo);
                     db.SaveChanges();

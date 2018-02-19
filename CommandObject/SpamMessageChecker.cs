@@ -79,14 +79,14 @@ namespace TWBlackListSoamChecker.CommandObject
             return totalPoints;
         }
 
-        
+
         public int GetMultiContainsPoints(SpamMessageObj[] spamMessages, string text) // Mode 7 如果多重包含
         {
             int totalPoints = 0;
             foreach (SpamMessageObj msgs in spamMessages)
-                foreach (string msg in System.Text.RegularExpressions.Regex.Replace(msgs.Message, @"\t|\n|\r", "").Split(","))
-                    if (text.ToLower().Contains(msg.ToLower()))
-                        totalPoints += msgs.Point;
+            foreach (string msg in Regex.Replace(msgs.Message, @"\t|\n|\r", "").Split(","))
+                if (text.ToLower().Contains(msg.ToLower()))
+                    totalPoints += msgs.Point;
             return totalPoints;
         }
 
@@ -151,10 +151,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     continue;
                 }
 
-                if (nowChar >= 0x1CD0 && nowChar <= 0x1CFF)
-                {
-                    totalPoints++;
-                }
+                if (nowChar >= 0x1CD0 && nowChar <= 0x1CFF) totalPoints++;
             }
 
             return totalPoints;

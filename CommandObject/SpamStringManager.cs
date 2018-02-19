@@ -229,9 +229,9 @@ namespace TWBlackListSoamChecker.CommandObject
                 "\n清真 = 4" +
                 "\n印度 = 5" +
                 "\n包含 = 6" +
-                "\n多重包含 = 7" ;
-            RawMessage.text = RawMessage.text.Replace("\"M\"","\"Message\"");
-            RawMessage.text = RawMessage.text.Replace("\"P\"","\"Point\"");
+                "\n多重包含 = 7";
+            RawMessage.text = RawMessage.text.Replace("\"M\"", "\"Message\"");
+            RawMessage.text = RawMessage.text.Replace("\"P\"", "\"Point\"");
             int spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
@@ -325,7 +325,9 @@ namespace TWBlackListSoamChecker.CommandObject
                 );
                 return;
             }
-            if (rule == null){
+
+            if (rule == null)
+            {
                 List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
                 string msg = "";
                 bool found = false;
@@ -359,27 +361,29 @@ namespace TWBlackListSoamChecker.CommandObject
                             points = new SpamMessageChecker().GetMultiContainsPoints(smsg.Messages, text);
                             break;
                     }
-                    if(points > 0){
+
+                    if (points > 0)
+                    {
                         found = true;
-                        msg = msg + smsg.FriendlyName + " : " + points.ToString() + "\n";
+                        msg = msg + smsg.FriendlyName + " : " + points + "\n";
                     }
-                    
                 }
-                if(found){
+
+                if (found)
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
                         msg,
                         RawMessage.message_id
                     );
-                }else{
+                else
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
                         "未得分",
                         RawMessage.message_id
                     );
-                }
             }
-            else{
+            else
+            {
                 SpamMessage smsg = Temp.GetDatabaseManager().GetSpamRule(rule);
                 if (smsg == null)
                 {
@@ -427,6 +431,5 @@ namespace TWBlackListSoamChecker.CommandObject
                 );
             }
         }
-        
     }
 }

@@ -230,7 +230,8 @@ namespace TWBlackListSoamChecker.CommandObject
             GroupCfg gc = Temp.GetDatabaseManager().GetGroupConfig(message.chat.id);
             TgApi.getDefaultApiConnection().sendMessage(
                 message.chat.id,
-                "BlackList (By @" + TgApi.getDefaultApiConnection().getMe().username + ") : " + (gc.BlackList == 0) + "\n" +
+                "BlackList (By @" + TgApi.getDefaultApiConnection().getMe().username + ") : " + (gc.BlackList == 0) +
+                "\n" +
                 "AutoKick : " + (gc.AutoKick == 0) + "\n" +
                 "AntiBot : " + (gc.AntiBot == 0) + "\n" +
                 "AntiHalal : " + (gc.AntiHalal == 0) + "\n" +

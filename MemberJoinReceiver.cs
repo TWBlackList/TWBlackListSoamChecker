@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.Interfaces;
 using ReimuAPI.ReimuBase.TgData;
 using TWBlackListSoamChecker.DbManager;
-using System.Threading;
 
 namespace TWBlackListSoamChecker
 {
@@ -54,7 +54,8 @@ namespace TWBlackListSoamChecker
 
             if (JoinedUser.id == TgApi.getDefaultApiConnection().getMe().id)
             {
-                if(RAPI.getIsBlockGroup(RawMessage.GetMessageChatInfo().id)){
+                if (RAPI.getIsBlockGroup(RawMessage.GetMessageChatInfo().id))
+                {
                     new Thread(delegate()
                     {
                         TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, "此群組禁止使用本服務。");
@@ -63,6 +64,7 @@ namespace TWBlackListSoamChecker
                     }).Start();
                     return new CallbackMessage();
                 }
+
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
                     "歡迎使用 @" + TgApi.getDefaultApiConnection().getMe().username + "\n" +
@@ -85,7 +87,8 @@ namespace TWBlackListSoamChecker
                     string resultmsg = "這位使用者被封鎖了";
                     resultmsg += "，原因 : \n" + RAPI.escapeMarkdown(banUser.Reason) + "\nID : " + JoinedUser.id;
                     if (banUser.ChannelMessageID != 0 && Temp.MainChannelName != null)
-                        resultmsg += "\n參考 : https://t.me/" + RAPI.escapeMarkdown(Temp.MainChannelName) + "/" + banUser.ChannelMessageID ;
+                        resultmsg += "\n參考 : https://t.me/" + RAPI.escapeMarkdown(Temp.MainChannelName) + "/" +
+                                     banUser.ChannelMessageID;
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
                         resultmsg,
@@ -112,7 +115,7 @@ namespace TWBlackListSoamChecker
                     if (banUser.Level == 0)
                     {
                         resultmsg += "警告 : 這個使用者「將會」對群組造成負面影響\n" +
-                                     banReason + 
+                                     banReason +
                                      "若有開啟 AutoKick 功能，將會自動踢出使用者\n" +
                                      "被封鎖的用戶，可以到 [這個群組](https://t.me/" + Temp.CourtGroupName + ") 尋求申訴";
                         if (groupCfg.AutoKick == 0)

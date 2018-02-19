@@ -78,12 +78,11 @@ namespace TWBlackListSoamChecker.DbManager
                     msg += "\n時效 : 永久";
 
                 msg += "\n原因 : " + Reason;
-                
+
                 if (ChannelMessageID != 0 && Temp.MainChannelName != null)
                     msg += "\n\n參考 : https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
-                    
-                msg = RAPI.escapeMarkdown(msg);
 
+                msg = RAPI.escapeMarkdown(msg);
             }
 
             return msg;
