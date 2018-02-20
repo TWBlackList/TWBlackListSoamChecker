@@ -79,7 +79,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     Console.WriteLine("Broadcasting " + Msg + " To Group ChatID : " + cfg.GroupID);
                     TgApi.getDefaultApiConnection()
                         .sendMessage(cfg.GroupID, Msg, ParseMode: TgApi.PARSEMODE_MARKDOWN);
-                    Thread.Sleep(100);
+                    Thread.Sleep(500);
                 }
 
                 TgApi.getDefaultApiConnection()
