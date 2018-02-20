@@ -30,11 +30,8 @@ namespace TWBlackListSoamChecker
                     if (!Temp.DisableBanList)
                         switch (Command)
                         {
-                            case "/__getallspamstr": //暫時不用
+                            case "/getallspamstr":
                                 new SpamStringManager().GetAllInfo(RawMessage);
-                                return true;
-                            case "/__kick": //暫時不用
-                                //new SpamStringManager().GetAllInfo(RawMessage);
                                 return true;
                             case "/addspamstr":
                                 new SpamStringManager().Add(RawMessage);
