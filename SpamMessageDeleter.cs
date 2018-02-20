@@ -159,7 +159,7 @@ namespace TWBlackListSoamChecker
                             points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, chatText);
                             break;
                         case 7:
-                            points = new SpamMessageChecker().GetMultiContainsPoints(smsg.Messages, chatText);
+                            points = new SpamMessageChecker().GetRussiaPoints(chatText);
                             break;
                     }
 

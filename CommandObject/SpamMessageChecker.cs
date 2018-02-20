@@ -69,27 +69,6 @@ namespace TWBlackListSoamChecker.CommandObject
             return totalPoints;
         }
 
-
-        public int GetContainsPoints(SpamMessageObj[] spamMessages, string text) // Mode 6 如果包含
-        {
-            int totalPoints = 0;
-            foreach (SpamMessageObj msg in spamMessages)
-                if (text.ToLower().Contains(msg.Message.ToLower()))
-                    totalPoints += msg.Point;
-            return totalPoints;
-        }
-
-
-        public int GetMultiContainsPoints(SpamMessageObj[] spamMessages, string text) // Mode 7 如果多重包含
-        {
-            int totalPoints = 0;
-            foreach (SpamMessageObj msgs in spamMessages)
-            foreach (string msg in Regex.Replace(msgs.Message, @"\t|\n|\r", "").Split(","))
-                if (text.ToLower().Contains(msg.ToLower()))
-                    totalPoints += msgs.Point;
-            return totalPoints;
-        }
-
         public int GetIndexOfPoints(SpamMessageObj[] spamMessages, string text) // Mode 3 寻找匹配字符串
         {
             int totalPoints = 0;
@@ -156,5 +135,29 @@ namespace TWBlackListSoamChecker.CommandObject
 
             return totalPoints;
         }
+
+        public int GetContainsPoints(SpamMessageObj[] spamMessages, string text) // Mode 6 如果包含
+        {
+            int totalPoints = 0;
+            foreach (SpamMessageObj msg in spamMessages)
+                if (text.ToLower().Contains(msg.Message.ToLower()))
+                    totalPoints += msg.Point;
+            return totalPoints;
+        }
+
+        public int GetRussiaPoints(string text) // Mode 7 普丁
+        {
+            int totalPoints = 0;
+            int textLen = text.Length - 1;
+            for (int nowPath = 0; nowPath < textLen; nowPath++)
+            {
+                if (totalPoints >= 230) return 230;
+                char nowChar = text[nowPath];
+                if (nowChar >= 0x0400 && nowChar <= 0x052F){totalPoints++;}
+            }
+
+            return totalPoints;
+        }
+
     }
 }
