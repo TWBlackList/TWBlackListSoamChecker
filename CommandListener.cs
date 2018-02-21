@@ -44,7 +44,11 @@ namespace TWBlackListSoamChecker
                 GroupCfg cfg = Temp.GetDatabaseManager().GetGroupConfig(RawMessage.chat.id);
                 if (cfg.AdminOnly == 0)
                 {
-                    if (!TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) || !RAPI.getIsBotAdmin(RawMessage.from.id) || !RAPI.getIsBotAdmin(RawMessage.from.id))
+                    if (TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ||
+                        RAPI.getIsBotAdmin(RawMessage.from.id) || RAPI.getIsBotOP(RawMessage.from.id))
+                    {
+                    }
+                    else
                     {
                         return new CallbackMessage {StopProcess = true};
                     }
