@@ -51,6 +51,9 @@ namespace TWBlackListSoamChecker
                         }
                     switch (Command)
                     {
+                        case "/groups":
+                            new AllGroups().Groups_Status(RawMessage);
+                            throw new StopProcessException();
                         case "/say":
                             new BroadCast().BroadCast_Status(RawMessage);
                             throw new StopProcessException();
