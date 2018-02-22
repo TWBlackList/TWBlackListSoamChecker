@@ -20,6 +20,7 @@ namespace TWBlackListSoamChecker.CommandObject
         {
             using (var db = new BlacklistDatabaseContext())
             {
+                string groups = "";
                 List<GroupCfg> groupCfg = null;
                 try
                 {
@@ -36,9 +37,22 @@ namespace TWBlackListSoamChecker.CommandObject
                     string groupInfo = "無法取得";
                     try{groupInfo = TgApi.getDefaultApiConnection().getChatInfo(cfg.GroupID).result.GetChatTextInfo(); } catch { }
 
+                    groups = groups + cfg.GroupID.ToString() + " : \n" + RAPI.escapeMarkdown(groupInfo) + "\n\n";
+
+                    if (groups.Length > 3072)
+                    {
+                        TgApi.getDefaultApiConnection()
+                            .sendMessage(RawMessage.chat.id, groups, ParseMode: TgApi.PARSEMODE_MARKDOWN);
+                        groups = "";
+                        Thread.Sleep(3000);
+                    }
+                    
+                }
+
+                if (groups.Length > 0)
+                {
                     TgApi.getDefaultApiConnection()
-                        .sendMessage(RawMessage.chat.id, cfg.GroupID.ToString() + " : \n\n" + RAPI.escapeMarkdown(groupInfo) , ParseMode: TgApi.PARSEMODE_MARKDOWN);
-                    Thread.Sleep(500);
+                        .sendMessage(RawMessage.chat.id, groups, ParseMode: TgApi.PARSEMODE_MARKDOWN);
                 }
 
                 TgApi.getDefaultApiConnection()
