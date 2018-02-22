@@ -37,7 +37,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     try{groupInfo = TgApi.getDefaultApiConnection().getChatInfo(cfg.GroupID).result.GetChatTextInfo(); } catch { }
 
                     TgApi.getDefaultApiConnection()
-                        .sendMessage(RawMessage.chat.id, cfg.GroupID.ToString() + " : \n\n" + groupInfo, ParseMode: TgApi.PARSEMODE_MARKDOWN);
+                        .sendMessage(RawMessage.chat.id, cfg.GroupID.ToString() + " : \n\n" + RAPI.escapeMarkdown(groupInfo) , ParseMode: TgApi.PARSEMODE_MARKDOWN);
                     Thread.Sleep(500);
                 }
 
