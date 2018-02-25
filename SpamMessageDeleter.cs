@@ -21,8 +21,6 @@ namespace TWBlackListSoamChecker
                 return new CallbackMessage();
             }
 
-            if (RAPI.getIsInWhitelist(BaseMessage.from.id)) return new CallbackMessage();
-
             if (BaseMessage.chat.type != "group" && BaseMessage.chat.type != "supergroup")
                 return new CallbackMessage();
             string chatText = null;
@@ -55,6 +53,8 @@ namespace TWBlackListSoamChecker
                     }
             }
             // Call Admin END
+
+            if (RAPI.getIsInWhitelist(BaseMessage.from.id)) return new CallbackMessage();
 
             if (TgApi.getDefaultApiConnection().checkIsAdmin(BaseMessage.chat.id, BaseMessage.from.id))
                 return new CallbackMessage();
