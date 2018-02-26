@@ -58,7 +58,7 @@ namespace TWBlackListSoamChecker
             {
                 if (BaseMessage.forward_from != null)
                 {
-                    BanUser banUser = dbmgr.GetUserBanStatus(BaseMessage.forward_from.id);
+                    BanUser banUser = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.forward_from.id);
                     if (banUser.Ban == 0)
                     {
                         string resultmsg = "使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
