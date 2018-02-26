@@ -97,36 +97,6 @@ namespace TWBlackListSoamChecker
                 return new CallbackMessage();
             }
 
-            if (Temp.ReportGroupName != null && RawMessage.GetMessageChatInfo().username == Temp.ReportGroupName)
-            {
-                if (RawMessage.forward_from != null)
-                {
-                    BanUser banUser = dbmgr.GetUserBanStatus(RawMessage.forward_from.id);
-                    if (banUser.Ban == 0)
-                    {
-                        string resultmsg = "使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            RawMessage.GetMessageChatInfo().id,
-                            resultmsg,
-                            RawMessage.message_id,
-                            TgApi.PARSEMODE_MARKDOWN
-                        );
-                    }
-                    else
-                    {
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            RawMessage.GetMessageChatInfo().id,
-                            "使用者未被封鎖",
-                            RawMessage.message_id,
-                            TgApi.PARSEMODE_MARKDOWN
-                        );
-                    }
-
-                    return new CallbackMessage();
-                }
-            }
-
-
             if (groupCfg.BlackList == 0)
             {
                 BanUser banUser = dbmgr.GetUserBanStatus(JoinedUser.id);

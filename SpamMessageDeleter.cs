@@ -54,6 +54,35 @@ namespace TWBlackListSoamChecker
             }
             // Call Admin END
 
+            if (Temp.ReportGroupName != null && BaseMessage.GetMessageChatInfo().username == Temp.ReportGroupName)
+            {
+                if (BaseMessage.forward_from != null)
+                {
+                    BanUser banUser = dbmgr.GetUserBanStatus(BaseMessage.forward_from.id);
+                    if (banUser.Ban == 0)
+                    {
+                        string resultmsg = "使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
+                        TgApi.getDefaultApiConnection().sendMessage(
+                            BaseMessage.GetMessageChatInfo().id,
+                            resultmsg,
+                            BaseMessage.message_id,
+                            TgApi.PARSEMODE_MARKDOWN
+                        );
+                    }
+                    else
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(
+                            BaseMessage.GetMessageChatInfo().id,
+                            "使用者未被封鎖",
+                            BaseMessage.message_id,
+                            TgApi.PARSEMODE_MARKDOWN
+                        );
+                    }
+
+                    return new CallbackMessage();
+                }
+            }
+
             if (RAPI.getIsInWhitelist(BaseMessage.from.id)) return new CallbackMessage();
 
             if (TgApi.getDefaultApiConnection().checkIsAdmin(BaseMessage.chat.id, BaseMessage.from.id))
