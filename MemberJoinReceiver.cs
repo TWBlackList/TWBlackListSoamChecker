@@ -79,16 +79,13 @@ namespace TWBlackListSoamChecker
             }
 
             if (Temp.DisableBanList) return new CallbackMessage();
+
             if (Temp.CourtGroupName != null && RawMessage.GetMessageChatInfo().username == Temp.CourtGroupName)
             {
                 BanUser banUser = dbmgr.GetUserBanStatus(JoinedUser.id);
                 if (banUser.Ban == 0)
                 {
-                    string resultmsg = "這位使用者被封鎖了";
-                    resultmsg += "，原因 : \n" + RAPI.escapeMarkdown(banUser.Reason) + "\nID : " + JoinedUser.id;
-                    if (banUser.ChannelMessageID != 0 && Temp.MainChannelName != null)
-                        resultmsg += "\n參考 : https://t.me/" + RAPI.escapeMarkdown(Temp.MainChannelName) + "/" +
-                                     banUser.ChannelMessageID;
+                    string resultmsg = "這位使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
                         resultmsg,
@@ -99,6 +96,33 @@ namespace TWBlackListSoamChecker
 
                 return new CallbackMessage();
             }
+
+            if (Temp.ReportGroupName != null && RawMessage.GetMessageChatInfo().username == Temp.ReportGroupName)
+            {
+                BanUser banUser = dbmgr.GetUserBanStatus(RawMessage.forward_from.id);
+                if (banUser.Ban == 0)
+                {
+                    string resultmsg = "這位使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        resultmsg,
+                        RawMessage.message_id,
+                        TgApi.PARSEMODE_MARKDOWN
+                    );
+                }
+                else
+                {
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        "這位使用者未被封鎖",
+                        RawMessage.message_id,
+                        TgApi.PARSEMODE_MARKDOWN
+                    );
+                }
+
+                return new CallbackMessage();
+            }
+
 
             if (groupCfg.BlackList == 0)
             {

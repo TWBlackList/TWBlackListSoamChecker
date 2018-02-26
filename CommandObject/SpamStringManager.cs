@@ -20,7 +20,8 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void GetAllInfo(TgMessage RawMessage)
         {
-            string spamstrings = "<code>";
+
+            string spamstrings = "";
             List<SpamMessage> msgs = Temp.GetDatabaseManager().GetSpamMessageList();
             foreach (SpamMessage msg in msgs)
             {
@@ -41,21 +42,32 @@ namespace TWBlackListSoamChecker.CommandObject
                                    "\n      Point: " + i.Point;
                 spamstrings += "\n\n";
             }
-
-            spamstrings += "</code>";
-            if (spamstrings == "<code></code>")
+            
+            if (spamstrings == "")
             {
                 TgApi.getDefaultApiConnection()
                     .sendMessage(RawMessage.GetMessageChatInfo().id, "null", RawMessage.message_id);
                 return;
             }
 
-            TgApi.getDefaultApiConnection().sendMessage(
-                RawMessage.GetMessageChatInfo().id,
-                spamstrings,
-                RawMessage.message_id,
-                TgApi.PARSEMODE_HTML
-            );
+            var spamlist = new List<string>();
+
+            for (var i = 0; i < spamstrings.Length; i += 4000)
+            {
+                spamlist.Add(spamstrings.Substring(i, Math.Min(4000, spamstrings.Length - i)));
+            }
+
+            foreach (string msg in spamlist)
+            {
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    "<code>" + msg + "</code>",
+                    RawMessage.message_id,
+                    TgApi.PARSEMODE_HTML
+                );
+            }
+            
+            return;
         }
 
         public void GetName(TgMessage RawMessage)

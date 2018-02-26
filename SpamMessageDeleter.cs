@@ -273,7 +273,7 @@ namespace TWBlackListSoamChecker
                         SendUserInfo.id,
                         smsg.BanLevel,
                         banUtilTime,
-                        "自動封鎖 - " + smsg.FriendlyName + "\n分數 : " + point,
+                        smsg.FriendlyName + "\n分數 : " + point,
                         ChatID,
                         MsgID,
                         SendUserInfo

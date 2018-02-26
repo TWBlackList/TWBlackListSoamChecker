@@ -63,6 +63,7 @@ internal bool Unban(TgMessage RawMessage)
                 return true;
             }
 
+            new UnBanCaller().UnBanCallerThread(BanUserId);
             bool status;
             try
             {

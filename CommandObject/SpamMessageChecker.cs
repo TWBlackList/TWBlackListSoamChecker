@@ -139,9 +139,13 @@ namespace TWBlackListSoamChecker.CommandObject
         public int GetContainsPoints(SpamMessageObj[] spamMessages, string text) // Mode 6 如果包含
         {
             int totalPoints = 0;
+            int point = 0;
             foreach (SpamMessageObj msg in spamMessages)
                 if (text.ToLower().Contains(msg.Message.ToLower()))
-                    totalPoints += msg.Point;
+                {
+                    point = msg.Point * text.ToLower().Split(msg.Message.ToLower()).Length - 1;
+                    totalPoints += point;
+                }
             return totalPoints;
         }
 
