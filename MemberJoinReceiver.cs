@@ -99,28 +99,31 @@ namespace TWBlackListSoamChecker
 
             if (Temp.ReportGroupName != null && RawMessage.GetMessageChatInfo().username == Temp.ReportGroupName)
             {
-                BanUser banUser = dbmgr.GetUserBanStatus(RawMessage.forward_from.id);
-                if (banUser.Ban == 0)
+                if (RawMessage.forward_from != null)
                 {
-                    string resultmsg = "這位使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
-                    TgApi.getDefaultApiConnection().sendMessage(
-                        RawMessage.GetMessageChatInfo().id,
-                        resultmsg,
-                        RawMessage.message_id,
-                        TgApi.PARSEMODE_MARKDOWN
-                    );
-                }
-                else
-                {
-                    TgApi.getDefaultApiConnection().sendMessage(
-                        RawMessage.GetMessageChatInfo().id,
-                        "這位使用者未被封鎖",
-                        RawMessage.message_id,
-                        TgApi.PARSEMODE_MARKDOWN
-                    );
-                }
+                    BanUser banUser = dbmgr.GetUserBanStatus(RawMessage.forward_from.id);
+                    if (banUser.Ban == 0)
+                    {
+                        string resultmsg = "使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
+                        TgApi.getDefaultApiConnection().sendMessage(
+                            RawMessage.GetMessageChatInfo().id,
+                            resultmsg,
+                            RawMessage.message_id,
+                            TgApi.PARSEMODE_MARKDOWN
+                        );
+                    }
+                    else
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(
+                            RawMessage.GetMessageChatInfo().id,
+                            "使用者未被封鎖",
+                            RawMessage.message_id,
+                            TgApi.PARSEMODE_MARKDOWN
+                        );
+                    }
 
-                return new CallbackMessage();
+                    return new CallbackMessage();
+                }
             }
 
 
