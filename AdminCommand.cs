@@ -51,6 +51,9 @@ namespace TWBlackListSoamChecker
                         }
                     switch (Command)
                     {
+                        case "/cleanup":
+                            new CleanUP().CleanUP_Status(RawMessage);
+                            throw new StopProcessException();
                         case "/groups":
                             new AllGroups().Groups_Status(RawMessage);
                             throw new StopProcessException();
