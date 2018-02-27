@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using CNBlackListSoamChecker.DbManager;
+using TWBlackListSoamChecker.DbManager;
 
 // 这是迷之 Spam Message Checker
 
-namespace CNBlackListSoamChecker.CommandObject
+namespace TWBlackListSoamChecker.CommandObject
 {
     internal class SpamMessageKeyword
     {
