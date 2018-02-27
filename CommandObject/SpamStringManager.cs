@@ -443,5 +443,138 @@ namespace TWBlackListSoamChecker.CommandObject
                 );
             }
         }
+        public void GetSpamKeywords(TgMessage RawMessage)
+        {
+            int spacePath = RawMessage.text.IndexOf(" ");
+            if (spacePath == -1)
+            {
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    "/points text=\"被檢測訊息，如果包含英文與數字以外的文字需要加引號\"" +
+                    " rule=\"規則的暱稱，如果包含英文與數字以外的文字需要加引號\"",
+                    RawMessage.message_id
+                );
+                return;
+            }
+
+            Dictionary<string, string> banValues =
+                CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(spacePath + 1));
+            string text = banValues.GetValueOrDefault("text", null);
+            string rule = banValues.GetValueOrDefault("rule", null);
+            if (text == null)
+            {
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    "你的輸入有錯誤",
+                    RawMessage.message_id
+                );
+                return;
+            }
+
+            if (rule == null)
+            {
+                List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+                string msg = "";
+                bool found = false;
+                foreach (SpamMessage smsg in spamMsgList)
+                {
+                    string keywords = "";
+                    switch (smsg.Type)
+                    {
+                        case 0:
+                            keywords = new SpamMessageKeyword().GetEqualsKeyword(smsg.Messages, text);
+                            break;
+                        case 1:
+                            keywords = new SpamMessageKeyword().GetRegexKeyword(smsg.Messages, text);
+                            break;
+                        case 2:
+                            keywords = new SpamMessageKeyword().GetSpamKeyword(smsg.Messages, text);
+                            break;
+                        case 3:
+                            keywords = new SpamMessageKeyword().GetIndexOfKeyword(smsg.Messages, text);
+                            break;
+                        case 4:
+                            keywords = new SpamMessageKeyword().GetHalalKeyword(text);
+                            break;
+                        case 5:
+                            keywords = new SpamMessageKeyword().GetIndiaKeyword(text);
+                            break;
+                        case 6:
+                            keywords = new SpamMessageKeyword().GetContainsKeyword(smsg.Messages, text);
+                            break;
+                        case 7:
+                            keywords = new SpamMessageKeyword().GetRussiaKeyword(text);
+                            break;
+                    }
+
+                    if (keywords != "")
+                    {
+                        found = true;
+                        msg = msg + smsg.FriendlyName + " : \n" + keywords + "\n";
+                    }
+                }
+
+                if (found)
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        msg,
+                        RawMessage.message_id
+                    );
+                else
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        "未得分",
+                        RawMessage.message_id
+                    );
+            }
+            else
+            {
+                SpamMessage smsg = Temp.GetDatabaseManager().GetSpamRule(rule);
+                if (smsg == null)
+                {
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        "没有找到您指定的规則，請重新指定。您可使用 /getspamstr 獲取所以規則。",
+                        RawMessage.message_id
+                    );
+                    return;
+                }
+
+                string keywords = smsg.FriendlyName + " : \n";
+                switch (smsg.Type)
+                {
+                    case 0:
+                        keywords = new SpamMessageKeyword().GetEqualsKeyword(smsg.Messages, text);
+                        break;
+                    case 1:
+                        keywords = new SpamMessageKeyword().GetRegexKeyword(smsg.Messages, text);
+                        break;
+                    case 2:
+                        keywords = new SpamMessageKeyword().GetSpamKeyword(smsg.Messages, text);
+                        break;
+                    case 3:
+                        keywords = new SpamMessageKeyword().GetIndexOfKeyword(smsg.Messages, text);
+                        break;
+                    case 4:
+                        keywords = new SpamMessageKeyword().GetHalalKeyword(text);
+                        break;
+                    case 5:
+                        keywords = new SpamMessageKeyword().GetIndiaKeyword(text);
+                        break;
+                    case 6:
+                        keywords = new SpamMessageKeyword().GetContainsKeyword(smsg.Messages, text);
+                        break;
+                    case 7:
+                        keywords = new SpamMessageKeyword().GetRussiaKeyword(text);
+                        break;
+                }
+
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    keywords,
+                    RawMessage.message_id
+                );
+            }
+        }
     }
 }
