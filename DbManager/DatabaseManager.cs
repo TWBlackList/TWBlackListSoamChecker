@@ -392,6 +392,25 @@ namespace TWBlackListSoamChecker.DbManager
                 return groupCfg;
             }
         }
+        
+        public bool RemoveGroupCfg(long GroupID)
+        {
+            using (var db = new BlacklistDatabaseContext())
+            {
+                try
+                {
+                    var groupCfg = db.GroupConfig
+                        .Single(groups => groups.GroupID == GroupID);
+                    db.Remove(groupCfg);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (InvalidOperationException)
+                {
+                    return false;
+                }
+            }
+        }
 
         public List<SpamMessage> GetSpamMessageList()
         {
