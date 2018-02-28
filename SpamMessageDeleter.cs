@@ -20,6 +20,12 @@ namespace TWBlackListSoamChecker
                 TgApi.getDefaultApiConnection().leaveChat(BaseMessage.GetMessageChatInfo().id);
                 return new CallbackMessage();
             }
+            
+            if (BaseMessage.forward_from_chat != null)
+            {
+                if (RAPI.getIsInWhitelist(BaseMessage.forward_from_chat.id))
+                    return new CallbackMessage();
+            }
 
             if (BaseMessage.chat.type != "group" && BaseMessage.chat.type != "supergroup")
                 return new CallbackMessage();

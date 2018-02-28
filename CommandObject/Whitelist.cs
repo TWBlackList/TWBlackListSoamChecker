@@ -17,6 +17,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     RawMessage.message_id);
                 return false;
             }
+            if (UID_Value.Length == 10 && Convert.ToInt64(UID_Value) > 0) UID_Value = "-100" + UID_Value;
 
             string json = File.ReadAllText("config.json");
             dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -40,7 +41,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 return false;
             }
 
-            jsonObj["whitelist"].Add(Convert.ToInt32(UID_Value));
+            jsonObj["whitelist"].Add(Convert.ToInt64(UID_Value));
             string output =
                 JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
             File.WriteAllText("config.json", output);
@@ -62,6 +63,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
                 return false;
             }
+            if (UID_Value.Length == 10 && Convert.ToInt64(UID_Value) > 0) UID_Value = "-100" + UID_Value;
 
             string json = File.ReadAllText("config.json");
             dynamic jsonObj = JsonConvert.DeserializeObject(json);

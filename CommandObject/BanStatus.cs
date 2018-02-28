@@ -42,6 +42,15 @@ namespace TWBlackListSoamChecker.CommandObject
                             banmsg = banmsg + "，使用者在白名單內";
                         }
                     }
+                    if (RawMessage.reply_to_message.forward_from_chat != null)
+                    {
+                        banmsg += "\n\n被回覆的訊息轉發自頻道 : \n" +
+                                  RawMessage.reply_to_message.forward_from_chat.GetChatTextInfo();
+                        if (RAPI.getIsInWhitelist(RawMessage.reply_to_message.forward_from_chat.id))
+                        {
+                            banmsg = banmsg + "\n頻道在白名單內";
+                        }
+                    }
                 }
 
                 TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, banmsg,
