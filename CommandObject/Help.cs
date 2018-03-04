@@ -57,6 +57,7 @@ namespace TWBlackListSoamChecker.CommandObject
                                "/delop - 解除 Operator\n" +
                                "/seall - 開啟所有群組功能\n" +
                                "/sdall - 關閉所有群組功能\n" +
+                               "/groups - 取得所有群組\n" +
                                "/cleanup - 清理機器人不在群組內的群組資料\n";
             TgApi.getDefaultApiConnection()
                 .sendMessage(RawMessage.GetMessageChatInfo().id, finalHelpMsg, RawMessage.message_id);
