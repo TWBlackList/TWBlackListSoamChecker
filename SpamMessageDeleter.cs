@@ -208,17 +208,6 @@ namespace TWBlackListSoamChecker
 
                 if (max_point > 0)
                 {
-                    ProcessMessage(max_point_spam, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id,
-                        BaseMessage.GetSendUser(), max_point);
-
-                    BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
-
-                    if (banstat.Ban == 0)
-                        TgApi.getDefaultApiConnection().kickChatMember(
-                            BaseMessage.GetMessageChatInfo().id,
-                            BaseMessage.GetSendUser().id,
-                            GetTime.GetUnixTime() + 86400
-                        );
                     //Send alert and delete alert after 60 second
                     new Thread(delegate()
                     {
@@ -226,9 +215,12 @@ namespace TWBlackListSoamChecker
                             .sendMessage(
                                 BaseMessage.GetMessageChatInfo().id,
                                 "偵測到 " + max_point_spam.FriendlyName +
-                                " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
+                                " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。" +
+                                " ，如有疑慮請加入 @" + Temp.CourtGroupName + " 提出申訴。"
                             );
-                        Thread.Sleep(60000);
+                        ProcessMessage(max_point_spam, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id,
+                            BaseMessage.GetSendUser(), max_point);
+                        Thread.Sleep(30000);
                         TgApi.getDefaultApiConnection().deleteMessage(
                             autodeletespammessagesendresult.result.chat.id,
                             autodeletespammessagesendresult.result.message_id
@@ -290,23 +282,36 @@ namespace TWBlackListSoamChecker
             else
                 banUtilTime = GetTime.GetUnixTime() + smsg.BanDays * 86400 + smsg.BanHours * 3600 +
                               smsg.BanMinutes * 60;
-            if (smsg.AutoBlackList)
-            {
-                if (Temp.GetDatabaseManager().GetUserBanStatus(SendUserInfo.id).Ban == 0) return;
-                new Task(() =>
+
+            if (smsg.AutoKick)
+                new Thread(delegate()
                 {
-                    Temp.GetDatabaseManager().BanUser(
-                        0,
-                        SendUserInfo.id,
-                        smsg.BanLevel,
-                        banUtilTime,
-                        smsg.FriendlyName + "\n分數 : " + point,
+                    TgApi.getDefaultApiConnection().restrictChatMember(
                         ChatID,
-                        MsgID,
-                        SendUserInfo
-                    );
+                        SendUserInfo.id,
+                        GetTime.GetUnixTime() + 60,
+                        false);
+                    Thread.Sleep(10500);
+                    TgApi.getDefaultApiConnection().kickChatMember(ChatID, SendUserInfo.id, GetTime.GetUnixTime() + 60);
                 }).Start();
-            }
+            if (smsg.AutoBlackList)
+                new Thread(delegate()
+                {
+                    if (Temp.GetDatabaseManager().GetUserBanStatus(SendUserInfo.id).Ban == 0) return;
+                    new Task(() =>
+                    {
+                        Temp.GetDatabaseManager().BanUser(
+                            0,
+                            SendUserInfo.id,
+                            smsg.BanLevel,
+                            banUtilTime,
+                            smsg.FriendlyName + "\n分數 : " + point,
+                            ChatID,
+                            MsgID,
+                            SendUserInfo
+                        );
+                    }).Start();
+                }).Start();
             else
             {
                 if (smsg.AutoMute)
@@ -318,18 +323,14 @@ namespace TWBlackListSoamChecker
                         false
                     );
             }
-
-            if (smsg.AutoKick)
-                new Task(() =>
-                {
-                    TgApi.getDefaultApiConnection().kickChatMember(ChatID, SendUserInfo.id, banUtilTime);
-                }).Start();
+            
             if (smsg.AutoDelete)
                 new Thread(delegate()
                 {
-                    Thread.Sleep(5000);
+                    Thread.Sleep(10000);
                     TgApi.getDefaultApiConnection().deleteMessage(ChatID, MsgID);
                 }).Start();
+            
         }
 
         private void CallAdmin_SendMessage(TgMessage msg, string content, int step)
