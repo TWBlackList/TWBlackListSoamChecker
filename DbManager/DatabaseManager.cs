@@ -39,12 +39,8 @@ namespace TWBlackListSoamChecker.DbManager
             int ReasonID = 0;
             int ChannelReasonID = 0;
             if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0)
-            {
                 ReasonID = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID)
                     .result.message_id;
-                result = null;
-            }
-
             if (Temp.MainChannelID != 0)
             {
                 if (userinfo == null)
@@ -82,13 +78,12 @@ namespace TWBlackListSoamChecker.DbManager
                 banmsg += "\n原因 : " + Reason;
                 banmsg += "\nOID : " + AdminID + "\n";
                 if (Temp.ReasonChannelID != 0 && ReasonID != 0 && Temp.ReasonChannelName != null)
-                    banmsg += "\n" + "\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
+                    banmsg += "\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
                 else if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0) finalResult = false;
-
                 banmsg += "\n";
                 try
                 {
-                    banmsg += TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();
+                    banmsg += "\n" + TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();
                 }
                 catch
                 {
@@ -102,7 +97,7 @@ namespace TWBlackListSoamChecker.DbManager
             CNBlacklistApi.PostToAPI(UserID, true, Level, Expires, Reason);
             return finalResult;
         }
-        
+
         public bool UnbanUser(
             int AdminID,
             int UserID,
@@ -133,7 +128,11 @@ namespace TWBlackListSoamChecker.DbManager
                 }
 
                 banmsg += "\n\n已被解除封鎖";
+                
                 if (Reason != null) banmsg += "，原因 : \n" + Reason;
+
+                banmsg += "\n原封鎖原因 : \n"  + Temp.GetDatabaseManager().GetUserBanStatus(UserID).Reason + "\n";
+
                 banmsg += "\nOID : " + AdminID + "\n";
 
                 BanUser ban = Temp.GetDatabaseManager().GetUserBanStatus(UserID);
@@ -392,7 +391,7 @@ namespace TWBlackListSoamChecker.DbManager
                 return groupCfg;
             }
         }
-        
+
         public bool RemoveGroupCfg(long GroupID)
         {
             using (var db = new BlacklistDatabaseContext())
