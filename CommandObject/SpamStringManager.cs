@@ -355,8 +355,8 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            Dictionary<string, string> banValues =
-                CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(spacePath + 1));
+            //Dictionary<string, string> banValues =
+            //    CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(spacePath + 1));
             string text = RawMessage.text.Replace("/getspampoints ", "");
             //string text = banValues.GetValueOrDefault("text", null);
             //string rule = banValues.GetValueOrDefault("rule", null);
