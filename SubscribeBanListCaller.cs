@@ -48,22 +48,16 @@ namespace TWBlackListSoamChecker
                                     cfg.GroupID,
                                     user.UserID,
                                     GetTime.GetUnixTime() + 10,
-                                    true,
                                     false);
                                 SendMessageResult result = TgApi.getDefaultApiConnection().sendMessage(
                                     cfg.GroupID,
                                     "使用者 : " + user.UserID + "\n" + user.GetBanMessage() +
-                                    "\n\n由於開啟了 SubscribeBanList ，已嘗試自動移除。" +
-                                    "若要提出申訴，請至 @" + Temp.CourtGroupName + " 。"
+                                    "\n\n由於開啟了 SubscribeBanList ，已嘗試自動移除。" 
                                 );
                                 Thread.Sleep(10000);
-                                SetActionResult kickresult = TgApi.getDefaultApiConnection()
+                                TgApi.getDefaultApiConnection()
                                     .kickChatMember(cfg.GroupID, user.UserID, GetTime.GetUnixTime() + 60);
-                                if(kickresult.ok)
-                                    System.Console.WriteLine("...Done");
-                                else
-                                    System.Console.WriteLine("...Fail");
-                                Thread.Sleep(10000);
+                                Thread.Sleep(20000);
                                 TgApi.getDefaultApiConnection().deleteMessage(
                                     result.result.chat.id,
                                     result.result.message_id
