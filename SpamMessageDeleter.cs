@@ -20,9 +20,12 @@ namespace TWBlackListSoamChecker
                 TgApi.getDefaultApiConnection().leaveChat(BaseMessage.GetMessageChatInfo().id);
                 return new CallbackMessage();
             }
-            
+
+            string forward_from_id = null;
+
             if (BaseMessage.forward_from_chat != null)
             {
+                forward_from_id = BaseMessage.forward_from_chat.id.ToString();
                 if (RAPI.getIsInWhitelist(BaseMessage.forward_from_chat.id))
                     return new CallbackMessage();
             }
@@ -191,7 +194,7 @@ namespace TWBlackListSoamChecker
                             points = +new SpamMessageChecker().GetIndiaPoints(chatText);
                             break;
                         case 6:
-                            points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, chatText);
+                            points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, chatText + " " + forward_from_id);
                             break;
                         case 7:
                             points = new SpamMessageChecker().GetRussiaPoints(chatText);
