@@ -56,8 +56,23 @@ namespace TWBlackListSoamChecker.CommandObject
                         groups = groups + cfg.GroupID.ToString() + " : 已取得聊天，略過\n";
                     }
                 }
-                TgApi.getDefaultApiConnection()
-                    .sendMessage(RawMessage.chat.id, groups, ParseMode: TgApi.PARSEMODE_MARKDOWN);
+               
+                var charlist = new List<string>();
+
+                for (var i = 0; i < groups.Length; i += 4000)
+                {
+                    charlist.Add(groups.Substring(i, Math.Min(4000, groups.Length - i)));
+                }
+
+                foreach (string msg in charlist)
+                {
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        msg,
+                        RawMessage.message_id,
+                        TgApi.PARSEMODE_HTML
+                    );
+                }
             }
             return true;
         }
