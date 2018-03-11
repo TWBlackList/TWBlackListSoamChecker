@@ -43,7 +43,7 @@ namespace TWBlackListSoamChecker
                         {
                             new Thread(delegate()
                             {
-                                System.Console.Write("[SubscribeBanList] Ban " + user.UserID.ToString() + " in " + cfg.GroupID.ToString());
+                                System.Console.WriteLine("[SubscribeBanList] Ban " + user.UserID.ToString() + " in " + cfg.GroupID.ToString());
                                 TgApi.getDefaultApiConnection().restrictChatMember(
                                     cfg.GroupID,
                                     user.UserID,
