@@ -1,5 +1,6 @@
 ﻿using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
+using System.Collections.Generic;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
