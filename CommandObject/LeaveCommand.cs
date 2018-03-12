@@ -7,12 +7,38 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool Leave(TgMessage RawMessage)
         {
-            if (RAPI.getIsBotAdmin(RawMessage.GetSendUser().id) || RAPI.getIsBotOP(RawMessage.GetSendUser().id) ||
-                TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.GetSendUser().id))
+            
+            int saySpace = RawMessage.text.IndexOf(" ");
+            if (saySpace == -1)
             {
-                TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,
-                    "由 使用者 (" + RawMessage.GetSendUser().id + ") 請求離開群組", RawMessage.message_id);
-                TgApi.getDefaultApiConnection().leaveChat(RawMessage.chat.id);
+                if (RAPI.getIsBotAdmin(RawMessage.GetSendUser().id) || RAPI.getIsBotOP(RawMessage.GetSendUser().id) ||
+                    TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.GetSendUser().id))
+                {
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,
+                        "由 群管理 (" + RawMessage.GetSendUser().id + ") 請求離開群組", RawMessage.message_id);
+                    TgApi.getDefaultApiConnection().leaveChat(RawMessage.chat.id);
+                    return true;
+                }
+            }
+
+            if (TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.GetSendUser().id))
+            {
+                Dictionary<string, string>
+                    banValues = CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(saySpace + 1));
+
+                long groupID = new GetValues().GetGroupID(banValues, RawMessage);
+
+                if (groupID == 0)
+                {
+                    TgApi.getDefaultApiConnection()
+                        .sendMessage(RawMessage.chat.id, "輸入錯誤!\n/leave [g=100000000]", RawMessage.message_id);
+                }
+                else
+                {
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,
+                        "由 Bot管理員 (" + RawMessage.GetSendUser().id + ") 請求離開群組", RawMessage.message_id);
+                    TgApi.getDefaultApiConnection().leaveChat(RawMessage.chat.id);
+                }
                 return true;
             }
 

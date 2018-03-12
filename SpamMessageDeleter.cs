@@ -133,7 +133,7 @@ namespace TWBlackListSoamChecker
                     //Kick user and delete spam message
                     new Task(() =>
                     {
-                        TgApi.getDefaultApiConnection().kickChatMember(BaseMessage.chat.id, BaseMessage.from.id, 0);
+                        TgApi.getDefaultApiConnection().kickChatMember(BaseMessage.chat.id, BaseMessage.from.id, GetTime.GetUnixTime() + 300);
                         TgApi.getDefaultApiConnection().deleteMessage(BaseMessage.chat.id, BaseMessage.message_id);
                     }).Start();
 
@@ -143,7 +143,7 @@ namespace TWBlackListSoamChecker
                         TgApi.getDefaultApiConnection().kickChatMember(
                             BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.GetSendUser().id,
-                            GetTime.GetUnixTime() + 86400
+                            GetTime.GetUnixTime() + 300
                         );
 
                     //Send alert and delete alert after 60 second
@@ -295,7 +295,7 @@ namespace TWBlackListSoamChecker
                         GetTime.GetUnixTime() + 60,
                         false);
                     Thread.Sleep(10500);
-                    TgApi.getDefaultApiConnection().kickChatMember(ChatID, SendUserInfo.id, GetTime.GetUnixTime() + 60);
+                    TgApi.getDefaultApiConnection().kickChatMember(ChatID, SendUserInfo.id, GetTime.GetUnixTime() + 300);
                 }).Start();
             if (smsg.AutoBlackList)
                 new Thread(delegate()

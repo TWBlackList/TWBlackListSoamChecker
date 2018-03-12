@@ -24,7 +24,7 @@ namespace TWBlackListSoamChecker
                     .checkIsAdmin(RawMessage.GetMessageChatInfo().id, RawMessage.from.id))
             {
                 SetActionResult result = TgApi.getDefaultApiConnection()
-                    .kickChatMember(RawMessage.GetMessageChatInfo().id, JoinedUser.id, GetTime.GetUnixTime() + 86400);
+                    .kickChatMember(RawMessage.GetMessageChatInfo().id, JoinedUser.id, GetTime.GetUnixTime() + 300);
                 if (result.ok)
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
@@ -62,6 +62,15 @@ namespace TWBlackListSoamChecker
                         Thread.Sleep(2000);
                         TgApi.getDefaultApiConnection().leaveChat(RawMessage.GetMessageChatInfo().id);
                     }).Start();
+                    return new CallbackMessage();
+                }
+
+                if (RawMessage.GetMessageChatInfo().type == "group" &&
+                    RawMessage.GetMessageChatInfo().all_members_are_administrators)
+                {
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, "一般群組無法使用本服務，如有疑問請至 @ChineseBlackList ");
+                    Thread.Sleep(2000);
+                    TgApi.getDefaultApiConnection().leaveChat(RawMessage.GetMessageChatInfo().id);
                     return new CallbackMessage();
                 }
 
@@ -120,7 +129,7 @@ namespace TWBlackListSoamChecker
                                 SetActionResult result = TgApi.getDefaultApiConnection().kickChatMember(
                                     RawMessage.GetMessageChatInfo().id,
                                     JoinedUser.id,
-                                    GetTime.GetUnixTime() + 86400
+                                    GetTime.GetUnixTime() + 300
                                 );
                                 if (!result.ok)
                                     resultmsg += "\n注意 : 由於開啟了 AutoKick 但沒有 Ban Users 權限" +

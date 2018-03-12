@@ -408,6 +408,10 @@ namespace TWBlackListSoamChecker.DbManager
                 {
                     return false;
                 }
+                catch
+                {
+                    return false;
+                }
             }
         }
 
