@@ -36,9 +36,11 @@ namespace TWBlackListSoamChecker.CommandObject
                 }
                 else
                 {
-                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,
+                    TgApi.getDefaultApiConnection().sendMessage(groupID,
                         "由 Bot管理員 (" + RawMessage.GetSendUser().id + ") 請求離開群組", RawMessage.message_id);
-                    TgApi.getDefaultApiConnection().leaveChat(RawMessage.chat.id);
+                    TgApi.getDefaultApiConnection().leaveChat(groupID);
+                    TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,
+                        "由 Bot管理員 (" + RawMessage.GetSendUser().id + ") 請求離開群組 " + groupID.ToString() , RawMessage.message_id);
                 }
                 return true;
             }

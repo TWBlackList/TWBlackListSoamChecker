@@ -62,7 +62,7 @@ namespace TWBlackListSoamChecker.CommandObject
             {
                 BanUser ban = Temp.GetDatabaseManager().GetUserBanStatus(userid);
                 TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,
-                    "這位使用者" + ban.GetBanMessage_ESCMD(), RawMessage.message_id);
+                    "這位使用者" + ban.GetBanMessage_ESCMD(), RawMessage.message_id, TgApi.PARSEMODE_MARKDOWN);
                 return true;
             }
 
