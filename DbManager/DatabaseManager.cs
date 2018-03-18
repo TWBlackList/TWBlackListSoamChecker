@@ -54,7 +54,7 @@ namespace TWBlackListSoamChecker.DbManager
                     else
                     {
                         finalResult = false;
-                        banmsg = "User ID: " + UserID;
+                        banmsg = "User ID : " + UserID;
                     }
                 }
                 else
@@ -119,7 +119,7 @@ namespace TWBlackListSoamChecker.DbManager
                     }
                     else
                     {
-                        banmsg = "User ID: " + UserID;
+                        banmsg = "User ID : " + UserID;
                     }
                 }
                 else
