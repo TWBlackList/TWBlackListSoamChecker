@@ -151,12 +151,21 @@ namespace TWBlackListSoamChecker
                     return new CallbackMessage();
                 }
 
-                TgApi.getDefaultApiConnection().sendMessage(
-                    RawMessage.GetMessageChatInfo().id,
-                    resultmsg,
-                    RawMessage.message_id,
-                    TgApi.PARSEMODE_MARKDOWN
-                );
+                new Thread(delegate()
+                {
+                    SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
+                        RawMessage.GetMessageChatInfo().id,
+                        resultmsg,
+                        RawMessage.message_id,
+                        TgApi.PARSEMODE_MARKDOWN
+                    );
+                    Thread.Sleep(60000);
+                    TgApi.getDefaultApiConnection().deleteMessage(
+                        autodeletespammessagesendresult.result.chat.id,
+                        autodeletespammessagesendresult.result.message_id
+                    );
+                }).Start();
+
                 return new CallbackMessage {StopProcess = true};
             }
 
