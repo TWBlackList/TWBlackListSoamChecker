@@ -214,13 +214,24 @@ namespace TWBlackListSoamChecker
                     //Send alert and delete alert after 60 second
                     new Thread(delegate()
                     {
+                        string msg = "";
+                        if (Temp.ReportGroupName == Temp.CourtGroupName)
+                        {
+                            msg = "偵測到 " + max_point_spam.FriendlyName +
+                                  " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。";
+                        }
+                        else
+                        {
+                            msg = "偵測到 " + max_point_spam.FriendlyName +
+                                  " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。" +
+                                  " ，如有疑慮請加入 @" + Temp.CourtGroupName + " 提出申訴。";
+                        }
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
                             .sendMessage(
                                 BaseMessage.GetMessageChatInfo().id,
-                                "偵測到 " + max_point_spam.FriendlyName +
-                                " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。" +
-                                " ，如有疑慮請加入 @" + Temp.CourtGroupName + " 提出申訴。"
+                                msg
                             );
+
                         ProcessMessage(max_point_spam, BaseMessage.message_id, BaseMessage.GetMessageChatInfo().id,
                             BaseMessage.GetSendUser(), max_point);
                         Thread.Sleep(30000);
