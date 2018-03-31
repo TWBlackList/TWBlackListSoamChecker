@@ -161,7 +161,7 @@ namespace TWBlackListSoamChecker.CommandObject
             return totalPoints;
         }
         
-        public int GetNameKeyword(SpamMessageObj[] spamMessages, string name) // Mode 8 Name
+        public string GetNameKeyword(SpamMessageObj[] spamMessages, string name) // Mode 8 Name
         {
             string totalPoints = "";
             int point = 0;
