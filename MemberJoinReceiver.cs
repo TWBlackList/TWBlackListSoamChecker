@@ -44,7 +44,7 @@ namespace TWBlackListSoamChecker
                         RawMessage.GetSendUser().id,
                         0,
                         banUtilTime,
-                        "自動封鎖 - 拉入機器人",
+                        "自動封鎖 - 拉入機器人" + JoinedUser.GetUserTextInfo() ,
                         RawMessage.GetMessageChatInfo().id,
                         0,
                         RawMessage.GetSendUser()
