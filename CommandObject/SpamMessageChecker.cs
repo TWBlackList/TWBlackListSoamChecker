@@ -158,8 +158,21 @@ namespace TWBlackListSoamChecker.CommandObject
                 if (totalPoints >= 230) return 230;
                 char nowChar = text[nowPath];
                 if (nowChar >= 0x0400 && nowChar <= 0x052F){totalPoints++;}
-            }
+            }cd 
 
+            return totalPoints;
+        }
+        
+        public int GetNamePoints(SpamMessageObj[] spamMessages, string name) // Mode 8 Name
+        {
+            int totalPoints = 0;
+            int point = 0;
+            foreach (SpamMessageObj msg in spamMessages)
+                if (name.ToLower().Contains(msg.Message.ToLower()))
+                {
+                    point = msg.Point * (name.ToLower().Split(msg.Message.ToLower()).Length - 1);
+                    totalPoints += point;
+                }
             return totalPoints;
         }
 

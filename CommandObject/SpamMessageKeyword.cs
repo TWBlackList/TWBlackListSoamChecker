@@ -160,6 +160,19 @@ namespace TWBlackListSoamChecker.CommandObject
 
             return totalPoints;
         }
+        
+        public int GetNameKeyword(SpamMessageObj[] spamMessages, string name) // Mode 8 Name
+        {
+            string totalPoints = "";
+            int point = 0;
+            foreach (SpamMessageObj msg in spamMessages)
+                if (name.ToLower().Contains(msg.Message.ToLower()))
+                {
+                    point = msg.Point * (name.ToLower().Split(msg.Message.ToLower()).Length - 1);
+                    totalPoints = totalPoints + msg.Message.ToLower() + " : " + point.ToString() + "\n";
+                }
+            return totalPoints;
+        }
 
     }
 }
