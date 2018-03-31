@@ -199,6 +199,9 @@ namespace TWBlackListSoamChecker
                         case 7:
                             points = new SpamMessageChecker().GetRussiaPoints(chatText);
                             break;
+                        case 8:
+                            points = new SpamMessageChecker().GetNamePoints(smsg.Messages, chatText + " " + forward_from_id);
+                            break;
                     }
 
                     if (points >= smsg.MinPoints)

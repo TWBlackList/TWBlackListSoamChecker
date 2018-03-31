@@ -17,6 +17,8 @@ namespace TWBlackListSoamChecker.CommandObject
         public static int SPAMSTR_TYPE_HALAL = 3;
         public static int SPAMSTR_TYPE_INDIA = 4;
         public static int SPAMSTR_TYPE_CONTAINS = 5;
+        public static int SPAMSTR_TYPE_RUSSIA = 6;
+        public static int SPAMSTR_TYPE_NAME = 7;
 
         public void GetAllInfo(TgMessage RawMessage)
         {
@@ -404,6 +406,9 @@ namespace TWBlackListSoamChecker.CommandObject
                         case 7:
                             points = new SpamMessageChecker().GetRussiaPoints(text);
                             break;
+                        case 8:
+                            points = new SpamMessageChecker().GetNamePoints(smsg.Messages, text);
+                            break;
                     }
 
                     if (points > 0)
@@ -521,6 +526,9 @@ namespace TWBlackListSoamChecker.CommandObject
                         break;
                     case 7:
                         keywords = new SpamMessageKeyword().GetRussiaKeyword(text);
+                        break;
+                    case 8:
+                        keywords = new SpamMessageKeyword().GetNameKeyword(smsg.Messages, text);
                         break;
                 }
 
