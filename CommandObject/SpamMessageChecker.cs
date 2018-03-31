@@ -158,7 +158,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 if (totalPoints >= 230) return 230;
                 char nowChar = text[nowPath];
                 if (nowChar >= 0x0400 && nowChar <= 0x052F){totalPoints++;}
-            }cd 
+            }
 
             return totalPoints;
         }
