@@ -36,12 +36,13 @@ namespace TWBlackListSoamChecker.CommandObject
                 if (groupCfg == null) return false;
                 foreach (GroupCfg cfg in groupCfg)
                 {
-                    string groupInfo = null;
-                    try{groupInfo = TgApi.getDefaultApiConnection().getChatInfo(cfg.GroupID).result.GetChatTextInfo(); } catch { }
-
-                    if (groupInfo == null)
+                    if (TgApi.getDefaultApiConnection().getChatMember(cfg.GroupID,TgApi.getDefaultApiConnection().getMe().id).ok)
                     {
-                        groups = groups + cfg.GroupID.ToString() + " : 無法取得聊天，";
+                        groups = groups + cfg.GroupID.ToString() + " : Bot是聊天成員，略過\n";
+                    }
+                    else
+                    {
+                        groups = groups + cfg.GroupID.ToString() + " : Bot不是聊天成員，";
                         if (Temp.GetDatabaseManager().RemoveGroupCfg(cfg.GroupID))
                         {
                             groups = groups + "移除成功\n";
@@ -50,10 +51,6 @@ namespace TWBlackListSoamChecker.CommandObject
                         {
                             groups = groups + "移除失敗\n";
                         }
-                    }
-                    else
-                    {
-                        groups = groups + cfg.GroupID.ToString() + " : 已取得聊天，略過\n";
                     }
                 }
                
