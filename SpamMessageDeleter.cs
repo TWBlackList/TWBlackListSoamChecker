@@ -14,9 +14,22 @@ namespace TWBlackListSoamChecker
     {
         public CallbackMessage ReceiveAllNormalMessage(TgMessage BaseMessage, string JsonMessage)
         {
-            if (RAPI.getIsBlockGroup(BaseMessage.GetMessageChatInfo().id))
+            if (RAPI.getIsBlockGroup(RawMessage.GetMessageChatInfo().id))
             {
-                TgApi.getDefaultApiConnection().sendMessage(BaseMessage.GetMessageChatInfo().id, "此群組禁止使用本服務。");
+                new Thread(delegate()
+                {
+                    TgApi.getDefaultApiConnection().sendMessage(BaseMessage.GetMessageChatInfo().id, "此群組禁止使用本服務。");
+                    Thread.Sleep(2000);
+                    TgApi.getDefaultApiConnection().leaveChat(BaseMessage.GetMessageChatInfo().id);
+                }).Start();
+                return new CallbackMessage();
+            }
+
+            if (RawMessage.GetMessageChatInfo().type == "group" &&
+                RawMessage.GetMessageChatInfo().all_members_are_administrators)
+            {
+                TgApi.getDefaultApiConnection().sendMessage(BaseMessage.GetMessageChatInfo().id, "一般群組無法使用本服務，如有疑問請至 @ChineseBlackList ");
+                Thread.Sleep(2000);
                 TgApi.getDefaultApiConnection().leaveChat(BaseMessage.GetMessageChatInfo().id);
                 return new CallbackMessage();
             }
