@@ -356,12 +356,12 @@ namespace TWBlackListSoamChecker
             if (smsg.AutoKick)
                 new Thread(delegate()
                 {
-                    TgApi.getDefaultApiConnection().restrictChatMember(
-                        ChatID,
-                        SendUserInfo.id,
-                        GetTime.GetUnixTime() + 60,
-                        false);
-                    Thread.Sleep(10500);
+                    //TgApi.getDefaultApiConnection().restrictChatMember(
+                    //    ChatID,
+                    //    SendUserInfo.id,
+                    //    GetTime.GetUnixTime() + 60,
+                    //    false);
+                    Thread.Sleep(5500);
                     TgApi.getDefaultApiConnection().kickChatMember(ChatID, SendUserInfo.id, GetTime.GetUnixTime() + 1800);
                 }).Start();
             if (smsg.AutoBlackList)
