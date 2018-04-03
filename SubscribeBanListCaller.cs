@@ -56,7 +56,7 @@ namespace TWBlackListSoamChecker
                                 );
                                 Thread.Sleep(10000);
                                 TgApi.getDefaultApiConnection()
-                                    .kickChatMember(cfg.GroupID, user.UserID, GetTime.GetUnixTime() + 300);
+                                    .kickChatMember(cfg.GroupID, user.UserID, GetTime.GetUnixTime() + 1800);
                             }).Start();
                         }
 
