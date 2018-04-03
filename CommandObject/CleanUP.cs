@@ -74,6 +74,13 @@ namespace TWBlackListSoamChecker.CommandObject
                     );
                 }
             }
+            
+            TgApi.getDefaultApiConnection().sendMessage(
+                RawMessage.GetMessageChatInfo().id,
+                "CleanUP 執行完畢",
+                RawMessage.message_id,
+                TgApi.PARSEMODE_HTML
+            );
             return true;
         }
     }

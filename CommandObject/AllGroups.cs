@@ -56,7 +56,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 }
 
                 TgApi.getDefaultApiConnection()
-                    .sendMessage(RawMessage.chat.id, "有夠Highㄉ，輸出完畢!", RawMessage.message_id);
+                    .sendMessage(RawMessage.chat.id, "Groups 輸出完畢!", RawMessage.message_id);
             }
 
             return true;
