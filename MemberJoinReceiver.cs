@@ -65,8 +65,7 @@ namespace TWBlackListSoamChecker
                     return new CallbackMessage();
                 }
 
-                if (RawMessage.GetMessageChatInfo().type == "group" &&
-                    RawMessage.GetMessageChatInfo().all_members_are_administrators)
+                if (RawMessage.GetMessageChatInfo().type == "group" )
                 {
                     TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, "一般群組無法使用本服務，如有疑問請至 @ChineseBlackList ");
                     Thread.Sleep(2000);
