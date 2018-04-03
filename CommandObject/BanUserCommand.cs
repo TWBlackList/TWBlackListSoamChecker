@@ -153,6 +153,17 @@ namespace TWBlackListSoamChecker.CommandObject
                     ExpiresTime,
                     Reason
                 );
+            else if(RawMessage.GetReplyMessage().new_chat_member != null)
+                status = Temp.GetDatabaseManager().BanUser(
+                    RawMessage.GetSendUser().id,
+                    BanUserId,
+                    Level,
+                    ExpiresTime,
+                    Reason,
+                    0,
+                    0,
+                    BanUserInfo
+                );
             else
                 status = Temp.GetDatabaseManager().BanUser(
                     RawMessage.GetSendUser().id,
