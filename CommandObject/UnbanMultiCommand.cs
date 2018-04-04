@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
@@ -10,7 +9,7 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool UnbanMulti(TgMessage RawMessage)
         {
-            int banSpace = RawMessage.text.IndexOf(" ");
+            var banSpace = RawMessage.text.IndexOf(" ");
             if (banSpace == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -29,12 +28,12 @@ namespace TWBlackListSoamChecker.CommandObject
             }
 
             int[] UsersArray = { };
-            bool status = false;
-            int BanUserId = 0;
+            var status = false;
+            var BanUserId = 0;
             string Reason;
             try
             {
-                Dictionary<string, string> banValues =
+                var banValues =
                     CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(banSpace + 1));
 
                 // 获取使用者信息
@@ -55,7 +54,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
             new Thread(delegate()
             {
-                foreach (int userid in UsersArray)
+                foreach (var userid in UsersArray)
                 {
                     BanUserId = userid;
                     try

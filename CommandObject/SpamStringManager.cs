@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using TWBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
+using TWBlackListSoamChecker.DbManager;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
@@ -22,9 +22,9 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void GetAllInfo(TgMessage RawMessage)
         {
-            string spamstrings = "";
-            List<SpamMessage> msgs = Temp.GetDatabaseManager().GetSpamMessageList();
-            foreach (SpamMessage msg in msgs)
+            var spamstrings = "";
+            var msgs = Temp.GetDatabaseManager().GetSpamMessageList();
+            foreach (var msg in msgs)
             {
                 spamstrings += "- " + msg.FriendlyName + ":" +
                                "\n    Enabled: " + msg.Enabled +
@@ -38,12 +38,12 @@ namespace TWBlackListSoamChecker.CommandObject
                                "\n    BanMinutes: " + msg.BanMinutes +
                                "\n    MinPoints: " + msg.MinPoints +
                                "\n    Messages: ";
-                foreach (SpamMessageObj i in msg.Messages)
+                foreach (var i in msg.Messages)
                     spamstrings += "\n    - Message: " + TgApi.getDefaultApiConnection().jsonEncode(i.Message) +
                                    "\n      Point: " + i.Point;
                 spamstrings += "\n\n";
             }
-            
+
             if (spamstrings == "")
             {
                 TgApi.getDefaultApiConnection()
@@ -54,28 +54,22 @@ namespace TWBlackListSoamChecker.CommandObject
             var spamlist = new List<string>();
 
             for (var i = 0; i < spamstrings.Length; i += 4000)
-            {
                 spamlist.Add(spamstrings.Substring(i, Math.Min(4000, spamstrings.Length - i)));
-            }
 
-            foreach (string msg in spamlist)
-            {
+            foreach (var msg in spamlist)
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
                     "<code>" + msg + "</code>",
                     RawMessage.message_id,
                     TgApi.PARSEMODE_HTML
                 );
-            }
-            
-            return;
         }
 
         public void GetName(TgMessage RawMessage)
         {
-            int spacePath = RawMessage.text.IndexOf(" ");
-            string spamstrings = "";
-            List<SpamMessage> msgs = Temp.GetDatabaseManager().GetSpamMessageList();
+            var spacePath = RawMessage.text.IndexOf(" ");
+            var spamstrings = "";
+            var msgs = Temp.GetDatabaseManager().GetSpamMessageList();
             if (spacePath == -1)
             {
                 if (msgs.Count == 0)
@@ -85,7 +79,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     return;
                 }
 
-                foreach (SpamMessage msg in msgs)
+                foreach (var msg in msgs)
                     spamstrings += "FriendlyName: <code>" + msg.FriendlyName + "</code>, Enabled: " + msg.Enabled +
                                    "\n";
                 spamstrings += "\n您可以使用 /getspamstr [FriendlyName] 來取得詳細訊息。";
@@ -99,8 +93,8 @@ namespace TWBlackListSoamChecker.CommandObject
             }
             else
             {
-                string name = RawMessage.text.Substring(spacePath + 1);
-                foreach (SpamMessage msg in msgs)
+                var name = RawMessage.text.Substring(spacePath + 1);
+                foreach (var msg in msgs)
                 {
                     if (name != msg.FriendlyName) continue;
                     if (spamstrings != "") spamstrings += "\n\n------\n\n";
@@ -116,7 +110,7 @@ namespace TWBlackListSoamChecker.CommandObject
                                    "\n    BanMinutes: " + msg.BanMinutes +
                                    "\n    MinPoints: " + msg.MinPoints +
                                    "\n    Messages: ";
-                    foreach (SpamMessageObj i in msg.Messages)
+                    foreach (var i in msg.Messages)
                         spamstrings += "\n    - Message: " + TgApi.getDefaultApiConnection().jsonEncode(i.Message) +
                                        "\n      Point: " + i.Point;
                     spamstrings += "";
@@ -124,30 +118,25 @@ namespace TWBlackListSoamChecker.CommandObject
 
                 if (spamstrings == "") spamstrings = "沒有查到這筆紀錄，請檢查您的輸入。";
 
-                
+
                 var spamlist = new List<string>();
 
                 for (var i = 0; i < spamstrings.Length; i += 4000)
-                {
                     spamlist.Add(spamstrings.Substring(i, Math.Min(4000, spamstrings.Length - i)));
-                }
 
-                foreach (string msg in spamlist)
-                {
+                foreach (var msg in spamlist)
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
                         "<code>" + msg + "</code>",
                         RawMessage.message_id,
                         TgApi.PARSEMODE_HTML
                     );
-                }
             }
-            
         }
 
         public void GetByID(TgMessage RawMessage)
         {
-            int spacePath = RawMessage.text.IndexOf(" ");
+            var spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -159,10 +148,10 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            string name = RawMessage.text.Substring(spacePath + 1);
-            string spamstrings = "";
-            List<SpamMessage> msgs = Temp.GetDatabaseManager().GetSpamMessageList();
-            foreach (SpamMessage msg in msgs)
+            var name = RawMessage.text.Substring(spacePath + 1);
+            var spamstrings = "";
+            var msgs = Temp.GetDatabaseManager().GetSpamMessageList();
+            foreach (var msg in msgs)
             {
                 if (name != msg.FriendlyName) continue;
                 spamstrings += "- " + msg.FriendlyName + ":" +
@@ -177,7 +166,7 @@ namespace TWBlackListSoamChecker.CommandObject
                                "\n    BanMinutes: " + msg.BanMinutes +
                                "\n    MinPoints: " + msg.MinPoints +
                                "\n    Messages: ";
-                foreach (SpamMessageObj i in msg.Messages)
+                foreach (var i in msg.Messages)
                     spamstrings += "\n    - Message: " + TgApi.getDefaultApiConnection().jsonEncode(i.Message) +
                                    "\n      Point: " + i.Point;
                 spamstrings += "\n\n";
@@ -193,25 +182,20 @@ namespace TWBlackListSoamChecker.CommandObject
             var spamlist = new List<string>();
 
             for (var i = 0; i < spamstrings.Length; i += 4000)
-            {
                 spamlist.Add(spamstrings.Substring(i, Math.Min(4000, spamstrings.Length - i)));
-            }
 
-            foreach (string msg in spamlist)
-            {
+            foreach (var msg in spamlist)
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
                     "<code>" + msg + "</code>",
                     RawMessage.message_id,
                     TgApi.PARSEMODE_HTML
                 );
-            }
-
         }
 
         public void Get(TgMessage RawMessage)
         {
-            int spacePath = RawMessage.text.IndexOf(" ");
+            var spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -223,10 +207,10 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            string jsonText = RawMessage.text.Substring(spacePath + 1);
-            string spamstrings = "";
-            List<SpamMessage> msgs = Temp.GetDatabaseManager().GetSpamMessageList();
-            foreach (SpamMessage msg in msgs) spamstrings += "- " + msg.FriendlyName + "\n";
+            var jsonText = RawMessage.text.Substring(spacePath + 1);
+            var spamstrings = "";
+            var msgs = Temp.GetDatabaseManager().GetSpamMessageList();
+            foreach (var msg in msgs) spamstrings += "- " + msg.FriendlyName + "\n";
             if (spamstrings == "")
             {
                 TgApi.getDefaultApiConnection()
@@ -243,7 +227,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void Add(TgMessage RawMessage)
         {
-            string HelpContent =
+            var HelpContent =
                 "解析 JSON 时出现错误，請参考下面的例子 : \n```\n" +
                 "{\n    " +
                 "\"FriendlyName\": \"規則名稱\",\n    " +
@@ -277,7 +261,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 "\n名稱 = 8";
             RawMessage.text = RawMessage.text.Replace("\"M\"", "\"Message\"");
             RawMessage.text = RawMessage.text.Replace("\"P\"", "\"Point\"");
-            int spacePath = RawMessage.text.IndexOf(" ");
+            var spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -289,7 +273,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            string jsonText = RawMessage.text.Substring(spacePath + 1);
+            var jsonText = RawMessage.text.Substring(spacePath + 1);
             SpamMessage smsg;
             try
             {
@@ -323,7 +307,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void Remove(TgMessage RawMessage)
         {
-            int spacePath = RawMessage.text.IndexOf(" ");
+            var spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -334,8 +318,8 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            string RuleFriendlyName = RawMessage.text.Substring(spacePath + 1);
-            int count = Temp.GetDatabaseManager().DeleteSpamMessage(RuleFriendlyName);
+            var RuleFriendlyName = RawMessage.text.Substring(spacePath + 1);
+            var count = Temp.GetDatabaseManager().DeleteSpamMessage(RuleFriendlyName);
             TgApi.getDefaultApiConnection().sendMessage(
                 RawMessage.GetMessageChatInfo().id,
                 "刪除了 " + count + " 項",
@@ -345,7 +329,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void GetSpamPoints(TgMessage RawMessage)
         {
-            int spacePath = RawMessage.text.IndexOf(" ");
+            var spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -360,7 +344,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
             //Dictionary<string, string> banValues =
             //    CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(spacePath + 1));
-            string text = RawMessage.text.Replace("/getspampoints ", "");
+            var text = RawMessage.text.Replace("/getspampoints ", "");
             //string text = banValues.GetValueOrDefault("text", null);
             //string rule = banValues.GetValueOrDefault("rule", null);
             if (text == null)
@@ -375,62 +359,62 @@ namespace TWBlackListSoamChecker.CommandObject
 
             //if (rule == null)
             //{
-                List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
-                string msg = "";
-                bool found = false;
-                foreach (SpamMessage smsg in spamMsgList)
+            var spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+            var msg = "";
+            var found = false;
+            foreach (var smsg in spamMsgList)
+            {
+                var points = 0;
+                switch (smsg.Type)
                 {
-                    int points = 0;
-                    switch (smsg.Type)
-                    {
-                        case 0:
-                            points = new SpamMessageChecker().GetEqualsPoints(smsg.Messages, text);
-                            break;
-                        case 1:
-                            points = new SpamMessageChecker().GetRegexPoints(smsg.Messages, text);
-                            break;
-                        case 2:
-                            points = new SpamMessageChecker().GetSpamPoints(smsg.Messages, text);
-                            break;
-                        case 3:
-                            points = new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, text);
-                            break;
-                        case 4:
-                            points = new SpamMessageChecker().GetHalalPoints(text);
-                            break;
-                        case 5:
-                            points = new SpamMessageChecker().GetIndiaPoints(text);
-                            break;
-                        case 6:
-                            points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, text);
-                            break;
-                        case 7:
-                            points = new SpamMessageChecker().GetRussiaPoints(text);
-                            break;
-                        case 8:
-                            points = new SpamMessageChecker().GetNamePoints(smsg.Messages, text);
-                            break;
-                    }
-
-                    if (points > 0)
-                    {
-                        found = true;
-                        msg = msg + smsg.FriendlyName + " : " + points + "\n";
-                    }
+                    case 0:
+                        points = new SpamMessageChecker().GetEqualsPoints(smsg.Messages, text);
+                        break;
+                    case 1:
+                        points = new SpamMessageChecker().GetRegexPoints(smsg.Messages, text);
+                        break;
+                    case 2:
+                        points = new SpamMessageChecker().GetSpamPoints(smsg.Messages, text);
+                        break;
+                    case 3:
+                        points = new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, text);
+                        break;
+                    case 4:
+                        points = new SpamMessageChecker().GetHalalPoints(text);
+                        break;
+                    case 5:
+                        points = new SpamMessageChecker().GetIndiaPoints(text);
+                        break;
+                    case 6:
+                        points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, text);
+                        break;
+                    case 7:
+                        points = new SpamMessageChecker().GetRussiaPoints(text);
+                        break;
+                    case 8:
+                        points = new SpamMessageChecker().GetNamePoints(smsg.Messages, text);
+                        break;
                 }
 
-                if (found)
-                    TgApi.getDefaultApiConnection().sendMessage(
-                        RawMessage.GetMessageChatInfo().id,
-                        msg,
-                        RawMessage.message_id
-                    );
-                else
-                    TgApi.getDefaultApiConnection().sendMessage(
-                        RawMessage.GetMessageChatInfo().id,
-                        "未得分",
-                        RawMessage.message_id
-                    );
+                if (points > 0)
+                {
+                    found = true;
+                    msg = msg + smsg.FriendlyName + " : " + points + "\n";
+                }
+            }
+
+            if (found)
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    msg,
+                    RawMessage.message_id
+                );
+            else
+                TgApi.getDefaultApiConnection().sendMessage(
+                    RawMessage.GetMessageChatInfo().id,
+                    "未得分",
+                    RawMessage.message_id
+                );
             //}
             //else
             //{
@@ -484,7 +468,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void GetSpamKeywords(TgMessage RawMessage)
         {
-            int spacePath = RawMessage.text.IndexOf(" ");
+            var spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -495,13 +479,13 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            string text = RawMessage.text.Replace("/points ", "");
-            List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
-            string msg = "";
-            bool found = false;
-            foreach (SpamMessage smsg in spamMsgList)
+            var text = RawMessage.text.Replace("/points ", "");
+            var spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+            var msg = "";
+            var found = false;
+            foreach (var smsg in spamMsgList)
             {
-                string keywords = "";
+                var keywords = "";
                 switch (smsg.Type)
                 {
                     case 0:

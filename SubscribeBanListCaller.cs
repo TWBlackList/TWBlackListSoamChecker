@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using TWBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
-using ReimuAPI.ReimuBase.TgData;
+using TWBlackListSoamChecker.DbManager;
 
 namespace TWBlackListSoamChecker
 {
@@ -35,33 +34,31 @@ namespace TWBlackListSoamChecker
                 }
 
                 if (groupCfg == null) return;
-                foreach (GroupCfg cfg in groupCfg)
+                foreach (var cfg in groupCfg)
                 {
-                        var userInChatInfo = TgApi.getDefaultApiConnection().getChatMember(cfg.GroupID, user.UserID);
-                        if (userInChatInfo.ok)
-                            if (userInChatInfo.result.status == "member")
+                    var userInChatInfo = TgApi.getDefaultApiConnection().getChatMember(cfg.GroupID, user.UserID);
+                    if (userInChatInfo.ok)
+                        if (userInChatInfo.result.status == "member")
+                            new Thread(delegate()
                             {
-                                new Thread(delegate()
-                                {
-                                    System.Console.WriteLine("[SubscribeBanList] Ban " + user.UserID.ToString() +
-                                                             " in " + cfg.GroupID.ToString());
-                                    //TgApi.getDefaultApiConnection().restrictChatMember(
-                                    //    cfg.GroupID,
-                                    //    user.UserID,
-                                    //    GetTime.GetUnixTime() + 10,
-                                    //    false);
-                                    SendMessageResult result = TgApi.getDefaultApiConnection().sendMessage(
-                                        cfg.GroupID,
-                                        "使用者 : " + user.UserID + "\n" + user.GetBanMessage() +
-                                        "\n\n由於開啟了 SubscribeBanList ，已嘗試自動移除。"
-                                    );
-                                    Thread.Sleep(5000);
-                                    TgApi.getDefaultApiConnection()
-                                        .kickChatMember(cfg.GroupID, user.UserID, GetTime.GetUnixTime() + 1800);
-                                }).Start();
-                            }
+                                Console.WriteLine("[SubscribeBanList] Ban " + user.UserID +
+                                                  " in " + cfg.GroupID);
+                                //TgApi.getDefaultApiConnection().restrictChatMember(
+                                //    cfg.GroupID,
+                                //    user.UserID,
+                                //    GetTime.GetUnixTime() + 10,
+                                //    false);
+                                var result = TgApi.getDefaultApiConnection().sendMessage(
+                                    cfg.GroupID,
+                                    "使用者 : " + user.UserID + "\n" + user.GetBanMessage() +
+                                    "\n\n由於開啟了 SubscribeBanList ，已嘗試自動移除。"
+                                );
+                                Thread.Sleep(5000);
+                                TgApi.getDefaultApiConnection()
+                                    .kickChatMember(cfg.GroupID, user.UserID, GetTime.GetUnixTime() + 1800);
+                            }).Start();
 
-                        Thread.Sleep(500);
+                    Thread.Sleep(500);
                 }
             }
         }

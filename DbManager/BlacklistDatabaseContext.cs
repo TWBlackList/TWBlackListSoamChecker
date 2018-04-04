@@ -32,10 +32,10 @@ namespace TWBlackListSoamChecker.DbManager
 
         public string GetBanMessage()
         {
-            string msg = "未封鎖";
+            var msg = "未封鎖";
             if (Ban == 0)
             {
-                string ExpTime = GetTime.GetExpiresTime(Expires);
+                var ExpTime = GetTime.GetExpiresTime(Expires);
                 msg = "處分 : ";
                 if (Level == 0)
                     msg += "封鎖";
@@ -60,10 +60,10 @@ namespace TWBlackListSoamChecker.DbManager
 
         public string GetBanMessage_ESCMD()
         {
-            string msg = "未封鎖";
+            var msg = "未封鎖";
             if (Ban == 0)
             {
-                string ExpTime = GetTime.GetExpiresTime(Expires);
+                var ExpTime = GetTime.GetExpiresTime(Expires);
                 msg = "處分 : ";
                 if (Level == 0)
                     msg += "封鎖";
@@ -78,7 +78,7 @@ namespace TWBlackListSoamChecker.DbManager
                     msg += "\n時效 : 永久";
 
                 msg += "\n原因 : " + Reason;
-                
+
                 if (ChannelMessageID != 0 && Temp.MainChannelName != null)
                     msg += "\n\n參考 : https://t.me/" + Temp.MainChannelName + "/" + ChannelMessageID;
 

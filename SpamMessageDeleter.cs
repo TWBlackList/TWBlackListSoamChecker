@@ -27,7 +27,8 @@ namespace TWBlackListSoamChecker
 
             if (BaseMessage.GetMessageChatInfo().type == "group")
             {
-                TgApi.getDefaultApiConnection().sendMessage(BaseMessage.GetMessageChatInfo().id, "一般群組無法使用本服務，如有疑問請至 @ChineseBlackList ");
+                TgApi.getDefaultApiConnection().sendMessage(BaseMessage.GetMessageChatInfo().id,
+                    "一般群組無法使用本服務，如有疑問請至 @ChineseBlackList ");
                 Thread.Sleep(2000);
                 TgApi.getDefaultApiConnection().leaveChat(BaseMessage.GetMessageChatInfo().id);
                 return new CallbackMessage();
@@ -52,10 +53,10 @@ namespace TWBlackListSoamChecker
             else
                 return new CallbackMessage();
             // Call Admin START
-            int atAdminPath = chatText.IndexOf("@admin");
+            var atAdminPath = chatText.IndexOf("@admin");
             if (atAdminPath != -1)
             {
-                int textLen = chatText.Length;
+                var textLen = chatText.Length;
                 if (textLen == 6)
                     CallAdmin(BaseMessage);
                 else if (textLen >= 8)
@@ -76,13 +77,12 @@ namespace TWBlackListSoamChecker
             // Call Admin END
 
             if (Temp.ReportGroupName != null && BaseMessage.GetMessageChatInfo().username == Temp.ReportGroupName)
-            {
                 if (BaseMessage.forward_from != null)
                 {
-                    BanUser banUser = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.forward_from.id);
+                    var banUser = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.forward_from.id);
                     if (banUser.Ban == 0)
                     {
-                        string resultmsg = "使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
+                        var resultmsg = "使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
                         TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
                             resultmsg,
@@ -102,7 +102,6 @@ namespace TWBlackListSoamChecker
 
                     return new CallbackMessage();
                 }
-            }
 
             if (RAPI.getIsInWhitelist(BaseMessage.from.id)) return new CallbackMessage();
 
@@ -110,15 +109,15 @@ namespace TWBlackListSoamChecker
                 return new CallbackMessage();
 
             // ALTI HALAL Start
-            GroupCfg cfg = Temp.GetDatabaseManager().GetGroupConfig(BaseMessage.chat.id);
+            var cfg = Temp.GetDatabaseManager().GetGroupConfig(BaseMessage.chat.id);
             if (cfg.AntiHalal == 0)
             {
-                int max_point = 0;
-                SpamMessage max_point_spam = new SpamMessage();
-                List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
-                foreach (SpamMessage smsg in spamMsgList)
+                var max_point = 0;
+                var max_point_spam = new SpamMessage();
+                var spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+                foreach (var smsg in spamMsgList)
                 {
-                    int points = 0;
+                    var points = 0;
                     switch (smsg.Type)
                     {
                         case 4:
@@ -145,20 +144,16 @@ namespace TWBlackListSoamChecker
                     //Send alert and delete alert after 60 second
                     new Thread(delegate()
                     {
-                        string msg = "";
+                        var msg = "";
                         if (Temp.ReportGroupName == Temp.CourtGroupName)
-                        {
                             msg = "偵測到 " + max_point_spam.FriendlyName +
                                   " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。";
-                        }
                         else
-                        {
                             msg = "偵測到 " + max_point_spam.FriendlyName +
                                   " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。" +
                                   " ，如有疑慮請加入 @" + Temp.CourtGroupName + " 提出申訴。";
-                        }
 
-                        SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
+                        var autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
                             .sendMessage(
                                 BaseMessage.GetMessageChatInfo().id,
                                 msg
@@ -173,80 +168,80 @@ namespace TWBlackListSoamChecker
                     }).Start();
                     return new CallbackMessage {StopProcess = true};
                 }
-            //{
-            //    List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
-            //    int halalPoints = new SpamMessageChecker().GetHalalPoints(chatText);
-            //    int indiaPoints = new SpamMessageChecker().GetIndiaPoints(chatText);
-            //    int russiaPoints = new SpamMessageChecker().GetRussiaPoints(chatText);
-            //    if (halalPoints >= 8 || indiaPoints >= 16)
-            //    {
-            //        //If not in ban status , ban user.
-            //        if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
-            //            new Task(() =>
-            //            {
-            //                Temp.GetDatabaseManager().BanUser(
-            //                    0,
-            //                    BaseMessage.from.id,
-            //                    0,
-            //                    0,
-            //                    "\n自動封鎖 : 無法理解的語言",
-            //                    BaseMessage.GetMessageChatInfo().id,
-            //                    BaseMessage.message_id,
-            //                    BaseMessage.from
-            //                );
-            //            }).Start();
+                //{
+                //    List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+                //    int halalPoints = new SpamMessageChecker().GetHalalPoints(chatText);
+                //    int indiaPoints = new SpamMessageChecker().GetIndiaPoints(chatText);
+                //    int russiaPoints = new SpamMessageChecker().GetRussiaPoints(chatText);
+                //    if (halalPoints >= 8 || indiaPoints >= 16)
+                //    {
+                //        //If not in ban status , ban user.
+                //        if (Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.from.id).Ban != 0)
+                //            new Task(() =>
+                //            {
+                //                Temp.GetDatabaseManager().BanUser(
+                //                    0,
+                //                    BaseMessage.from.id,
+                //                    0,
+                //                    0,
+                //                    "\n自動封鎖 : 無法理解的語言",
+                //                    BaseMessage.GetMessageChatInfo().id,
+                //                    BaseMessage.message_id,
+                //                    BaseMessage.from
+                //                );
+                //            }).Start();
 
-                    //new Task(() =>
-                    //{
-                    //    TgApi.getDefaultApiConnection().forwardMessage(
-                    //        Temp.ReasonChannelID,
-                    //        BaseMessage.GetMessageChatInfo().id,
-                    //        BaseMessage.message_id);
-                    //}).Start();
+                //new Task(() =>
+                //{
+                //    TgApi.getDefaultApiConnection().forwardMessage(
+                //        Temp.ReasonChannelID,
+                //        BaseMessage.GetMessageChatInfo().id,
+                //        BaseMessage.message_id);
+                //}).Start();
 
-                    //Kick user and delete spam message
-            //        new Task(() =>
-            //        {
-            //            TgApi.getDefaultApiConnection().kickChatMember(BaseMessage.chat.id, BaseMessage.from.id, GetTime.GetUnixTime() + 300);
-            //            TgApi.getDefaultApiConnection().deleteMessage(BaseMessage.chat.id, BaseMessage.message_id);
-            //        }).Start();
+                //Kick user and delete spam message
+                //        new Task(() =>
+                //        {
+                //            TgApi.getDefaultApiConnection().kickChatMember(BaseMessage.chat.id, BaseMessage.from.id, GetTime.GetUnixTime() + 300);
+                //            TgApi.getDefaultApiConnection().deleteMessage(BaseMessage.chat.id, BaseMessage.message_id);
+                //        }).Start();
 
-            //        BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
+                //        BanUser banstat = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.GetSendUser().id);
 
-            //        if (banstat.Ban == 0)
-            //            TgApi.getDefaultApiConnection().kickChatMember(
-            //                BaseMessage.GetMessageChatInfo().id,
-            //                BaseMessage.GetSendUser().id,
-            //                GetTime.GetUnixTime() + 300
-            //            );
+                //        if (banstat.Ban == 0)
+                //            TgApi.getDefaultApiConnection().kickChatMember(
+                //                BaseMessage.GetMessageChatInfo().id,
+                //                BaseMessage.GetSendUser().id,
+                //                GetTime.GetUnixTime() + 300
+                //            );
 
-                    //Send alert and delete alert after 60 second
-            //        new Thread(delegate()
-            //        {
-            //            SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
-            //                BaseMessage.GetMessageChatInfo().id,
-            //                "偵測到無法理解的語言，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
-            //            );
-            //            Thread.Sleep(60000);
-            //            TgApi.getDefaultApiConnection().deleteMessage(
-            //                autodeletespammessagesendresult.result.chat.id,
-            //                autodeletespammessagesendresult.result.message_id
-            //            );
-            //        }).Start();
-            //        return new CallbackMessage {StopProcess = true};
-            //    }
+                //Send alert and delete alert after 60 second
+                //        new Thread(delegate()
+                //        {
+                //            SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection().sendMessage(
+                //                BaseMessage.GetMessageChatInfo().id,
+                //                "偵測到無法理解的語言，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。"
+                //            );
+                //            Thread.Sleep(60000);
+                //            TgApi.getDefaultApiConnection().deleteMessage(
+                //                autodeletespammessagesendresult.result.chat.id,
+                //                autodeletespammessagesendresult.result.message_id
+                //            );
+                //        }).Start();
+                //        return new CallbackMessage {StopProcess = true};
+                //    }
             }
             // ALTI HALAL AND INDIA END
 
             // AUTO DELETE SPAM MESSAGE START
             if (Temp.DisableBanList == false && cfg.AutoDeleteSpamMessage == 0)
             {
-                int max_point = 0;
-                SpamMessage max_point_spam = new SpamMessage();
-                List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
-                foreach (SpamMessage smsg in spamMsgList)
+                var max_point = 0;
+                var max_point_spam = new SpamMessage();
+                var spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+                foreach (var smsg in spamMsgList)
                 {
-                    int points = 0;
+                    var points = 0;
                     switch (smsg.Type)
                     {
                         case 0:
@@ -262,10 +257,12 @@ namespace TWBlackListSoamChecker
                             points = +new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, chatText);
                             break;
                         case 6:
-                            points = new SpamMessageChecker().GetContainsPoints(smsg.Messages, chatText + " " + forward_from_id);
+                            points = new SpamMessageChecker().GetContainsPoints(smsg.Messages,
+                                chatText + " " + forward_from_id);
                             break;
                         case 8:
-                            points = new SpamMessageChecker().GetNamePoints(smsg.Messages, BaseMessage.from.full_name());
+                            points = new SpamMessageChecker().GetNamePoints(smsg.Messages,
+                                BaseMessage.from.full_name());
                             break;
                     }
 
@@ -282,19 +279,15 @@ namespace TWBlackListSoamChecker
                     //Send alert and delete alert after 60 second
                     new Thread(delegate()
                     {
-                        string msg = "";
+                        var msg = "";
                         if (Temp.ReportGroupName == Temp.CourtGroupName)
-                        {
                             msg = "偵測到 " + max_point_spam.FriendlyName +
                                   " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。";
-                        }
                         else
-                        {
                             msg = "偵測到 " + max_point_spam.FriendlyName +
                                   " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。" +
                                   " ，如有疑慮請加入 @" + Temp.CourtGroupName + " 提出申訴。";
-                        }
-                        SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
+                        var autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
                             .sendMessage(
                                 BaseMessage.GetMessageChatInfo().id,
                                 msg
@@ -319,13 +312,13 @@ namespace TWBlackListSoamChecker
             if (cfg.AutoDeleteCommand == 0)
                 if (BaseMessage.entities != null)
                 {
-                    ContentEntities tmpEntities = BaseMessage.entities[0];
+                    var tmpEntities = BaseMessage.entities[0];
                     Log.i(tmpEntities.type + "" + tmpEntities.offset);
                     if (tmpEntities.type == "bot_command" && tmpEntities.offset == 0)
                     {
                         new Thread(delegate()
                         {
-                            SendMessageResult autodeletecommandsendresult = TgApi.getDefaultApiConnection().sendMessage(
+                            var autodeletecommandsendresult = TgApi.getDefaultApiConnection().sendMessage(
                                 BaseMessage.GetMessageChatInfo().id,
                                 "請您不要亂玩機器人的指令，有問題請聯絡群組管理員。"
                             );
@@ -374,9 +367,11 @@ namespace TWBlackListSoamChecker
                     //    GetTime.GetUnixTime() + 60,
                     //    false);
                     Thread.Sleep(5500);
-                    TgApi.getDefaultApiConnection().kickChatMember(ChatID, SendUserInfo.id, GetTime.GetUnixTime() + 1800);
+                    TgApi.getDefaultApiConnection()
+                        .kickChatMember(ChatID, SendUserInfo.id, GetTime.GetUnixTime() + 1800);
                 }).Start();
             if (smsg.AutoBlackList)
+            {
                 new Thread(delegate()
                 {
                     if (Temp.GetDatabaseManager().GetUserBanStatus(SendUserInfo.id).Ban == 0) return;
@@ -394,6 +389,7 @@ namespace TWBlackListSoamChecker
                         );
                     }).Start();
                 }).Start();
+            }
             else
             {
                 if (smsg.AutoMute)
@@ -405,14 +401,13 @@ namespace TWBlackListSoamChecker
                         false
                     );
             }
-            
+
             if (smsg.AutoDelete)
                 new Thread(delegate()
                 {
                     Thread.Sleep(10000);
                     TgApi.getDefaultApiConnection().deleteMessage(ChatID, MsgID);
                 }).Start();
-            
         }
 
         private void CallAdmin_SendMessage(TgMessage msg, string content, int step)
@@ -420,7 +415,7 @@ namespace TWBlackListSoamChecker
             new Thread(delegate()
             {
                 if (step != 1) msg.message_id = -1;
-                SendMessageResult calladmin = TgApi.getDefaultApiConnection().sendMessage(
+                var calladmin = TgApi.getDefaultApiConnection().sendMessage(
                     msg.chat.id,
                     content,
                     msg.message_id,
@@ -436,10 +431,10 @@ namespace TWBlackListSoamChecker
 
         private void CallAdmin(TgMessage msg)
         {
-            GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(msg.chat.id);
-            List<string> temp = new List<string>();
-            int step = 1;
-            foreach (GroupUserInfo i in admins)
+            var admins = TgApi.getDefaultApiConnection().getChatAdministrators(msg.chat.id);
+            var temp = new List<string>();
+            var step = 1;
+            foreach (var i in admins)
             {
                 temp.Add("<a href=\"tg://user?id=" + i.user.id + "\">" + "." + "</a>");
                 if (temp.Count == 5)

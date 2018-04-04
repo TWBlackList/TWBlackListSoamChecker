@@ -1,6 +1,5 @@
 ﻿using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
-using System.Collections.Generic;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
@@ -8,10 +7,8 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool Leave(TgMessage RawMessage)
         {
-            
-            int saySpace = RawMessage.text.IndexOf(" ");
+            var saySpace = RawMessage.text.IndexOf(" ");
             if (saySpace == -1)
-            {
                 if (RAPI.getIsBotAdmin(RawMessage.GetSendUser().id) || RAPI.getIsBotOP(RawMessage.GetSendUser().id) ||
                     TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.GetSendUser().id))
                 {
@@ -20,14 +17,13 @@ namespace TWBlackListSoamChecker.CommandObject
                     TgApi.getDefaultApiConnection().leaveChat(RawMessage.chat.id);
                     return true;
                 }
-            }
 
             if (TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.GetSendUser().id))
             {
-                Dictionary<string, string>
+                var
                     banValues = CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(saySpace + 1));
 
-                long groupID = new GetValues().GetGroupID(banValues, RawMessage);
+                var groupID = new GetValues().GetGroupID(banValues, RawMessage);
 
                 if (groupID == 0)
                 {
@@ -40,8 +36,9 @@ namespace TWBlackListSoamChecker.CommandObject
                         "由 Bot管理員 (" + RawMessage.GetSendUser().id + ") 請求離開群組", RawMessage.message_id);
                     TgApi.getDefaultApiConnection().leaveChat(groupID);
                     TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,
-                        "由 Bot管理員 (" + RawMessage.GetSendUser().id + ") 請求離開群組 " + groupID.ToString() , RawMessage.message_id);
+                        "由 Bot管理員 (" + RawMessage.GetSendUser().id + ") 請求離開群組 " + groupID, RawMessage.message_id);
                 }
+
                 return true;
             }
 

@@ -9,7 +9,7 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool BanMulti(TgMessage RawMessage, string JsonMessage, string Command)
         {
-            int banSpace = RawMessage.text.IndexOf(" ");
+            var banSpace = RawMessage.text.IndexOf(" ");
             if (banSpace == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -30,15 +30,15 @@ namespace TWBlackListSoamChecker.CommandObject
                 return true;
             }
 
-            int BanUserId = 0;
+            var BanUserId = 0;
             int[] UsersArray = { };
             long ExpiresTime = 0;
-            int Level = 0;
-            string Reason = "";
-            string value = RawMessage.text.Substring(banSpace + 1);
-            int valLen = value.Length;
-            bool NotHalal = true;
-            bool status = false;
+            var Level = 0;
+            var Reason = "";
+            var value = RawMessage.text.Substring(banSpace + 1);
+            var valLen = value.Length;
+            var NotHalal = true;
+            var status = false;
 
             if (valLen >= 5)
                 if (value.Substring(0, 5) == "halal")
@@ -70,14 +70,14 @@ namespace TWBlackListSoamChecker.CommandObject
             if (NotHalal)
                 try
                 {
-                    Dictionary<string, string> banValues = CommandDecoder.cutKeyIsValue(value);
-                    string tmpString = "";
+                    var banValues = CommandDecoder.cutKeyIsValue(value);
+                    var tmpString = "";
 
                     // 获取使用者
                     UsersArray = new GetValues().GetUserIDs(banValues, RawMessage);
 
                     // 获取 ExpiresTime
-                    long tmpExpiresTime = new GetValues().GetBanUnixTime(banValues, RawMessage);
+                    var tmpExpiresTime = new GetValues().GetBanUnixTime(banValues, RawMessage);
                     if (tmpExpiresTime == -1) return true; // 如果过期时间是 -1 则代表出现了异常
                     ExpiresTime = tmpExpiresTime;
 
@@ -111,7 +111,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
             new Thread(delegate()
             {
-                foreach (int userid in UsersArray)
+                foreach (var userid in UsersArray)
                 {
                     BanUserId = userid;
                     status = Temp.GetDatabaseManager().BanUser(

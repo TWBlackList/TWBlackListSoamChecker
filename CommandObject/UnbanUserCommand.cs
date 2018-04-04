@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 
@@ -7,9 +6,9 @@ namespace TWBlackListSoamChecker.CommandObject
 {
     internal class UnbanUserCommand
     {
-internal bool Unban(TgMessage RawMessage)
+        internal bool Unban(TgMessage RawMessage)
         {
-            int banSpace = RawMessage.text.IndexOf(" ");
+            var banSpace = RawMessage.text.IndexOf(" ");
             if (banSpace == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -27,16 +26,16 @@ internal bool Unban(TgMessage RawMessage)
                 return true;
             }
 
-            int BanUserId = 0;
+            var BanUserId = 0;
             string Reason;
             UserInfo BanUserInfo = null;
             try
             {
-                Dictionary<string, string> banValues =
+                var banValues =
                     CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(banSpace + 1));
 
                 // 获取使用者信息
-                UserInfo tmpUinfo = new GetValues().GetByTgMessage(banValues, RawMessage);
+                var tmpUinfo = new GetValues().GetByTgMessage(banValues, RawMessage);
                 if (tmpUinfo == null) return true; // 如果没拿到使用者信息則代表出现了异常
 
                 BanUserId = tmpUinfo.id;
@@ -100,21 +99,19 @@ internal bool Unban(TgMessage RawMessage)
                 );
                 return true;
             }
-            else
-            {
-                TgApi.getDefaultApiConnection().sendMessage(
-                    RawMessage.GetMessageChatInfo().id,
-                    "操作失敗，或許使用者未被封鎖。",
-                    RawMessage.message_id
-                );
-                return false;
+
+            TgApi.getDefaultApiConnection().sendMessage(
+                RawMessage.GetMessageChatInfo().id,
+                "操作失敗，或許使用者未被封鎖。",
+                RawMessage.message_id
+            );
+            return false;
             //    TgApi.getDefaultApiConnection().sendMessage(
             //        RawMessage.GetMessageChatInfo().id,
             //        "操作成功。\n\n請注意 : 轉發使用者訊息到頻道或是發送使用者訊息到頻道失敗，請您手動發送至  @" + Temp.MainChannelName + " 。 err11",
             //        RawMessage.message_id
             //        );
             //    return true;
-            }
             //return false;
         }
 

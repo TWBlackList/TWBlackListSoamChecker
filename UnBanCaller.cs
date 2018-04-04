@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using TWBlackListSoamChecker.DbManager;
 using ReimuAPI.ReimuBase;
+using TWBlackListSoamChecker.DbManager;
 
 namespace TWBlackListSoamChecker
 {
@@ -30,7 +30,7 @@ namespace TWBlackListSoamChecker
                 }
 
                 if (groupCfg == null) return;
-                foreach (GroupCfg cfg in groupCfg)
+                foreach (var cfg in groupCfg)
                 {
                     var userInChatInfo = TgApi.getDefaultApiConnection().getChatMember(cfg.GroupID, user);
 

@@ -96,6 +96,7 @@ namespace TWBlackListSoamChecker
                     }
                 }
             }
+
             return false;
         }
     }

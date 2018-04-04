@@ -10,20 +10,21 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool addWhitelist(TgMessage RawMessage)
         {
-            string UID_Value = RawMessage.text.Replace("/addwl", "").Replace(" ", "");
+            var UID_Value = RawMessage.text.Replace("/addwl", "").Replace(" ", "");
             if (UID_Value.Length < 5)
             {
                 TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "使用方法 : /addwl UID",
                     RawMessage.message_id);
                 return false;
             }
+
             if (UID_Value.Length == 10 && Convert.ToInt64(UID_Value) > 0) UID_Value = "-100" + UID_Value;
 
-            string json = File.ReadAllText("config.json");
+            var json = File.ReadAllText("config.json");
             dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
-            int i = 0;
-            bool found = false;
+            var i = 0;
+            var found = false;
             foreach (var item in jsonObj["whitelist"])
             {
                 if (jsonObj["whitelist"][i] == UID_Value)
@@ -54,7 +55,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         internal bool deleteWhitelist(TgMessage RawMessage)
         {
-            string UID_Value = RawMessage.text.Replace("/delwl", "").Replace(" ", "");
+            var UID_Value = RawMessage.text.Replace("/delwl", "").Replace(" ", "");
             ;
             if (UID_Value.Length < 5)
             {
@@ -63,13 +64,14 @@ namespace TWBlackListSoamChecker.CommandObject
 
                 return false;
             }
+
             if (UID_Value.Length == 10 && Convert.ToInt64(UID_Value) > 0) UID_Value = "-100" + UID_Value;
 
-            string json = File.ReadAllText("config.json");
+            var json = File.ReadAllText("config.json");
             dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
-            int i = 0;
-            bool found = false;
+            var i = 0;
+            var found = false;
 
             foreach (var item in jsonObj["whitelist"])
             {
@@ -103,7 +105,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         internal bool listWhitelist(TgMessage RawMessage)
         {
-            string json = File.ReadAllText("config.json");
+            var json = File.ReadAllText("config.json");
             dynamic jsonObj = JsonConvert.DeserializeObject(json);
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,
                 "Whitelist : \n" + string.Join("\n", jsonObj["whitelist"]), RawMessage.message_id);

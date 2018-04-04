@@ -8,7 +8,7 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool Ban(TgMessage RawMessage, string JsonMessage, string Command)
         {
-            int banSpace = RawMessage.text.IndexOf(" ");
+            var banSpace = RawMessage.text.IndexOf(" ");
             if (banSpace == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -29,14 +29,14 @@ namespace TWBlackListSoamChecker.CommandObject
                 return true;
             }
 
-            int BanUserId = 0;
+            var BanUserId = 0;
             long ExpiresTime = 0;
-            int Level = 0;
-            string Reason = "";
+            var Level = 0;
+            var Reason = "";
             UserInfo BanUserInfo = null;
-            string value = RawMessage.text.Substring(banSpace + 1);
-            int valLen = value.Length;
-            bool NotHalal = true;
+            var value = RawMessage.text.Substring(banSpace + 1);
+            var valLen = value.Length;
+            var NotHalal = true;
             if (valLen >= 5)
                 if (value.Substring(0, 5) == "halal")
                 {
@@ -54,7 +54,7 @@ namespace TWBlackListSoamChecker.CommandObject
                             return true;
                         }
 
-                        UserInfo tmpUinfo =
+                        var tmpUinfo =
                             new GetValues().GetByTgMessage(
                                 new Dictionary<string, string> {{"from", value.Substring(6)}}, RawMessage);
                         if (tmpUinfo == null) return true; // 如果没拿到使用者信息则代表出现了异常
@@ -65,7 +65,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     }
                     else
                     {
-                        UserInfo tmpUinfo =
+                        var tmpUinfo =
                             new GetValues().GetByTgMessage(new Dictionary<string, string>(), RawMessage);
                         if (tmpUinfo == null) return true; // 如果没拿到使用者信息则代表出现了异常
 
@@ -84,11 +84,11 @@ namespace TWBlackListSoamChecker.CommandObject
             if (NotHalal)
                 try
                 {
-                    Dictionary<string, string> banValues = CommandDecoder.cutKeyIsValue(value);
-                    string tmpString = "";
+                    var banValues = CommandDecoder.cutKeyIsValue(value);
+                    var tmpString = "";
 
                     // 获取使用者信息
-                    UserInfo tmpUinfo = new GetValues().GetByTgMessage(banValues, RawMessage);
+                    var tmpUinfo = new GetValues().GetByTgMessage(banValues, RawMessage);
                     if (tmpUinfo == null) return true; // 如果没拿到使用者信息则代表出现了异常
 
                     BanUserId = tmpUinfo.id;
@@ -102,7 +102,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     }
 
                     // 获取 ExpiresTime
-                    long tmpExpiresTime = new GetValues().GetBanUnixTime(banValues, RawMessage);
+                    var tmpExpiresTime = new GetValues().GetBanUnixTime(banValues, RawMessage);
                     if (tmpExpiresTime == -1) return true; // 如果过期时间是 -1 则代表出现了异常
                     ExpiresTime = tmpExpiresTime;
 
@@ -153,7 +153,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     ExpiresTime,
                     Reason
                 );
-            else if(RawMessage.GetReplyMessage().new_chat_member != null)
+            else if (RawMessage.GetReplyMessage().new_chat_member != null)
                 status = Temp.GetDatabaseManager().BanUser(
                     RawMessage.GetSendUser().id,
                     BanUserId,

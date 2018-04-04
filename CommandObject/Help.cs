@@ -8,14 +8,14 @@ namespace TWBlackListSoamChecker.CommandObject
         internal bool HelpStatus(TgMessage RawMessage)
         {
             string finalHelpMsg;
-            string groupHelp = "/leave - 離開群組\n" +
-                               "/soamenable - 啟用功能\n" +
-                               "/soamdisable - 關閉功能\n" +
-                               "/soamstatus - 取得目前群組開啟功能";
-            string privateHelp = "";
-            string sharedHelp = "/banstat - 查詢處分狀態\n" +
-                                "/user - 取得 User ID\n" +
-                                "/lsop - Operator 名冊";
+            var groupHelp = "/leave - 離開群組\n" +
+                            "/soamenable - 啟用功能\n" +
+                            "/soamdisable - 關閉功能\n" +
+                            "/soamstatus - 取得目前群組開啟功能";
+            var privateHelp = "";
+            var sharedHelp = "/banstat - 查詢處分狀態\n" +
+                             "/user - 取得 User ID\n" +
+                             "/lsop - Operator 名冊";
             switch (RawMessage.chat.type)
             {
                 case "group":
