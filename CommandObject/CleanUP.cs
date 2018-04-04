@@ -22,7 +22,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 .sendMessage(RawMessage.chat.id, "處理中.........!", RawMessage.message_id);
             using (var db = new BlacklistDatabaseContext())
             {
-                var groups = "";
+                string groups = "";
                 List<GroupCfg> groupCfg = null;
                 try
                 {
@@ -34,7 +34,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 }
 
                 if (groupCfg == null) return false;
-                foreach (var cfg in groupCfg)
+                foreach (GroupCfg cfg in groupCfg)
                     if (TgApi.getDefaultApiConnection()
                         .getChatMember(cfg.GroupID, TgApi.getDefaultApiConnection().getMe().id).ok)
                     {
@@ -54,7 +54,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 for (var i = 0; i < groups.Length; i += 4000)
                     charlist.Add(groups.Substring(i, Math.Min(4000, groups.Length - i)));
 
-                foreach (var msg in charlist)
+                foreach (string msg in charlist)
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
                         msg,

@@ -12,7 +12,7 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool BroadCast_Status(TgMessage RawMessage)
         {
-            var saySpace = RawMessage.text.IndexOf(" ");
+            int saySpace = RawMessage.text.IndexOf(" ");
             if (saySpace == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -24,10 +24,10 @@ namespace TWBlackListSoamChecker.CommandObject
                 return true;
             }
 
-            var
+            Dictionary<string, string>
                 banValues = CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(saySpace + 1));
 
-            var text = new GetValues().GetText(banValues, RawMessage);
+            string text = new GetValues().GetText(banValues, RawMessage);
 
             if (text == null)
             {
@@ -40,7 +40,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 return true;
             }
 
-            var groupID = new GetValues().GetGroupID(banValues, RawMessage);
+            long groupID = new GetValues().GetGroupID(banValues, RawMessage);
 
             if (groupID == 0)
             {
@@ -65,7 +65,7 @@ namespace TWBlackListSoamChecker.CommandObject
             Console.WriteLine("Broadcasting " + Msg + " ......");
             using (var db = new BlacklistDatabaseContext())
             {
-                var groups = "";
+                string groups = "";
                 List<GroupCfg> groupCfg = null;
                 try
                 {
@@ -77,11 +77,11 @@ namespace TWBlackListSoamChecker.CommandObject
                 }
 
                 if (groupCfg == null) return false;
-                foreach (var cfg in groupCfg)
+                foreach (GroupCfg cfg in groupCfg)
                 {
                     Console.WriteLine("Broadcasting " + Msg + " to group ChatID : " + cfg.GroupID);
 
-                    var result = TgApi.getDefaultApiConnection()
+                    SendMessageResult result = TgApi.getDefaultApiConnection()
                         .sendMessage(cfg.GroupID, Msg, ParseMode: TgApi.PARSEMODE_MARKDOWN);
 
                     if (result.ok)

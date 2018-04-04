@@ -20,8 +20,8 @@ namespace TWBlackListSoamChecker
                 {
                     configPath = Environment.GetEnvironmentVariable("CNBLACKLIST_CONFIGPATH");
                     if (configPath == "" || configPath == null) configPath = "./plugincfg/soamchecker/api.json";
-                    var configContent = File.ReadAllText(configPath);
-                    var data = (PrivateApiConfig) new DataContractJsonSerializer(
+                    string configContent = File.ReadAllText(configPath);
+                    PrivateApiConfig data = (PrivateApiConfig) new DataContractJsonSerializer(
                         typeof(PrivateApiConfig)
                     ).ReadObject(
                         new MemoryStream(
@@ -48,7 +48,7 @@ namespace TWBlackListSoamChecker
                 reason = "";
             try
             {
-                var resultMsg = TgApi.getDefaultApiConnection().postWeb(
+                string resultMsg = TgApi.getDefaultApiConnection().postWeb(
                     ApiURL,
                     "method=set_value&apikey=" + ApiKey +
                     "&uid=" + uid +

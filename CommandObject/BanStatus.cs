@@ -8,10 +8,10 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool banstatus(TgMessage RawMessage)
         {
-            var banstatSpace = RawMessage.text.IndexOf(" ");
+            int banstatSpace = RawMessage.text.IndexOf(" ");
             if (banstatSpace == -1)
             {
-                var banmsg = "";
+                string banmsg = "";
                 BanUser ban;
                 ban = Temp.GetDatabaseManager().GetUserBanStatus(RawMessage.GetSendUser().id);
                 banmsg = "發送者 : " + RawMessage.GetSendUser().GetUserTextInfo_ESCMD() + "\n" + ban.GetBanMessage_ESCMD();
@@ -50,9 +50,9 @@ namespace TWBlackListSoamChecker.CommandObject
                 return true;
             }
 
-            if (int.TryParse(RawMessage.text.Substring(banstatSpace + 1), out var userid))
+            if (int.TryParse(RawMessage.text.Substring(banstatSpace + 1), out int userid))
             {
-                var ban = Temp.GetDatabaseManager().GetUserBanStatus(userid);
+                BanUser ban = Temp.GetDatabaseManager().GetUserBanStatus(userid);
                 TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id,
                     "這位使用者" + ban.GetBanMessage_ESCMD(), RawMessage.message_id, TgApi.PARSEMODE_MARKDOWN);
                 return true;

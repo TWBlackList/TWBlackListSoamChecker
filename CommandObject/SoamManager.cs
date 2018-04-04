@@ -1,5 +1,6 @@
 ﻿using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
+using TWBlackListSoamChecker.DbManager;
 
 namespace TWBlackListSoamChecker.CommandObject
 {
@@ -14,17 +15,17 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            var enabled = "";
-            var otherMsg = "";
-            var AdminOnly = 3;
-            var Blacklist = 3;
-            var AutoKick = 3;
-            var AntiBot = 3;
-            var AntiHalal = 3;
-            var AutoDeleteSpamMessage = 3;
-            var AutoDeleteCommand = 3;
-            var SubscribeBanList = 3;
-            var text = message.text.ToLower();
+            string enabled = "";
+            string otherMsg = "";
+            int AdminOnly = 3;
+            int Blacklist = 3;
+            int AutoKick = 3;
+            int AntiBot = 3;
+            int AntiHalal = 3;
+            int AutoDeleteSpamMessage = 3;
+            int AutoDeleteCommand = 3;
+            int SubscribeBanList = 3;
+            string text = message.text.ToLower();
             if (text.IndexOf(" adminonly") != -1)
             {
                 AdminOnly = 0;
@@ -131,16 +132,16 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            var enabled = "";
-            var AdminOnly = 3;
-            var Blacklist = 3;
-            var AutoKick = 3;
-            var AntiBot = 3;
-            var AntiHalal = 3;
-            var AutoDeleteSpamMessage = 3;
-            var AutoDeleteCommand = 3;
-            var SubscribeBanList = 3;
-            var text = message.text.ToLower();
+            string enabled = "";
+            int AdminOnly = 3;
+            int Blacklist = 3;
+            int AutoKick = 3;
+            int AntiBot = 3;
+            int AntiHalal = 3;
+            int AutoDeleteSpamMessage = 3;
+            int AutoDeleteCommand = 3;
+            int SubscribeBanList = 3;
+            string text = message.text.ToLower();
             if (text.IndexOf(" adminonly") != -1)
             {
                 AdminOnly = 1;
@@ -226,7 +227,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void SoamStatus(TgMessage message)
         {
-            var gc = Temp.GetDatabaseManager().GetGroupConfig(message.chat.id);
+            GroupCfg gc = Temp.GetDatabaseManager().GetGroupConfig(message.chat.id);
             TgApi.getDefaultApiConnection().sendMessage(
                 message.chat.id,
                 "BlackList (By @" + TgApi.getDefaultApiConnection().getMe().username + ") : " + (gc.BlackList == 0) +

@@ -22,9 +22,9 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void GetAllInfo(TgMessage RawMessage)
         {
-            var spamstrings = "";
-            var msgs = Temp.GetDatabaseManager().GetSpamMessageList();
-            foreach (var msg in msgs)
+            string spamstrings = "";
+            List<SpamMessage> msgs = Temp.GetDatabaseManager().GetSpamMessageList();
+            foreach (SpamMessage msg in msgs)
             {
                 spamstrings += "- " + msg.FriendlyName + ":" +
                                "\n    Enabled: " + msg.Enabled +
@@ -38,7 +38,7 @@ namespace TWBlackListSoamChecker.CommandObject
                                "\n    BanMinutes: " + msg.BanMinutes +
                                "\n    MinPoints: " + msg.MinPoints +
                                "\n    Messages: ";
-                foreach (var i in msg.Messages)
+                foreach (SpamMessageObj i in msg.Messages)
                     spamstrings += "\n    - Message: " + TgApi.getDefaultApiConnection().jsonEncode(i.Message) +
                                    "\n      Point: " + i.Point;
                 spamstrings += "\n\n";
@@ -56,7 +56,7 @@ namespace TWBlackListSoamChecker.CommandObject
             for (var i = 0; i < spamstrings.Length; i += 4000)
                 spamlist.Add(spamstrings.Substring(i, Math.Min(4000, spamstrings.Length - i)));
 
-            foreach (var msg in spamlist)
+            foreach (string msg in spamlist)
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
                     "<code>" + msg + "</code>",
@@ -67,9 +67,9 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void GetName(TgMessage RawMessage)
         {
-            var spacePath = RawMessage.text.IndexOf(" ");
-            var spamstrings = "";
-            var msgs = Temp.GetDatabaseManager().GetSpamMessageList();
+            int spacePath = RawMessage.text.IndexOf(" ");
+            string spamstrings = "";
+            List<SpamMessage> msgs = Temp.GetDatabaseManager().GetSpamMessageList();
             if (spacePath == -1)
             {
                 if (msgs.Count == 0)
@@ -79,7 +79,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     return;
                 }
 
-                foreach (var msg in msgs)
+                foreach (SpamMessage msg in msgs)
                     spamstrings += "FriendlyName: <code>" + msg.FriendlyName + "</code>, Enabled: " + msg.Enabled +
                                    "\n";
                 spamstrings += "\n您可以使用 /getspamstr [FriendlyName] 來取得詳細訊息。";
@@ -93,8 +93,8 @@ namespace TWBlackListSoamChecker.CommandObject
             }
             else
             {
-                var name = RawMessage.text.Substring(spacePath + 1);
-                foreach (var msg in msgs)
+                string name = RawMessage.text.Substring(spacePath + 1);
+                foreach (SpamMessage msg in msgs)
                 {
                     if (name != msg.FriendlyName) continue;
                     if (spamstrings != "") spamstrings += "\n\n------\n\n";
@@ -110,7 +110,7 @@ namespace TWBlackListSoamChecker.CommandObject
                                    "\n    BanMinutes: " + msg.BanMinutes +
                                    "\n    MinPoints: " + msg.MinPoints +
                                    "\n    Messages: ";
-                    foreach (var i in msg.Messages)
+                    foreach (SpamMessageObj i in msg.Messages)
                         spamstrings += "\n    - Message: " + TgApi.getDefaultApiConnection().jsonEncode(i.Message) +
                                        "\n      Point: " + i.Point;
                     spamstrings += "";
@@ -124,7 +124,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 for (var i = 0; i < spamstrings.Length; i += 4000)
                     spamlist.Add(spamstrings.Substring(i, Math.Min(4000, spamstrings.Length - i)));
 
-                foreach (var msg in spamlist)
+                foreach (string msg in spamlist)
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
                         "<code>" + msg + "</code>",
@@ -136,7 +136,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void GetByID(TgMessage RawMessage)
         {
-            var spacePath = RawMessage.text.IndexOf(" ");
+            int spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -148,10 +148,10 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            var name = RawMessage.text.Substring(spacePath + 1);
-            var spamstrings = "";
-            var msgs = Temp.GetDatabaseManager().GetSpamMessageList();
-            foreach (var msg in msgs)
+            string name = RawMessage.text.Substring(spacePath + 1);
+            string spamstrings = "";
+            List<SpamMessage> msgs = Temp.GetDatabaseManager().GetSpamMessageList();
+            foreach (SpamMessage msg in msgs)
             {
                 if (name != msg.FriendlyName) continue;
                 spamstrings += "- " + msg.FriendlyName + ":" +
@@ -166,7 +166,7 @@ namespace TWBlackListSoamChecker.CommandObject
                                "\n    BanMinutes: " + msg.BanMinutes +
                                "\n    MinPoints: " + msg.MinPoints +
                                "\n    Messages: ";
-                foreach (var i in msg.Messages)
+                foreach (SpamMessageObj i in msg.Messages)
                     spamstrings += "\n    - Message: " + TgApi.getDefaultApiConnection().jsonEncode(i.Message) +
                                    "\n      Point: " + i.Point;
                 spamstrings += "\n\n";
@@ -184,7 +184,7 @@ namespace TWBlackListSoamChecker.CommandObject
             for (var i = 0; i < spamstrings.Length; i += 4000)
                 spamlist.Add(spamstrings.Substring(i, Math.Min(4000, spamstrings.Length - i)));
 
-            foreach (var msg in spamlist)
+            foreach (string msg in spamlist)
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
                     "<code>" + msg + "</code>",
@@ -195,7 +195,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void Get(TgMessage RawMessage)
         {
-            var spacePath = RawMessage.text.IndexOf(" ");
+            int spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -207,10 +207,10 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            var jsonText = RawMessage.text.Substring(spacePath + 1);
-            var spamstrings = "";
-            var msgs = Temp.GetDatabaseManager().GetSpamMessageList();
-            foreach (var msg in msgs) spamstrings += "- " + msg.FriendlyName + "\n";
+            string jsonText = RawMessage.text.Substring(spacePath + 1);
+            string spamstrings = "";
+            List<SpamMessage> msgs = Temp.GetDatabaseManager().GetSpamMessageList();
+            foreach (SpamMessage msg in msgs) spamstrings += "- " + msg.FriendlyName + "\n";
             if (spamstrings == "")
             {
                 TgApi.getDefaultApiConnection()
@@ -227,7 +227,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void Add(TgMessage RawMessage)
         {
-            var HelpContent =
+            string HelpContent =
                 "解析 JSON 时出现错误，請参考下面的例子 : \n```\n" +
                 "{\n    " +
                 "\"FriendlyName\": \"規則名稱\",\n    " +
@@ -261,7 +261,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 "\n名稱 = 8";
             RawMessage.text = RawMessage.text.Replace("\"M\"", "\"Message\"");
             RawMessage.text = RawMessage.text.Replace("\"P\"", "\"Point\"");
-            var spacePath = RawMessage.text.IndexOf(" ");
+            int spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -273,7 +273,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            var jsonText = RawMessage.text.Substring(spacePath + 1);
+            string jsonText = RawMessage.text.Substring(spacePath + 1);
             SpamMessage smsg;
             try
             {
@@ -307,7 +307,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void Remove(TgMessage RawMessage)
         {
-            var spacePath = RawMessage.text.IndexOf(" ");
+            int spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -318,8 +318,8 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            var RuleFriendlyName = RawMessage.text.Substring(spacePath + 1);
-            var count = Temp.GetDatabaseManager().DeleteSpamMessage(RuleFriendlyName);
+            string RuleFriendlyName = RawMessage.text.Substring(spacePath + 1);
+            int count = Temp.GetDatabaseManager().DeleteSpamMessage(RuleFriendlyName);
             TgApi.getDefaultApiConnection().sendMessage(
                 RawMessage.GetMessageChatInfo().id,
                 "刪除了 " + count + " 項",
@@ -329,7 +329,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void GetSpamPoints(TgMessage RawMessage)
         {
-            var spacePath = RawMessage.text.IndexOf(" ");
+            int spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -344,7 +344,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
             //Dictionary<string, string> banValues =
             //    CommandDecoder.cutKeyIsValue(RawMessage.text.Substring(spacePath + 1));
-            var text = RawMessage.text.Replace("/getspampoints ", "");
+            string text = RawMessage.text.Replace("/getspampoints ", "");
             //string text = banValues.GetValueOrDefault("text", null);
             //string rule = banValues.GetValueOrDefault("rule", null);
             if (text == null)
@@ -359,12 +359,12 @@ namespace TWBlackListSoamChecker.CommandObject
 
             //if (rule == null)
             //{
-            var spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
-            var msg = "";
-            var found = false;
-            foreach (var smsg in spamMsgList)
+            List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+            string msg = "";
+            bool found = false;
+            foreach (SpamMessage smsg in spamMsgList)
             {
-                var points = 0;
+                int points = 0;
                 switch (smsg.Type)
                 {
                     case 0:
@@ -468,7 +468,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public void GetSpamKeywords(TgMessage RawMessage)
         {
-            var spacePath = RawMessage.text.IndexOf(" ");
+            int spacePath = RawMessage.text.IndexOf(" ");
             if (spacePath == -1)
             {
                 TgApi.getDefaultApiConnection().sendMessage(
@@ -479,13 +479,13 @@ namespace TWBlackListSoamChecker.CommandObject
                 return;
             }
 
-            var text = RawMessage.text.Replace("/points ", "");
-            var spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
-            var msg = "";
-            var found = false;
-            foreach (var smsg in spamMsgList)
+            string text = RawMessage.text.Replace("/points ", "");
+            List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+            string msg = "";
+            bool found = false;
+            foreach (SpamMessage smsg in spamMsgList)
             {
-                var keywords = "";
+                string keywords = "";
                 switch (smsg.Type)
                 {
                     case 0:

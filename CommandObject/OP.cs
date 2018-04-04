@@ -14,7 +14,7 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         internal bool addOP(TgMessage RawMessage)
         {
-            var UID_Value = RawMessage.text.Replace("/addop", "").Replace(" ", "");
+            string UID_Value = RawMessage.text.Replace("/addop", "").Replace(" ", "");
             if (UID_Value.Length < 5)
             {
                 TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id, "使用方法 : /addop UID",
@@ -23,7 +23,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 return false;
             }
 
-            var json = File.ReadAllText("config.json");
+            string json = File.ReadAllText("config.json");
             dynamic jsonObj = JsonConvert.DeserializeObject(json);
             jsonObj["op_list"].Add(Convert.ToInt32(UID_Value));
             string output =
@@ -38,7 +38,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         internal bool delOP(TgMessage RawMessage)
         {
-            var UID_Value = RawMessage.text.Replace("/delop", "").Replace(" ", "");
+            string UID_Value = RawMessage.text.Replace("/delop", "").Replace(" ", "");
             ;
             if (UID_Value.Length < 5)
             {
@@ -48,11 +48,11 @@ namespace TWBlackListSoamChecker.CommandObject
                 return false;
             }
 
-            var json = File.ReadAllText("config.json");
+            string json = File.ReadAllText("config.json");
             dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
-            var i = 0;
-            var found = false;
+            int i = 0;
+            bool found = false;
 
             foreach (var item in jsonObj["op_list"])
             {
@@ -86,7 +86,7 @@ namespace TWBlackListSoamChecker.CommandObject
 
         internal bool lsOP(TgMessage RawMessage)
         {
-            var json = File.ReadAllText("config.json");
+            string json = File.ReadAllText("config.json");
             dynamic jsonObj = JsonConvert.DeserializeObject(json);
             TgApi.getDefaultApiConnection().sendMessage(RawMessage.chat.id,
                 "OP : \n" + string.Join("\n", jsonObj["op_list"]), RawMessage.message_id);
@@ -107,16 +107,16 @@ namespace TWBlackListSoamChecker.CommandObject
 
         internal bool SoamDisable_All(TgMessage RawMessage)
         {
-            var enabled = "";
-            var groupChatID = "";
-            var AdminOnly = 3;
-            var Blacklist = 3;
-            var AutoKick = 3;
-            var AntiHalal = 3;
-            var AutoDeleteSpamMessage = 3;
-            var AutoDeleteCommand = 3;
-            var SubscribeBanList = 3;
-            var text = RawMessage.text.ToLower();
+            string enabled = "";
+            string groupChatID = "";
+            int AdminOnly = 3;
+            int Blacklist = 3;
+            int AutoKick = 3;
+            int AntiHalal = 3;
+            int AutoDeleteSpamMessage = 3;
+            int AutoDeleteCommand = 3;
+            int SubscribeBanList = 3;
+            string text = RawMessage.text.ToLower();
             if (text.IndexOf(" adminonly") != -1)
             {
                 AdminOnly = 1;
@@ -172,7 +172,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 }
 
                 if (groupCfg == null) return false;
-                foreach (var cfg in groupCfg)
+                foreach (GroupCfg cfg in groupCfg)
                 {
                     Temp.GetDatabaseManager().SetGroupConfig(
                         cfg.GroupID,
@@ -202,17 +202,17 @@ namespace TWBlackListSoamChecker.CommandObject
 
         internal bool SoamEnable_All(TgMessage RawMessage)
         {
-            var enabled = "";
-            var otherMsg = "";
-            var groupChatID = "";
-            var AdminOnly = 3;
-            var Blacklist = 3;
-            var AutoKick = 3;
-            var AntiHalal = 3;
-            var AutoDeleteSpamMessage = 3;
-            var AutoDeleteCommand = 3;
-            var SubscribeBanList = 3;
-            var text = RawMessage.text.ToLower();
+            string enabled = "";
+            string otherMsg = "";
+            string groupChatID = "";
+            int AdminOnly = 3;
+            int Blacklist = 3;
+            int AutoKick = 3;
+            int AntiHalal = 3;
+            int AutoDeleteSpamMessage = 3;
+            int AutoDeleteCommand = 3;
+            int SubscribeBanList = 3;
+            string text = RawMessage.text.ToLower();
             if (text.IndexOf(" adminonly") != -1)
             {
                 AdminOnly = 0;
@@ -281,7 +281,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 }
 
                 if (groupCfg == null) return false;
-                foreach (var cfg in groupCfg)
+                foreach (GroupCfg cfg in groupCfg)
                 {
                     Temp.GetDatabaseManager().SetGroupConfig(
                         cfg.GroupID,

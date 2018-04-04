@@ -53,10 +53,10 @@ namespace TWBlackListSoamChecker
             else
                 return new CallbackMessage();
             // Call Admin START
-            var atAdminPath = chatText.IndexOf("@admin");
+            int atAdminPath = chatText.IndexOf("@admin");
             if (atAdminPath != -1)
             {
-                var textLen = chatText.Length;
+                int textLen = chatText.Length;
                 if (textLen == 6)
                     CallAdmin(BaseMessage);
                 else if (textLen >= 8)
@@ -79,10 +79,10 @@ namespace TWBlackListSoamChecker
             if (Temp.ReportGroupName != null && BaseMessage.GetMessageChatInfo().username == Temp.ReportGroupName)
                 if (BaseMessage.forward_from != null)
                 {
-                    var banUser = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.forward_from.id);
+                    BanUser banUser = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.forward_from.id);
                     if (banUser.Ban == 0)
                     {
-                        var resultmsg = "使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
+                        string resultmsg = "使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
                         TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
                             resultmsg,
@@ -109,15 +109,15 @@ namespace TWBlackListSoamChecker
                 return new CallbackMessage();
 
             // ALTI HALAL Start
-            var cfg = Temp.GetDatabaseManager().GetGroupConfig(BaseMessage.chat.id);
+            GroupCfg cfg = Temp.GetDatabaseManager().GetGroupConfig(BaseMessage.chat.id);
             if (cfg.AntiHalal == 0)
             {
-                var max_point = 0;
-                var max_point_spam = new SpamMessage();
-                var spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
-                foreach (var smsg in spamMsgList)
+                int max_point = 0;
+                SpamMessage max_point_spam = new SpamMessage();
+                List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+                foreach (SpamMessage smsg in spamMsgList)
                 {
-                    var points = 0;
+                    int points = 0;
                     switch (smsg.Type)
                     {
                         case 4:
@@ -144,7 +144,7 @@ namespace TWBlackListSoamChecker
                     //Send alert and delete alert after 60 second
                     new Thread(delegate()
                     {
-                        var msg = "";
+                        string msg = "";
                         if (Temp.ReportGroupName == Temp.CourtGroupName)
                             msg = "偵測到 " + max_point_spam.FriendlyName +
                                   " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。";
@@ -153,7 +153,7 @@ namespace TWBlackListSoamChecker
                                   " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。" +
                                   " ，如有疑慮請加入 @" + Temp.CourtGroupName + " 提出申訴。";
 
-                        var autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
+                        SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
                             .sendMessage(
                                 BaseMessage.GetMessageChatInfo().id,
                                 msg
@@ -236,12 +236,12 @@ namespace TWBlackListSoamChecker
             // AUTO DELETE SPAM MESSAGE START
             if (Temp.DisableBanList == false && cfg.AutoDeleteSpamMessage == 0)
             {
-                var max_point = 0;
-                var max_point_spam = new SpamMessage();
-                var spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
-                foreach (var smsg in spamMsgList)
+                int max_point = 0;
+                SpamMessage max_point_spam = new SpamMessage();
+                List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+                foreach (SpamMessage smsg in spamMsgList)
                 {
-                    var points = 0;
+                    int points = 0;
                     switch (smsg.Type)
                     {
                         case 0:
@@ -279,7 +279,7 @@ namespace TWBlackListSoamChecker
                     //Send alert and delete alert after 60 second
                     new Thread(delegate()
                     {
-                        var msg = "";
+                        string msg = "";
                         if (Temp.ReportGroupName == Temp.CourtGroupName)
                             msg = "偵測到 " + max_point_spam.FriendlyName +
                                   " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。";
@@ -287,7 +287,7 @@ namespace TWBlackListSoamChecker
                             msg = "偵測到 " + max_point_spam.FriendlyName +
                                   " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。" +
                                   " ，如有疑慮請加入 @" + Temp.CourtGroupName + " 提出申訴。";
-                        var autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
+                        SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
                             .sendMessage(
                                 BaseMessage.GetMessageChatInfo().id,
                                 msg
@@ -312,13 +312,13 @@ namespace TWBlackListSoamChecker
             if (cfg.AutoDeleteCommand == 0)
                 if (BaseMessage.entities != null)
                 {
-                    var tmpEntities = BaseMessage.entities[0];
+                    ContentEntities tmpEntities = BaseMessage.entities[0];
                     Log.i(tmpEntities.type + "" + tmpEntities.offset);
                     if (tmpEntities.type == "bot_command" && tmpEntities.offset == 0)
                     {
                         new Thread(delegate()
                         {
-                            var autodeletecommandsendresult = TgApi.getDefaultApiConnection().sendMessage(
+                            SendMessageResult autodeletecommandsendresult = TgApi.getDefaultApiConnection().sendMessage(
                                 BaseMessage.GetMessageChatInfo().id,
                                 "請您不要亂玩機器人的指令，有問題請聯絡群組管理員。"
                             );
@@ -415,7 +415,7 @@ namespace TWBlackListSoamChecker
             new Thread(delegate()
             {
                 if (step != 1) msg.message_id = -1;
-                var calladmin = TgApi.getDefaultApiConnection().sendMessage(
+                SendMessageResult calladmin = TgApi.getDefaultApiConnection().sendMessage(
                     msg.chat.id,
                     content,
                     msg.message_id,
@@ -431,10 +431,10 @@ namespace TWBlackListSoamChecker
 
         private void CallAdmin(TgMessage msg)
         {
-            var admins = TgApi.getDefaultApiConnection().getChatAdministrators(msg.chat.id);
-            var temp = new List<string>();
-            var step = 1;
-            foreach (var i in admins)
+            GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(msg.chat.id);
+            List<string> temp = new List<string>();
+            int step = 1;
+            foreach (GroupUserInfo i in admins)
             {
                 temp.Add("<a href=\"tg://user?id=" + i.user.id + "\">" + "." + "</a>");
                 if (temp.Count == 5)

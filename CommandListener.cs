@@ -42,7 +42,7 @@ namespace TWBlackListSoamChecker
         {
             try
             {
-                var cfg = Temp.GetDatabaseManager().GetGroupConfig(RawMessage.chat.id);
+                GroupCfg cfg = Temp.GetDatabaseManager().GetGroupConfig(RawMessage.chat.id);
                 if (cfg.AdminOnly == 0)
                     if (TgApi.getDefaultApiConnection().checkIsAdmin(RawMessage.chat.id, RawMessage.from.id) ||
                         RAPI.getIsBotAdmin(RawMessage.from.id) || RAPI.getIsBotOP(RawMessage.from.id))
@@ -54,7 +54,7 @@ namespace TWBlackListSoamChecker
                         {
                             new Thread(delegate()
                             {
-                                var autodeletecommandsendresult = TgApi.getDefaultApiConnection()
+                                SendMessageResult autodeletecommandsendresult = TgApi.getDefaultApiConnection()
                                     .sendMessage(
                                         RawMessage.GetMessageChatInfo().id,
                                         "請您不要亂玩機器人的指令，有問題請聯絡群組管理員。"

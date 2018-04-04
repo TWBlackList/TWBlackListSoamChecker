@@ -33,11 +33,11 @@ namespace TWBlackListSoamChecker.DbManager
         )
         {
             if (RAPI.getIsInWhitelist(UserID)) return false;
-            var finalResult = true;
-            var banmsg = "";
+            bool finalResult = true;
+            string banmsg = "";
             SendMessageResult result = null;
-            var ReasonID = 0;
-            var ChannelReasonID = 0;
+            int ReasonID = 0;
+            int ChannelReasonID = 0;
             if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0)
                 ReasonID = TgApi.getDefaultApiConnection().forwardMessage(Temp.ReasonChannelID, ChatID, MessageID)
                     .result.message_id;
@@ -45,7 +45,7 @@ namespace TWBlackListSoamChecker.DbManager
             {
                 if (userinfo == null)
                 {
-                    var userinforeq = TgApi.getDefaultApiConnection().getChat(UserID);
+                    UserInfoRequest userinforeq = TgApi.getDefaultApiConnection().getChat(UserID);
                     if (userinforeq.ok)
                     {
                         userinfo = userinforeq.result;
@@ -70,7 +70,7 @@ namespace TWBlackListSoamChecker.DbManager
                 else
                     textlevel = Level + " （未知）";
                 banmsg += "\n處分 : " + textlevel;
-                var ExpTime = GetTime.GetExpiresTime(Expires);
+                string ExpTime = GetTime.GetExpiresTime(Expires);
                 if (ExpTime != "永久封鎖")
                     banmsg += "\n時效至 : " + GetTime.GetExpiresTime(Expires);
                 else
@@ -105,13 +105,13 @@ namespace TWBlackListSoamChecker.DbManager
             UserInfo userinfo = null
         )
         {
-            var ChannelReasonID = 0;
+            int ChannelReasonID = 0;
             if (Temp.MainChannelID != 0)
             {
-                var banmsg = "";
+                string banmsg = "";
                 if (userinfo == null)
                 {
-                    var userinforeq = TgApi.getDefaultApiConnection().getChat(UserID);
+                    UserInfoRequest userinforeq = TgApi.getDefaultApiConnection().getChat(UserID);
                     if (userinforeq.ok)
                     {
                         userinfo = userinforeq.result;
@@ -135,7 +135,7 @@ namespace TWBlackListSoamChecker.DbManager
 
                 banmsg += "\nOID : " + AdminID + "\n";
 
-                var ban = Temp.GetDatabaseManager().GetUserBanStatus(UserID);
+                BanUser ban = Temp.GetDatabaseManager().GetUserBanStatus(UserID);
                 if (ban.Ban == 1) return false;
 
                 ChannelReasonID = TgApi.getDefaultApiConnection().sendMessage(Temp.MainChannelID, banmsg).result
@@ -154,7 +154,7 @@ namespace TWBlackListSoamChecker.DbManager
             long Expires,
             string Reason)
         {
-            var baninfo = new BanUser
+            BanUser baninfo = new BanUser
             {
                 UserID = UserID,
                 Ban = 0,
@@ -195,7 +195,7 @@ namespace TWBlackListSoamChecker.DbManager
             int ReasonMessageID = 0
         )
         {
-            var baninfo = new BanUser
+            BanUser baninfo = new BanUser
             {
                 UserID = UserID,
                 Ban = 0,
@@ -207,7 +207,7 @@ namespace TWBlackListSoamChecker.DbManager
                 Expires = Expires
             };
             Temp.bannedUsers[UserID] = baninfo;
-            var banHistory = new BanHistory
+            BanHistory banHistory = new BanHistory
             {
                 UserID = UserID,
                 Ban = 0,
@@ -250,7 +250,7 @@ namespace TWBlackListSoamChecker.DbManager
         )
         {
             Temp.bannedUsers.Remove(UserID);
-            var banHistory = new BanHistory
+            BanHistory banHistory = new BanHistory
             {
                 UserID = UserID,
                 Ban = 1,
@@ -365,7 +365,7 @@ namespace TWBlackListSoamChecker.DbManager
             int SubscribeBanList = 3
         )
         {
-            var groupCfg = GetGroupConfig(gid);
+            GroupCfg groupCfg = GetGroupConfig(gid);
             if (AdminOnly != 3) groupCfg.AdminOnly = AdminOnly;
             if (BlackList != 3) groupCfg.BlackList = BlackList;
             if (AutoKick != 3) groupCfg.AutoKick = AutoKick;
@@ -446,8 +446,8 @@ namespace TWBlackListSoamChecker.DbManager
 
         public SpamMessage GetSpamRule(string Name)
         {
-            var spamMessageList = GetSpamMessageList();
-            foreach (var smsg in spamMessageList)
+            List<SpamMessage> spamMessageList = GetSpamMessageList();
+            foreach (SpamMessage smsg in spamMessageList)
                 if (smsg.FriendlyName.Equals(Name))
                     return smsg;
             return null;
@@ -455,7 +455,7 @@ namespace TWBlackListSoamChecker.DbManager
 
         public void AddSpamMessage(SpamMessage msg)
         {
-            var spamMessageList = GetSpamMessageList();
+            List<SpamMessage> spamMessageList = GetSpamMessageList();
             spamMessageList.Add(msg);
             Temp.spamMessageList = spamMessageList;
             WriteSpamMessageToDatabase(spamMessageList);
@@ -463,11 +463,11 @@ namespace TWBlackListSoamChecker.DbManager
 
         public void ChangeSpamMessage(SpamMessage msg)
         {
-            var spamMessageList = GetSpamMessageList();
-            var length = spamMessageList.Count;
-            for (var i = 0; i < length; i++)
+            List<SpamMessage> spamMessageList = GetSpamMessageList();
+            int length = spamMessageList.Count;
+            for (int i = 0; i < length; i++)
             {
-                var nowMsg = spamMessageList[i];
+                SpamMessage nowMsg = spamMessageList[i];
                 if (nowMsg.FriendlyName == msg.FriendlyName) spamMessageList[i] = msg;
             }
 
@@ -477,10 +477,10 @@ namespace TWBlackListSoamChecker.DbManager
 
         public int DeleteSpamMessage(string friendlyName)
         {
-            var spamMessageList = GetSpamMessageList();
-            var newList = new List<SpamMessage>();
-            var deletedCount = 0;
-            foreach (var smsg in spamMessageList)
+            List<SpamMessage> spamMessageList = GetSpamMessageList();
+            List<SpamMessage> newList = new List<SpamMessage>();
+            int deletedCount = 0;
+            foreach (SpamMessage smsg in spamMessageList)
                 if (smsg.FriendlyName != friendlyName)
                     newList.Add(smsg);
                 else
@@ -492,7 +492,7 @@ namespace TWBlackListSoamChecker.DbManager
 
         private void WriteSpamMessageToDatabase(List<SpamMessage> msg)
         {
-            var jsonDB = TgApi.getDefaultApiConnection().jsonEncode(msg);
+            string jsonDB = TgApi.getDefaultApiConnection().jsonEncode(msg);
             File.WriteAllText(ConfigManager.GetConfigPath() + "spamstrings.json", jsonDB);
         }
     }

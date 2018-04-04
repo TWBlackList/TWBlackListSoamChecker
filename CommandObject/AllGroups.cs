@@ -20,7 +20,7 @@ namespace TWBlackListSoamChecker.CommandObject
         {
             using (var db = new BlacklistDatabaseContext())
             {
-                var groups = "";
+                string groups = "";
                 List<GroupCfg> groupCfg = null;
                 try
                 {
@@ -32,9 +32,9 @@ namespace TWBlackListSoamChecker.CommandObject
                 }
 
                 if (groupCfg == null) return false;
-                foreach (var cfg in groupCfg)
+                foreach (GroupCfg cfg in groupCfg)
                 {
-                    var groupInfo = "無法取得";
+                    string groupInfo = "無法取得";
                     try
                     {
                         groupInfo = TgApi.getDefaultApiConnection().getChatInfo(cfg.GroupID).result.GetChatTextInfo();

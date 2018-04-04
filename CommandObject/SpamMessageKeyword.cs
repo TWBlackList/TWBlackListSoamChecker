@@ -9,8 +9,8 @@ namespace TWBlackListSoamChecker.CommandObject
     {
         public string GetEqualsKeyword(SpamMessageObj[] spamMessages, string text) // Mode 0 完全匹配
         {
-            var totalPoints = "";
-            foreach (var msg in spamMessages)
+            string totalPoints = "";
+            foreach (SpamMessageObj msg in spamMessages)
                 if (text.ToLower().Equals(msg.Message.ToLower()))
                     totalPoints = totalPoints + msg.Message.ToLower() + " : " + msg.Point + "\n";
             return totalPoints;
@@ -18,8 +18,8 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public string GetRegexKeyword(SpamMessageObj[] spamMessages, string text) // Mode 1 正则
         {
-            var totalPoints = "";
-            foreach (var msg in spamMessages)
+            string totalPoints = "";
+            foreach (SpamMessageObj msg in spamMessages)
                 if (new Regex(msg.Message).Match(text).Success)
                     totalPoints = totalPoints + msg.Message + " : " + msg.Point + "\n";
             return totalPoints;
@@ -27,15 +27,15 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public string GetSpamKeyword(SpamMessageObj[] spamMessages, string text) // Mode 2 迷之算法
         {
-            var totalPoints = ""; // 总分，预定义，返回值用
-            var textLen = text.Length - 1; // 被检测的消息的长度
-            foreach (var msg in spamMessages) // 已有的关键字循环
+            string totalPoints = ""; // 总分，预定义，返回值用
+            int textLen = text.Length - 1; // 被检测的消息的长度
+            foreach (SpamMessageObj msg in spamMessages) // 已有的关键字循环
             {
-                var targetStr = msg.Message; // 关键字
-                var targetMsgLen = msg.Message.Length; // 关键字长度
-                var lastPath = 0; // 最后一次检测消息时关键字所在长度
-                var skipTo = 0;
-                for (var nowPath = 0; nowPath < textLen; nowPath++) // 被检测消息被打断循环
+                string targetStr = msg.Message; // 关键字
+                int targetMsgLen = msg.Message.Length; // 关键字长度
+                int lastPath = 0; // 最后一次检测消息时关键字所在长度
+                int skipTo = 0;
+                for (int nowPath = 0; nowPath < textLen; nowPath++) // 被检测消息被打断循环
                 {
                     if (nowPath < skipTo) continue;
                     if (text[nowPath] == targetStr[lastPath])
@@ -72,8 +72,8 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public string GetIndexOfKeyword(SpamMessageObj[] spamMessages, string text) // Mode 3 寻找匹配字符串
         {
-            var totalPoints = "";
-            foreach (var msg in spamMessages)
+            string totalPoints = "";
+            foreach (SpamMessageObj msg in spamMessages)
                 if (text.ToLower().IndexOf(msg.Message.ToLower()) != -1)
                     totalPoints = totalPoints + msg.Message.ToLower() + " : " + msg.Point + "\n";
             return totalPoints;
@@ -81,11 +81,11 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public string GetHalalKeyword(string text) // Mode 4 清真
         {
-            var totalPoints = "";
-            var textLen = text.Length - 1;
-            for (var nowPath = 0; nowPath < textLen; nowPath++)
+            string totalPoints = "";
+            int textLen = text.Length - 1;
+            for (int nowPath = 0; nowPath < textLen; nowPath++)
             {
-                var nowChar = text[nowPath];
+                char nowChar = text[nowPath];
                 if (nowChar >= 0x0600 && nowChar <= 0x06FF)
                 {
                     totalPoints = totalPoints + nowChar + " : 1\n";
@@ -112,11 +112,11 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public string GetIndiaKeyword(string text) // Mode 5 印度
         {
-            var totalPoints = "";
-            var textLen = text.Length - 1;
-            for (var nowPath = 0; nowPath < textLen; nowPath++)
+            string totalPoints = "";
+            int textLen = text.Length - 1;
+            for (int nowPath = 0; nowPath < textLen; nowPath++)
             {
-                var nowChar = text[nowPath];
+                char nowChar = text[nowPath];
                 if (nowChar >= 0x0900 && nowChar <= 0x097F)
                 {
                     totalPoints = totalPoints + nowChar + " : 1\n";
@@ -137,9 +137,9 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public string GetContainsKeyword(SpamMessageObj[] spamMessages, string text) // Mode 6 如果包含
         {
-            var totalPoints = "";
-            var point = 0;
-            foreach (var msg in spamMessages)
+            string totalPoints = "";
+            int point = 0;
+            foreach (SpamMessageObj msg in spamMessages)
                 if (text.ToLower().Contains(msg.Message.ToLower()))
                 {
                     point = msg.Point * (text.ToLower().Split(msg.Message.ToLower()).Length - 1);
@@ -151,11 +151,11 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public string GetRussiaKeyword(string text) // Mode 7 普丁
         {
-            var totalPoints = "";
-            var textLen = text.Length - 1;
-            for (var nowPath = 0; nowPath < textLen; nowPath++)
+            string totalPoints = "";
+            int textLen = text.Length - 1;
+            for (int nowPath = 0; nowPath < textLen; nowPath++)
             {
-                var nowChar = text[nowPath];
+                char nowChar = text[nowPath];
                 if (nowChar >= 0x0400 && nowChar <= 0x052F) totalPoints = totalPoints + nowChar + " : 1\n";
             }
 
@@ -164,9 +164,9 @@ namespace TWBlackListSoamChecker.CommandObject
 
         public string GetNameKeyword(SpamMessageObj[] spamMessages, string name) // Mode 8 Name
         {
-            var totalPoints = "";
-            var point = 0;
-            foreach (var msg in spamMessages)
+            string totalPoints = "";
+            int point = 0;
+            foreach (SpamMessageObj msg in spamMessages)
                 if (name.ToLower().Contains(msg.Message.ToLower()))
                 {
                     point = msg.Point * (name.ToLower().Split(msg.Message.ToLower()).Length - 1);

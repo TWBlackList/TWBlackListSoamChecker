@@ -30,7 +30,7 @@ namespace TWBlackListSoamChecker
                 }
 
                 if (groupCfg == null) return;
-                foreach (var cfg in groupCfg)
+                foreach (GroupCfg cfg in groupCfg)
                 {
                     var userInChatInfo = TgApi.getDefaultApiConnection().getChatMember(cfg.GroupID, user);
 

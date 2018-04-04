@@ -32,10 +32,10 @@ namespace TWBlackListSoamChecker.DbManager
 
         public string GetBanMessage()
         {
-            var msg = "未封鎖";
+            string msg = "未封鎖";
             if (Ban == 0)
             {
-                var ExpTime = GetTime.GetExpiresTime(Expires);
+                string ExpTime = GetTime.GetExpiresTime(Expires);
                 msg = "處分 : ";
                 if (Level == 0)
                     msg += "封鎖";
@@ -60,10 +60,10 @@ namespace TWBlackListSoamChecker.DbManager
 
         public string GetBanMessage_ESCMD()
         {
-            var msg = "未封鎖";
+            string msg = "未封鎖";
             if (Ban == 0)
             {
-                var ExpTime = GetTime.GetExpiresTime(Expires);
+                string ExpTime = GetTime.GetExpiresTime(Expires);
                 msg = "處分 : ";
                 if (Level == 0)
                     msg += "封鎖";
