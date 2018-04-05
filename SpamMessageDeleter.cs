@@ -123,14 +123,6 @@ namespace TWBlackListSoamChecker
                     }
                     else
                     {
-                        
-                        TgApi.getDefaultApiConnection().sendMessage(
-                            BaseMessage.GetMessageChatInfo().id,
-                            "使用者未被封鎖，如要舉報請附上截圖",
-                            BaseMessage.message_id,
-                            TgApi.PARSEMODE_MARKDOWN
-                        );
-                        
                         int max_point = 0;
                         SpamMessage max_point_spam = new SpamMessage();
                         List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
@@ -184,8 +176,9 @@ namespace TWBlackListSoamChecker
                             {
                                 TgApi.getDefaultApiConnection().sendMessage(
                                     BaseMessage.GetMessageChatInfo().id,
-                                    "由於符合列管規則，現已自動封鎖",
-                                    BaseMessage.message_id
+                                    "使用者未被封鎖，由於符合`" + max_point_spam.FriendlyName + "`規則，現已自動封鎖",
+                                    BaseMessage.message_id,
+                                    TgApi.PARSEMODE_MARKDOWN
                                 );
                                 long banUtilTime = 0;
                                 if (max_point_spam.BanDays == 0 && max_point_spam.BanHours == 0 && max_point_spam.BanMinutes == 0)
@@ -207,11 +200,20 @@ namespace TWBlackListSoamChecker
                                     );
                                 }).Start();
                             }).Start();
-                        }                       
+                            
+                        }
+                        else
+                        {
+                            TgApi.getDefaultApiConnection().sendMessage(
+                                BaseMessage.GetMessageChatInfo().id,
+                                "使用者未被封鎖，如要舉報請附上截圖",
+                                BaseMessage.message_id,
+                                TgApi.PARSEMODE_MARKDOWN
+                            );
+                        }              
                     }
                     return new CallbackMessage();
                 }
-
 
             if (RAPI.getIsInWhitelist(BaseMessage.from.id)) return new CallbackMessage();
 
