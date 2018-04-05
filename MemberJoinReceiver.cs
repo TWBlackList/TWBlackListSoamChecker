@@ -78,7 +78,7 @@ namespace TWBlackListSoamChecker
                 {
                     new Thread(delegate()
                     {
-                        TgApi.getDefaultApiConnection().sendMessage(BaseMessage.GetMessageChatInfo().id, 
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, 
                             "群管理必須加入[項目群組](https://t.me/" + Temp.ReportGroupName + ")才可使用本服務。",
                             TgApi.PARSEMODE_MARKDOWN);
                         Thread.Sleep(2000);
