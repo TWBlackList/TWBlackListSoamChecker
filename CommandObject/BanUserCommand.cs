@@ -144,8 +144,19 @@ namespace TWBlackListSoamChecker.CommandObject
                 return false;
             }
 
-            bool status;
-            if (BanUserInfo == null)
+            bool status;            
+            if (RawMessage.GetMessageChatInfo().id == Temp.InternGroupID && RawMessage.GetReplyMessage().GetSendUser().id == TgApi.getDefaultApiConnection().getMe().id)
+                status = Temp.GetDatabaseManager().BanUser(
+                    1,
+                    BanUserId,
+                    Level,
+                    ExpiresTime,
+                    Reason,
+                    RawMessage.GetMessageChatInfo().id,
+                    RawMessage.GetReplyMessage().message_id,
+                    BanUserInfo
+                );
+            else if (BanUserInfo == null)
                 status = Temp.GetDatabaseManager().BanUser(
                     RawMessage.GetSendUser().id,
                     BanUserId,

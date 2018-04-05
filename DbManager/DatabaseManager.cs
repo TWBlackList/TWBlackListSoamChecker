@@ -76,7 +76,12 @@ namespace TWBlackListSoamChecker.DbManager
                 else
                     banmsg += "\n時效 : 永久";
                 banmsg += "\n原因 : " + Reason;
-                banmsg += "\nOID : " + AdminID + "\n";
+                if(AdminID == 0)
+                    banmsg += "\nOID : Bot\n";
+                else if(AdminID == 1)
+                    banmsg += "\nOID : Auditors\n";
+                else
+                    banmsg += "\nOID : " + AdminID + "\n";
                 if (Temp.ReasonChannelID != 0 && ReasonID != 0 && Temp.ReasonChannelName != null)
                     banmsg += "\n參考 : \nhttps://t.me/" + Temp.ReasonChannelName + "/" + ReasonID;
                 else if (Temp.ReasonChannelID != 0 && ChatID != 0 && MessageID != 0) finalResult = false;
