@@ -54,6 +54,10 @@ namespace TWBlackListSoamChecker
                 return new CallbackMessage();
             // Call Admin START
             int atAdminPath = chatText.IndexOf("@admin");
+            if (atAdminPath == -1)
+                atAdminPath = chatText.IndexOf("!admin");
+            if (atAdminPath == -1)
+                atAdminPath = chatText.IndexOf("/admin");
             if (atAdminPath != -1)
             {
                 int textLen = chatText.Length;
@@ -73,6 +77,19 @@ namespace TWBlackListSoamChecker
                         if (chatText[atAdminPath - 1] == ' ' && chatText[atAdminPath + 7] == ' ')
                             CallAdmin(BaseMessage);
                     }
+
+                if (Temp.InternGroupID != 0)
+                {
+                    TgApi.getDefaultApiConnection().forwardMessage(
+                        Temp.InternGroupID,
+                        BaseMessage.GetMessageChatInfo().id,
+                        BaseMessage.GetReplyMessage().message_id
+                    );
+                    TgApi.getDefaultApiConnection().sendMessage(
+                        Temp.InternGroupID,
+                        BaseMessage.GetMessageChatInfo().GetChatTextInfo()
+                    );
+                }
             }
             // Call Admin END
 

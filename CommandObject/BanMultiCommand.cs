@@ -14,7 +14,7 @@ namespace TWBlackListSoamChecker.CommandObject
             {
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
-                    "/suban [i|id=1] [l|level=0] [m|minutes=0] [h|hours=0] [d|days=15] [f|from=f|fwd|r|reply] [halal [f|fwd|r|reply]]" +
+                    "/suban [i|id=1,2,3] [l|level=0] [m|minutes=0] [h|hours=0] [d|days=15] [f|from=f|fwd|r|reply] [halal [f|fwd|r|reply]]" +
                     " r|reason=\"asdfsadf asdfadsf\"\n\n" +
                     "m: 分鐘, h: 小時, d: 天\n" +
                     "from 選項僅在 id 未被定義時起作用\n" +
@@ -22,7 +22,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     "選項優先度: 簡寫 > 全名\n" +
                     "halal 選項只能單獨使用，不能與其他選項共同使用，並且需要回覆一則訊息，否則將觸發異常。\n\n" +
                     "Example:\n" +
-                    "/suban id=1 m=0 h=0 d=15 level=0 reason=\"aaa bbb\\n\\\"ccc\\\" ddd\"\n" +
+                    "/suban id=1,2,3 m=0 h=0 d=15 level=0 reason=\"aaa bbb\\n\\\"ccc\\\" ddd\"\n" +
                     "/suban halal\n" +
                     "/suban halal=reply",
                     RawMessage.message_id
@@ -51,7 +51,7 @@ namespace TWBlackListSoamChecker.CommandObject
                         {
                             TgApi.getDefaultApiConnection().sendMessage(
                                 RawMessage.GetMessageChatInfo().id,
-                                "您的輸入有錯誤，請檢查您的輸入，或使用 /cnban 查詢幫助。 err_a1",
+                                "您的輸入有錯誤，請檢查您的輸入，或使用 /suban 查詢幫助。 err_a1",
                                 RawMessage.message_id
                             );
                             return true;
@@ -88,7 +88,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             RawMessage.GetMessageChatInfo().id,
-                            "您的輸入有錯誤，請檢查您的輸入，或使用 /cnban 查詢幫助。 err8",
+                            "您的輸入有錯誤，請檢查您的輸入，或使用 /suban 查詢幫助。 err8",
                             RawMessage.message_id
                         );
                         return true;
@@ -103,7 +103,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 {
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
-                        "您的輸入有錯誤，請檢查您的輸入，或使用 /cnban 查詢幫助 err10",
+                        "您的輸入有錯誤，請檢查您的輸入，或使用 /suban 查詢幫助 err10",
                         RawMessage.message_id
                     );
                     return true;

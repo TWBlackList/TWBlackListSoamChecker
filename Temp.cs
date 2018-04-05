@@ -16,6 +16,7 @@ namespace TWBlackListSoamChecker
         public static long ReasonChannelID = -1001132678262; // If haven't, change it to 0
         public static long ReportGroupID = -1001132136235; // If haven't, change it to 0
         public static long CourtGroupID = -1001132136235; // If haven't, change it to 0
+        public static long InternGroupID = -1001378349819; // If haven't, change it to 0
         public static string MainChannelName = null; // If haven't, change it to null
         public static string ReasonChannelName = null; // If haven't, change it to null
         public static string ReportGroupName = "J_Court"; //這ㄍ意思是 : 你他媽不能亂改群組username
