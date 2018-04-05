@@ -73,6 +73,18 @@ namespace TWBlackListSoamChecker
                     TgApi.getDefaultApiConnection().leaveChat(RawMessage.GetMessageChatInfo().id);
                     return new CallbackMessage();
                 }
+                
+                if (!new CheckHelper().CheckAdminInReportGroup(RawMessage.GetMessageChatInfo().id))
+                {
+                    new Thread(delegate()
+                    {
+                        TgApi.getDefaultApiConnection().sendMessage(RawMessage.GetMessageChatInfo().id, "群管理必須加入本項目回報群組才可使用本服務。");
+                        Thread.Sleep(2000);
+                        TgApi.getDefaultApiConnection().leaveChat(RawMessage.GetMessageChatInfo().id);
+                    }).Start();
+                    return new CallbackMessage();
+                
+                }
 
                 TgApi.getDefaultApiConnection().sendMessage(
                     RawMessage.GetMessageChatInfo().id,
