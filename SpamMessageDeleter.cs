@@ -93,7 +93,7 @@ namespace TWBlackListSoamChecker
             }
             // Call Admin END
 
-            if (Temp.ReportGroupName != null && BaseMessage.GetMessageChatInfo().username == Temp.ReportGroupName)
+            if (Temp.ReportGroupID != 0 && BaseMessage.GetMessageChatInfo().id == Temp.ReportGroupID)
                 if (BaseMessage.forward_from != null)
                 {
                     BanUser banUser = Temp.GetDatabaseManager().GetUserBanStatus(BaseMessage.forward_from.id);
@@ -109,16 +109,95 @@ namespace TWBlackListSoamChecker
                     }
                     else
                     {
+                        
                         TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
                             "使用者未被封鎖，如要舉報請附上截圖",
                             BaseMessage.message_id,
                             TgApi.PARSEMODE_MARKDOWN
                         );
-                    }
+                        
+                        int max_point = 0;
+                        SpamMessage max_point_spam = new SpamMessage();
+                        List<SpamMessage> spamMsgList = Temp.GetDatabaseManager().GetSpamMessageList();
+                        foreach (SpamMessage smsg in spamMsgList)
+                        {
+                            int points = 0;
+                            switch (smsg.Type)
+                            {
+                                case 0:
+                                    points = +new SpamMessageChecker().GetEqualsPoints(smsg.Messages, chatText);
+                                    break;
+                                case 1:
+                                    points = +new SpamMessageChecker().GetRegexPoints(smsg.Messages, chatText);
+                                    break;
+                                case 2:
+                                    points = +new SpamMessageChecker().GetSpamPoints(smsg.Messages, chatText);
+                                    break;
+                                case 3:
+                                    points = +new SpamMessageChecker().GetIndexOfPoints(smsg.Messages, chatText);
+                                    break;
+                                case 4:
+                                    points = +new SpamMessageChecker().GetHalalPoints(chatText + BaseMessage.forward_from.full_name());
+                                    break;
+                                case 5:
+                                    points = +new SpamMessageChecker().GetIndiaPoints(chatText + BaseMessage.forward_from.full_name());
+                                    break;
+                                case 6:
+                                    points = new SpamMessageChecker().GetContainsPoints(smsg.Messages,
+                                    chatText + " " + forward_from_id);
+                                    break;
+                                case 7:
+                                    points = new SpamMessageChecker().GetRussiaPoints(chatText + BaseMessage.forward_from.full_name());
+                                    break;
+                                case 8:
+                                    points = new SpamMessageChecker().GetNamePoints(smsg.Messages,
+                                        BaseMessage.forward_from.full_name());
+                                    break;
+                            }
 
+                            if (points >= smsg.MinPoints)
+                                if (points > max_point)
+                                {
+                                    max_point = points;
+                                    max_point_spam = smsg;
+                                }
+                        }
+
+                        if (max_point > 0)
+                        {
+                            new Thread(delegate()
+                            {
+                                TgApi.getDefaultApiConnection().sendMessage(
+                                    BaseMessage.GetMessageChatInfo().id,
+                                    "由於符合列管規則，現已自動封鎖",
+                                    BaseMessage.message_id
+                                );
+                                long banUtilTime = 0;
+                                if (max_point_spam.BanDays == 0 && max_point_spam.BanHours == 0 && max_point_spam.BanMinutes == 0)
+                                    banUtilTime = 0;
+                                else
+                                    banUtilTime = GetTime.GetUnixTime() + max_point_spam.BanDays * 86400 + max_point_spam.BanHours * 3600 +
+                                          max_point_spam.BanMinutes * 60;
+                                new Task(() =>
+                                {
+                                    Temp.GetDatabaseManager().BanUser(
+                                        0,
+                                        BaseMessage.forward_from.id,
+                                        max_point_spam.BanLevel,
+                                        banUtilTime,
+                                        max_point_spam.FriendlyName + "\n分數 : " + max_point,
+                                        BaseMessage.GetMessageChatInfo().id,
+                                        BaseMessage.message_id,
+                                        BaseMessage.forward_from
+                                    );
+                                }).Start();
+                            }).Start();
+                        }                       
+                    }
                     return new CallbackMessage();
                 }
+
 
             if (RAPI.getIsInWhitelist(BaseMessage.from.id)) return new CallbackMessage();
 
