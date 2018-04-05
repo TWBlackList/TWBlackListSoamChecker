@@ -111,7 +111,7 @@ namespace TWBlackListSoamChecker
                     {
                         TgApi.getDefaultApiConnection().sendMessage(
                             BaseMessage.GetMessageChatInfo().id,
-                            "使用者未被封鎖",
+                            "使用者未被封鎖，如要舉報請附上截圖",
                             BaseMessage.message_id,
                             TgApi.PARSEMODE_MARKDOWN
                         );
