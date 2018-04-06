@@ -49,7 +49,7 @@ namespace TWBlackListSoamChecker.CommandObject
                     admin_msg = admin_msg + admin.user.id.ToString() + " " + admin.user.full_name() + "\n";
             }
 
-            string msg = msg + creator + admin_msg;
+            msg = msg + creator + admin_msg;
             
             TgApi.getDefaultApiConnection()
                 .sendMessage(RawMessage.chat.id, msg+creator+admin_msg);
