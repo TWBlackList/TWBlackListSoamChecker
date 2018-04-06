@@ -60,9 +60,9 @@ namespace TWBlackListSoamChecker.CommandObject
                                "/sdall - 關閉所有群組功能\n" +
                                "/groups - 取得所有群組\n" +
                                "/cleanup - 清理機器人不在群組內的群組資料\n";
-            finalHelpMsg = finalHelpMsg + "\n贊助請往工廠走 @DonateDoramiBot";
+            finalHelpMsg = finalHelpMsg + "\n如要贊助本項目請洽[生產公司](http://t.me/DonateDoramiBot)";
             TgApi.getDefaultApiConnection()
-                .sendMessage(RawMessage.GetMessageChatInfo().id, finalHelpMsg, RawMessage.message_id);
+                .sendMessage(RawMessage.GetMessageChatInfo().id, finalHelpMsg, RawMessage.message_id,ParseMode: TgApi.PARSEMODE_MARKDOWN);
             return true;
         }
     }
