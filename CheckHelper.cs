@@ -12,20 +12,24 @@ namespace TWBlackListSoamChecker
                 foreach (long i in Temp.adminInReport)
                     if (i == ChatID)
                         return true;
-                
+                string console = "";
                 bool status = false;
-                GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(ChatID,true);
+                GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(ChatID, true);
+                console = console + "Getting chat administrator list CID : " + ChatID.ToString();
                 foreach (var admin in admins)
                 {
                     var result = TgApi.getDefaultApiConnection().getChatMember(Temp.ReportGroupID, admin.user.id);
+                    console = console + "\nGetting user in report group UID : " + admin.user.id.ToString();
                     if (result.ok)
                         if(result.result.status != "left")
                         {
+                            console = console + "\nUser in report group UID : " + admin.user.id.ToString();
                             status = true;
                             break;
                         }
                 }
-
+                
+                System.Console.WriteLine(console);
                 if (status)
                     Temp.adminInReport.Add(ChatID);
 
