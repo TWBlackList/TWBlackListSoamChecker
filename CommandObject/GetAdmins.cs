@@ -35,11 +35,10 @@ namespace TWBlackListSoamChecker.CommandObject
             foreach (var admin in admins)
             {
                 if (admin.user.username != null)
-                    msg = msg + admin.user.id.ToString() + " [" + RAPI.escapeMarkdown(admin.user.full_name()) + "](tg://user?id=" +
-                          admin.user.id.ToString() + ") @" + admin.user.username + "\n";
-                else
-                    msg = msg + admin.user.id.ToString() + " [" + RAPI.escapeMarkdown(admin.user.full_name()) + "](tg://user?id=" +
-                          admin.user.id.ToString() + ") \n";
+                    if (admin.user.username != null)
+                        msg = msg + admin.user.id.ToString() + " " +  admin.user.full_name() + " @" + admin.user.username + "\n";
+                    else
+                        msg = msg + admin.user.id.ToString() +  " " +  admin.user.full_name() + "\n";
             }
 
             TgApi.getDefaultApiConnection()
