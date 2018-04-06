@@ -30,29 +30,36 @@ namespace TWBlackListSoamChecker.CommandObject
 
             GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(gid);
             
-            string msg = "GID : " + gid.ToString() + "\n";
-            string creator = "Creator : ";
-            string admin_msg = "";
+
+            string msg = TgApi.getDefaultApiConnection().getChatInfo(gid).result.title + "\nGID : `" + gid.ToString() + "`\n\n\n";
+
+            string creatorMessage = "";
+            
+            string adminMessage = "\n\n\nAdmin\n";
+              
             foreach (var admin in admins)
             {
                 if (admin.status == "creator")
                     if (admin.user.username != null)
-                        creator = creator + admin.user.id.ToString() + " " + admin.user.full_name() + " @" +
-                                  admin.user.username + "\n\n";
+                        creatorMessage = string.Format("Creator\n`{0}` [{1}](https://t.me/{2})",
+                            admin.user.id.ToString(), admin.user.full_name(), admin.user.username);
                     else
-                        creator = creator + admin.user.id.ToString() + " " + admin.user.full_name() + "\n\n";
-                else
+                        creatorMessage = string.Format("Creator\n`{0}` {1}",
+                            admin.user.id.ToString(), RAPI.escapeMarkdown(admin.user.full_name()));
+                else 
                 if (admin.user.username != null)
-                    admin_msg = admin_msg + admin.user.id.ToString() + " " + admin.user.full_name() + " @" +
-                                admin.user.username + "\n";
+                    adminMessage = string.Format("{0}\n`{1}` [{2}](https://t.me/{3})", adminMessage,
+                        admin.user.id.ToString(), admin.user.full_name(), admin.user.username);
                 else
-                    admin_msg = admin_msg + admin.user.id.ToString() + " " + admin.user.full_name() + "\n";
+                    adminMessage = string.Format("{0}\n`{1}` {2}", adminMessage,
+                        admin.user.id.ToString(), RAPI.escapeMarkdown(admin.user.full_name()));
             }
-
-            msg = msg + creator + admin_msg;
             
+            msg = msg + creatorMessage + adminMessage
+
             TgApi.getDefaultApiConnection()
-                .sendMessage(RawMessage.chat.id, msg+creator+admin_msg);
+                .sendMessage(RawMessage.chat.id, msg);
+
 
             
             return true;
