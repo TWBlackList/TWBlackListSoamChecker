@@ -41,9 +41,6 @@ namespace TWBlackListSoamChecker
                     if (!Temp.DisableBanList)
                         switch (Command)
                         {
-                            case "/points":
-                                new SpamStringManager().GetSpamKeywords(RawMessage);
-                                throw new StopProcessException();
                             case "/getallspamstr":
                                 new SpamStringManager().GetAllInfo(RawMessage);
                                 return true;
@@ -65,6 +62,12 @@ namespace TWBlackListSoamChecker
                         }
                     switch (Command)
                     {
+                        case "/groupadmin":
+                            new GetAdmins().GetGroupAdmins(RawMessage);
+                            throw new StopProcessException();
+                        case "/points":
+                            new SpamStringManager().GetSpamKeywords(RawMessage);
+                            throw new StopProcessException();
                         case "/cleanup":
                             new CleanUP().CleanUP_Status(RawMessage);
                             throw new StopProcessException();
