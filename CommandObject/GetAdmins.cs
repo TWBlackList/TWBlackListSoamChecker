@@ -35,14 +35,13 @@ namespace TWBlackListSoamChecker.CommandObject
             foreach (var admin in admins)
             {
                 if (admin.user.username != null)
-                    if (admin.user.username != null)
-                        msg = msg + admin.user.id.ToString() + " " +  admin.user.full_name() + " @" + admin.user.username + "\n";
-                    else
-                        msg = msg + admin.user.id.ToString() +  " " +  admin.user.full_name() + "\n";
+                    msg = msg + admin.user.id.ToString() + " " +  admin.user.full_name() + " @" + admin.user.username + "\n";
+                else
+                    msg = msg + admin.user.id.ToString() +  " " +  admin.user.full_name() + "\n";
             }
 
             TgApi.getDefaultApiConnection()
-                .sendMessage(RawMessage.chat.id, msg, ParseMode: TgApi.PARSEMODE_MARKDOWN);
+                .sendMessage(RawMessage.chat.id, msg);
             
             return true;
         }
