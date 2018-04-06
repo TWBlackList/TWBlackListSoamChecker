@@ -14,13 +14,16 @@ namespace TWBlackListSoamChecker
                         return true;
                 
                 bool status = false;
-                GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(ChatID,true);
+                GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(ChatID, true);
+                System.Console.WriteLine("Getting Chat Administrator List ChatID : " + ChatID);
                 foreach (var admin in admins)
                 {
                     var result = TgApi.getDefaultApiConnection().getChatMember(Temp.ReportGroupID, admin.user.id);
+                    
                     if (result.ok)
                         if(result.result.status != "left")
                         {
+                            System.Console.WriteLine("Admin In Report Group UID : " + admin.user.id.ToString() + " status : " + result.result.status);
                             status = true;
                             break;
                         }
