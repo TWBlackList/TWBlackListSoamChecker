@@ -39,7 +39,7 @@ namespace TWBlackListSoamChecker.CommandObject
                                "/getspampoints - 測試關鍵字";
             if (RAPI.getIsBotAdmin(RawMessage.from.id))
                 finalHelpMsg = finalHelpMsg + "\n\nAdmin指令:\n" +
-                               "/groupadmin - 取得群組管理員名單n" +
+                               "/groupadmin - 取得群組管理員名單\n" +
                                "/suban - 批次封鎖\n" +
                                "/suunban - 批次解除封鎖\n" +
                                "/addspamstr - 新增 1 個自動規則\n" +
