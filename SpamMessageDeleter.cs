@@ -261,7 +261,7 @@ namespace TWBlackListSoamChecker
                                   " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。";
                         else
                             msg = "偵測到 " + max_point_spam.FriendlyName +
-                                  " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報。" +
+                                  " ，已自動回報，如有誤報請加入 @" + Temp.ReportGroupName + " 以報告誤報" +
                                   " ，如有疑慮請加入 @" + Temp.CourtGroupName + " 提出申訴。";
 
                         SendMessageResult autodeletespammessagesendresult = TgApi.getDefaultApiConnection()
