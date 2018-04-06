@@ -29,19 +29,31 @@ namespace TWBlackListSoamChecker.CommandObject
             }
 
             GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(gid);
-
-            string msg = "GID : " + gid.ToString() + "\nCreator : ";
             
+            string msg = "GID : " + gid.ToString() + "\n";
+            string creator = "Creator : ";
+            string admin_msg = "";
             foreach (var admin in admins)
             {
-                if (admin.user.username != null)
-                    msg = msg + admin.user.id.ToString() + " " +  admin.user.full_name() + " @" + admin.user.username + "\n";
+                if (admin.status == "creator")
+                    if (admin.user.username != null)
+                        creator = creator + admin.user.id.ToString() + " " + admin.user.full_name() + " @" +
+                                  admin.user.username + "\n\n";
+                    else
+                        creator = creator + admin.user.id.ToString() + " " + admin.user.full_name() + "\n\n";
                 else
-                    msg = msg + admin.user.id.ToString() +  " " +  admin.user.full_name() + "\n";
+                if (admin.user.username != null)
+                    admin_msg = admin_msg + admin.user.id.ToString() + " " + admin.user.full_name() + " @" +
+                                admin.user.username + "\n";
+                else
+                    admin_msg = admin_msg + admin.user.id.ToString() + " " + admin.user.full_name() + "\n";
             }
 
+            string msg = msg + creator + admin_msg;
+            
             TgApi.getDefaultApiConnection()
-                .sendMessage(RawMessage.chat.id, msg);
+                .sendMessage(RawMessage.chat.id, msg+creator+admin_msg);
+
             
             return true;
         }
