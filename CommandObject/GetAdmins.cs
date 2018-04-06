@@ -28,7 +28,9 @@ namespace TWBlackListSoamChecker.CommandObject
                 return true;
             }
 
-            GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(gid);            string msg = RAPI.escapeMarkdown(TgApi.getDefaultApiConnection().getChatInfo(gid).result.title) + "\nGID : `" + gid.ToString() + "`\n\n";
+            GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(gid);            
+            
+            string msg = RAPI.escapeMarkdown(TgApi.getDefaultApiConnection().getChatInfo(gid).result.title) + "\nGID : `" + gid.ToString() + "`\n\n";
 
             string creatorMessage = "";
             
@@ -55,7 +57,7 @@ namespace TWBlackListSoamChecker.CommandObject
             msg = msg + creatorMessage + adminMessage;
 
             TgApi.getDefaultApiConnection()
-                .sendMessage(RawMessage.chat.id, msg);
+                .sendMessage(RawMessage.chat.id, msg, ParseMode: TgApi.PARSEMODE_MARKDOWN);
             
             return true;
         }
