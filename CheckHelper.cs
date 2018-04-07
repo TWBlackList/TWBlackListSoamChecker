@@ -1,4 +1,4 @@
-using ReimuAPI.ReimuBase;
+﻿using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 
 namespace TWBlackListSoamChecker
@@ -17,13 +17,19 @@ namespace TWBlackListSoamChecker
                 GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(ChatID, true);
                 foreach (var admin in admins)
                 {
-                    var result = TgApi.getDefaultApiConnection().getChatMember(Temp.ReportGroupID, admin.user.id);
-                    if (result.ok)
-                        if(result.result.status != "left"  && result.result.user.id != TgApi().getDefaultApiConnection().getMe().id)
+                    if (admin.user.id != TgApi().getDefaultApiConnection().getMe().id)
+                    {
+                        var result = TgApi.getDefaultApiConnection().sendMessage(
+                            Temp.ReportGroupID,
+                            "[加群測試(不用理會此訊息)](tg://user?id=" + admin.user.id.ToString() + ")",
+                            ParseMode: TgApi.PARSEMODE_MARKDOWN);
+                        if (result.ok)
                         {
+                            TgApi.deleteMessage(Temp.ReportGroupID, result.message_id);
                             status = true;
                             break;
                         }
+                    }
                 }
 
                 if (status)
