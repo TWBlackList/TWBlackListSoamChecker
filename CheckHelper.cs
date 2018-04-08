@@ -1,4 +1,4 @@
-using ReimuAPI.ReimuBase;
+﻿using ReimuAPI.ReimuBase;
 using ReimuAPI.ReimuBase.TgData;
 
 namespace TWBlackListSoamChecker
@@ -15,23 +15,45 @@ namespace TWBlackListSoamChecker
                 string console = "";
                 bool status = false;
                 GroupUserInfo[] admins = TgApi.getDefaultApiConnection().getChatAdministrators(ChatID, true);
-                console = console + "Getting chat administrator list CID : " + ChatID.ToString();
+
                 foreach (var admin in admins)
                 {
-                    var result = TgApi.getDefaultApiConnection().getChatMember(Temp.ReportGroupID, admin.user.id);
-                    console = console + "\nGetting user in report group UID : " + admin.user.id.ToString();
-                    if (result.ok)
-                        if(result.result.status != "left")
-                        {
-                            console = console + "\nUser in report group UID : " + admin.user.id.ToString();
-                            status = true;
-                            break;
-                        }
+                    if (admin.user.id != TgApi.getDefaultApiConnection().getMe().id)
+                    {
+                        var result = TgApi.getDefaultApiConnection().getChatMember(Temp.ReportGroupID , admin.user.id);
+                        if (result.ok)
+                            if (result.result.status != "left")
+                            {
+                                status = true;  
+                                break;
+                            }
+                    }
                 }
-                
-                System.Console.WriteLine(console);
+
+                if(!status)
+                    foreach (var admin in admins)
+                    {
+                        if (admin.user.id != TgApi.getDefaultApiConnection().getMe().id)
+                        {
+                            SendMessageResult result = TgApi.getDefaultApiConnection().sendMessage(
+                                Temp.ReportGroupID,
+                                "[加群測試(不用理會此訊息)](tg://user?id=" + admin.user.id.ToString() + ")",
+                                ParseMode: TgApi.PARSEMODE_MARKDOWN);
+                            if (result.ok)
+                            {
+                                TgApi.getDefaultApiConnection().deleteMessage(Temp.ReportGroupID, result.result.message_id);
+                                status = true;
+                                break;
+                            }
+                        }
+                    }
                 if (status)
+                {
+                    System.Console.WriteLine("[checkHelper] Admin in report group GID : " + ChatID.ToString());
                     Temp.adminInReport.Add(ChatID);
+                }
+                else
+                    System.Console.WriteLine("[checkHelper] Admin not in report group GID : " + ChatID.ToString());
 
                 return status;
 
