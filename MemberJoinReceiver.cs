@@ -107,7 +107,7 @@ namespace TWBlackListSoamChecker
                 BanUser banUser = dbmgr.GetUserBanStatus(JoinedUser.id);
                 if (banUser.Ban == 0)
                 {
-                    string resultmsg = "這位使用者被封鎖了\n" + banUser.GetBanMessage_ESCMD();
+                    string resultmsg = "這位使用者被封鎖了\n請先閱讀置頂及公告區\n未依規定發表的任何訊息皆不回應\n\n" + banUser.GetBanMessage_ESCMD() ;
                     TgApi.getDefaultApiConnection().sendMessage(
                         RawMessage.GetMessageChatInfo().id,
                         resultmsg,

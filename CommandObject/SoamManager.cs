@@ -240,13 +240,15 @@ namespace TWBlackListSoamChecker.CommandObject
                 "AdminOnly : " + (gc.AdminOnly == 0) + "\n" +
                 "SubscribeBanList : " + (gc.SubscribeBanList == 0) + "\n\n" +
                 "功能說明\n" +
+                "功能說明\n" +
                 "1. BlackList : 黑名單使用者進群會有提示\n" +
-                "2. AutoKick : 黑名單(封鎖)的使用者進群會自動踢出\n" +
-                "3. AutoDeleteSpamMessage : 使用本服務的自動偵測規則\n" +
-                "4. AutoDeleteCommand : 自動刪除非 Admin 發出的指令訊息並顯示提示\n" +
-                "5. AdminOnly : 機器人只回應 Admin 的指令\n" +
-                "6. SubscribeBanList : 黑名單(封鎖)中於此群組的現存使用者會被踢出\n" +
-                "7. Antibot : 自動踢出非管理加入的 bot 並把拉入者封鎖 1 日",
+                "2. AntiHalal : 自動封鎖無法理解的語言\n" +
+                "3. Antibot : 自動踢出非管理加入的 bot 並把拉入者封鎖 1 日\n" +
+                "4. AutoKick : 黑名單(封鎖)的使用者進群會自動踢出\n" +
+                "5. AutoDeleteSpamMessage : 使用本服務的自動偵測規則\n" +
+                "6. AdminOnly : 機器人只回應 Admin 的指令\n" +
+                "7. AutoDeleteCommand : 自動刪除非 Admin 發出的指令訊息並顯示提示\n" +
+                "8. SubscribeBanList : 黑名單(封鎖)中於此群組的現存使用者會被踢出\n",
                 message.message_id
             );
         }

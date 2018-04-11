@@ -98,6 +98,9 @@ namespace TWBlackListSoamChecker.CommandObject
                     "操作成功。",
                     RawMessage.message_id
                 );
+                if(RawMessage.GetMessageChatInfo().id == Temp.CourtGroupID)
+                    TgApi.getDefaultApiConnection()
+                        .kickChatMember(RawMessage.GetMessageChatInfo().id, BanUserId, GetTime.GetUnixTime() + 1);
                 return true;
             }
 
