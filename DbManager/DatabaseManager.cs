@@ -78,7 +78,7 @@ namespace TWBlackListSoamChecker.DbManager
                 banmsg += "\n原因 : " + Reason;
                 if(AdminID == 0)
                     banmsg += "\nOID : Bot\n";
-                else if(AdminID == 1 or ChatID == Temp.InternGroupID)
+                else if(AdminID == 1 || ChatID == Temp.InternGroupID)
                     banmsg += "\nOID : Auditors\n";
                 else
                     banmsg += "\nOID : " + AdminID + "\n";
