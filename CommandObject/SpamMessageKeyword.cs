@@ -86,7 +86,15 @@ namespace TWBlackListSoamChecker.CommandObject
             for (int nowPath = 0; nowPath < textLen; nowPath++)
             {
                 char nowChar = text[nowPath];
+                
+                
                 if (nowChar >= 0x0600 && nowChar <= 0x06FF)
+                {
+                    totalPoints = totalPoints + nowChar + " : 1\n";
+                    continue;
+                }
+
+                if (nowChar >= 0x0750 && nowChar <= 0x077F)
                 {
                     totalPoints = totalPoints + nowChar + " : 1\n";
                     continue;
@@ -97,14 +105,21 @@ namespace TWBlackListSoamChecker.CommandObject
                     totalPoints = totalPoints + nowChar + " : 1\n";
                     continue;
                 }
-
+                
                 if (nowChar >= 0xFB50 && nowChar <= 0xFDFF)
                 {
                     totalPoints = totalPoints + nowChar + " : 1\n";
                     continue;
                 }
+                
+                if (nowChar >= 0xFB50 && nowChar <= 0xFEFF)
+                {
+                    totalPoints = totalPoints + nowChar + " : 1\n";
+                    continue;
+                }
 
-                if (nowChar >= 0xFE70 && nowChar <= 0xFEFF) totalPoints = totalPoints + nowChar + " : 1\n";
+                if (nowChar >= 0x1EE00 && nowChar <= 0x1EEFF) totalPoints = totalPoints + nowChar + " : 1\n";
+                
             }
 
             return totalPoints;
@@ -117,19 +132,21 @@ namespace TWBlackListSoamChecker.CommandObject
             for (int nowPath = 0; nowPath < textLen; nowPath++)
             {
                 char nowChar = text[nowPath];
+                
                 if (nowChar >= 0x0900 && nowChar <= 0x097F)
                 {
                     totalPoints = totalPoints + nowChar + " : 1\n";
                     continue;
                 }
 
-                if (nowChar >= 0xA8E0 && nowChar <= 0xA8FF)
+                if (nowChar >= 0x1CD0 && nowChar <= 0x1CFF)
                 {
                     totalPoints = totalPoints + nowChar + " : 1\n";
                     continue;
                 }
 
-                if (nowChar >= 0x1CD0 && nowChar <= 0x1CFF) totalPoints = totalPoints + nowChar + " : 1\n";
+                if (nowChar >= 0xA8E0 && nowChar <= 0xA8FF) totalPoints = totalPoints + nowChar + " : 1\n";
+                
             }
 
             return totalPoints;
@@ -156,7 +173,25 @@ namespace TWBlackListSoamChecker.CommandObject
             for (int nowPath = 0; nowPath < textLen; nowPath++)
             {
                 char nowChar = text[nowPath];
-                if (nowChar >= 0x0400 && nowChar <= 0x052F) totalPoints = totalPoints + nowChar + " : 1\n";
+                
+                if (nowChar >= 0x0400 && nowChar <= 0x04FF)
+                {
+                    totalPoints = totalPoints + nowChar + " : 1\n";
+                    continue;
+                }
+                
+                if (nowChar >= 0x0500 && nowChar <= 0x052F)
+                {
+                    totalPoints = totalPoints + nowChar + " : 1\n";
+                    continue;
+                }
+                
+                if (nowChar >= 0x2DE0 && nowChar <= 0x2DEF)
+                {
+                    totalPoints = totalPoints + nowChar + " : 1\n";
+                    continue;
+                }
+                if (nowChar >= 0xA640 && nowChar <= 0xA69F) totalPoints = totalPoints + nowChar + " : 1\n";
             }
 
             return totalPoints;

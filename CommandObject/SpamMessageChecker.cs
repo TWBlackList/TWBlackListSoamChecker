@@ -92,19 +92,31 @@ namespace TWBlackListSoamChecker.CommandObject
                     continue;
                 }
 
+                if (nowChar >= 0x0750 && nowChar <= 0x077F)
+                {
+                    totalPoints++;
+                    continue;
+                }
+
                 if (nowChar >= 0x08A0 && nowChar <= 0x08FF)
                 {
                     totalPoints++;
                     continue;
                 }
-
+                
                 if (nowChar >= 0xFB50 && nowChar <= 0xFDFF)
                 {
                     totalPoints++;
                     continue;
                 }
+                
+                if (nowChar >= 0xFB50 && nowChar <= 0xFEFF)
+                {
+                    totalPoints++;
+                    continue;
+                }
 
-                if (nowChar >= 0xFE70 && nowChar <= 0xFEFF) totalPoints++;
+                if (nowChar >= 0x1EE00 && nowChar <= 0x1EEFF) totalPoints++;
             }
 
             return totalPoints;
@@ -124,13 +136,13 @@ namespace TWBlackListSoamChecker.CommandObject
                     continue;
                 }
 
-                if (nowChar >= 0xA8E0 && nowChar <= 0xA8FF)
+                if (nowChar >= 0x1CD0 && nowChar <= 0x1CFF)
                 {
                     totalPoints++;
                     continue;
                 }
 
-                if (nowChar >= 0x1CD0 && nowChar <= 0x1CFF) totalPoints++;
+                if (nowChar >= 0xA8E0 && nowChar <= 0xA8FF) totalPoints++;
             }
 
             return totalPoints;
@@ -158,7 +170,24 @@ namespace TWBlackListSoamChecker.CommandObject
             {
                 if (totalPoints >= 230) return 230;
                 char nowChar = text[nowPath];
-                if (nowChar >= 0x0400 && nowChar <= 0x052F) totalPoints++;
+                if (nowChar >= 0x0400 && nowChar <= 0x04FF)
+                {
+                    totalPoints++;
+                    continue;
+                }
+                
+                if (nowChar >= 0x0500 && nowChar <= 0x052F)
+                {
+                    totalPoints++;
+                    continue;
+                }
+                
+                if (nowChar >= 0x2DE0 && nowChar <= 0x2DEF)
+                {
+                    totalPoints++;
+                    continue;
+                }
+                if (nowChar >= 0xA640 && nowChar <= 0xA69F) totalPoints++;
             }
 
             return totalPoints;

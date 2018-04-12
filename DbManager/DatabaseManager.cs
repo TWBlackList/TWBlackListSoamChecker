@@ -78,7 +78,7 @@ namespace TWBlackListSoamChecker.DbManager
                 banmsg += "\n原因 : " + Reason;
                 if(AdminID == 0)
                     banmsg += "\nOID : Bot\n";
-                else if(AdminID == 1)
+                else if(AdminID == 1 or ChatID == Temp.InternGroupID)
                     banmsg += "\nOID : Auditors\n";
                 else
                     banmsg += "\nOID : " + AdminID + "\n";
@@ -88,7 +88,8 @@ namespace TWBlackListSoamChecker.DbManager
                 banmsg += "\n";
                 try
                 {
-                    banmsg += "\n" + TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();
+                    if (ChatID != Temp.InternGroupID)
+                        banmsg += "\n" + TgApi.getDefaultApiConnection().getChatInfo(ChatID).result.GetChatTextInfo();
                 }
                 catch
                 {
