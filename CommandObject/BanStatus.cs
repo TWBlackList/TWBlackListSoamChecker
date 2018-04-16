@@ -37,7 +37,7 @@ namespace TWBlackListSoamChecker.CommandObject
                         banmsg += "\n\n被回覆的訊息轉發自使用者 : " +
                                   RawMessage.reply_to_message.forward_from.GetUserTextInfo_ESCMD() + "\n" +
                                   ban.GetBanMessage_ESCMD();
-                        if ((RAPI.getIsInHKWhitelist(RawMessage.reply_to_message.forward_from.id))
+                        if (RAPI.getIsInHKWhitelist(RawMessage.reply_to_message.forward_from.id))
                             banmsg = banmsg + "，使用者為港人";
                         else if (RAPI.getIsInWhitelist(RawMessage.reply_to_message.forward_from.id))
                             banmsg = banmsg + "，使用者在白名單內";
