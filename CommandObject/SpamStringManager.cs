@@ -20,6 +20,12 @@ namespace TWBlackListSoamChecker.CommandObject
         public static int SPAMSTR_TYPE_RUSSIA = 6;
         public static int SPAMSTR_TYPE_NAME = 7;
 
+        public void reloadSpamList(TgMessage RawMessage)
+        {
+            Temp.spamMessageList = null;
+            return true;
+        }
+
         public void GetAllInfo(TgMessage RawMessage)
         {
             string spamstrings = "";
