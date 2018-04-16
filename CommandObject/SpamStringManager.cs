@@ -23,6 +23,11 @@ namespace TWBlackListSoamChecker.CommandObject
         public void reloadSpamList(TgMessage RawMessage)
         {
             Temp.spamMessageList = null;
+            TgApi.getDefaultApiConnection().sendMessage(
+                RawMessage.GetMessageChatInfo().id,
+                "已將暫存 SpamStr 清單清空",
+                RawMessage.message_id
+            );
         }
 
         public void GetAllInfo(TgMessage RawMessage)
