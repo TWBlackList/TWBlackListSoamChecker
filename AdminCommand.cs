@@ -52,7 +52,7 @@ namespace TWBlackListSoamChecker
                             throw new StopProcessException();
                         case "/lshk":
                             new HKWhitelist().listHKWhitelist(RawMessage);
-                            throw new StopProcessException();cd 
+                            throw new StopProcessException();
                     }
                 if (RAPI.getIsBotAdmin(RawMessage.GetSendUser().id))
                 {
