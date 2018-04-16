@@ -21,7 +21,7 @@ namespace TWBlackListSoamChecker
         public static string MainChannelName = null; // If haven't, change it to null
         public static string ReasonChannelName = null; // If haven't, change it to null
         public static string ReportGroupName = "J_Court"; //這ㄍ意思是 : 你他媽不能亂改群組username
-        public static string CourtGroupName = "J_Court"; //這ㄍ意思是 : 你他媽不能亂改群組username
+        public static string CourtGroupName = "TW_Audit_bot"; //這ㄍ意思是 : 你他媽不能亂改群組username
 
         internal static DatabaseManager GetDatabaseManager()
         {

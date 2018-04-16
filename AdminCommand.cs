@@ -21,6 +21,12 @@ namespace TWBlackListSoamChecker
                 }
             if (RAPI.getIsBotOP(RawMessage.GetSendUser().id) || RAPI.getIsBotAdmin(RawMessage.GetSendUser().id))
             {
+                switch (Command)
+                {
+                    case "/groups":
+                        new AllGroups().Groups_Status(RawMessage);
+                        throw new StopProcessException();    
+                }
                 if (!Temp.DisableBanList)
                     switch (Command)
                     {
@@ -71,9 +77,6 @@ namespace TWBlackListSoamChecker
                         case "/cleanup":
                             new CleanUP().CleanUP_Status(RawMessage);
                             throw new StopProcessException();
-                        case "/groups":
-                            new AllGroups().Groups_Status(RawMessage);
-                            throw new StopProcessException();
                         case "/say":
                             new BroadCast().BroadCast_Status(RawMessage);
                             throw new StopProcessException();
@@ -88,6 +91,15 @@ namespace TWBlackListSoamChecker
                             throw new StopProcessException();
                         case "/delop":
                             new OP().delOP(RawMessage);
+                            throw new StopProcessException();
+                        case "/addhk":
+                            new HKWhitelist().addHKWhitelist(RawMessage);
+                            throw new StopProcessException();
+                        case "/delhk":
+                            new HKWhitelist().deleteHKWhitelist(RawMessage);
+                            throw new StopProcessException();
+                        case "/lshk":
+                            new HKWhitelist().listHKWhitelist(RawMessage);
                             throw new StopProcessException();
                         case "/addwl":
                             new Whitelist().addWhitelist(RawMessage);
