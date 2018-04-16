@@ -23,7 +23,6 @@ namespace TWBlackListSoamChecker.CommandObject
         public void reloadSpamList(TgMessage RawMessage)
         {
             Temp.spamMessageList = null;
-            return true;
         }
 
         public void GetAllInfo(TgMessage RawMessage)
