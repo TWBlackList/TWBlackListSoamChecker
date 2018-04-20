@@ -36,12 +36,21 @@ namespace TWBlackListSoamChecker.CommandObject
                 if (groupCfg == null) return false;
                 foreach (GroupCfg cfg in groupCfg)
                 {
-                    var result = TgApi.getDefaultApiConnection()
-                        .getChatMember(cfg.GroupID, TgApi.getDefaultApiConnection().getMe().id);
+                    bool status = false;
+                    SendMessageResult result = TgApi.getDefaultApiConnection().sendMessage(
+                        cfg.GroupID,
+                        "測試訊息(不用理會此訊息)",
+                        ParseMode: TgApi.PARSEMODE_MARKDOWN);
                     if (result.ok)
                     {
-                        if (result.result.status != "left")
-                            groups = groups + cfg.GroupID + " : Bot是聊天成員，略過\n";
+                        TgApi.getDefaultApiConnection().deleteMessage(cfg.GroupID, result.result.message_id);
+                        status = true;
+                        break;
+                    }
+                    
+                    if (status)
+                    {
+                        groups = groups + cfg.GroupID + " : Bot是聊天成員，略過\n";
                     }
                     else
                     {
@@ -50,7 +59,7 @@ namespace TWBlackListSoamChecker.CommandObject
                             groups = groups + "移除成功\n";
                         else
                             groups = groups + "移除失敗\n";
-                    }
+                    }ded
                 }
 
                 var charlist = new List<string>();

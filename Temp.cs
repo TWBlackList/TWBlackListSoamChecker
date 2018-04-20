@@ -12,6 +12,7 @@ namespace TWBlackListSoamChecker
         internal static Dictionary<long, GroupCfg> groupConfig = new Dictionary<long, GroupCfg>();
         internal static Dictionary<int, BanUser> bannedUsers = new Dictionary<int, BanUser>();
         internal static List<long> adminInReport = new List<long>();
+        internal static List<long> adminChecking = new List<long>();
         public static long AdminGroupID = -1001283591008; // If haven't, change it to 0
         public static long MainChannelID = -1001132678262; // If haven't, change it to 0
         public static long ReasonChannelID = -1001132678262; // If haven't, change it to 0
