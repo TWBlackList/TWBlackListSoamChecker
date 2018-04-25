@@ -39,13 +39,12 @@ namespace TWBlackListSoamChecker.CommandObject
                     bool status = false;
                     SendMessageResult result = TgApi.getDefaultApiConnection().sendMessage(
                         cfg.GroupID,
-                        "測試訊息(不用理會此訊息)",
-                        ParseMode: TgApi.PARSEMODE_MARKDOWN);
+                        "測試訊息(不用理會此訊息)");
+                    
                     if (result.ok)
                     {
                         TgApi.getDefaultApiConnection().deleteMessage(cfg.GroupID, result.result.message_id);
                         status = true;
-                        break;
                     }
                     
                     if (status)
@@ -59,7 +58,7 @@ namespace TWBlackListSoamChecker.CommandObject
                             groups = groups + "移除成功\n";
                         else
                             groups = groups + "移除失敗\n";
-                    }ded
+                    }
                 }
 
                 var charlist = new List<string>();
