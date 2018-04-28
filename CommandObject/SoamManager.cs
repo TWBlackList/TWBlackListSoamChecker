@@ -239,8 +239,7 @@ namespace TWBlackListSoamChecker.CommandObject
                 "AutoDeleteCommand : " + (gc.AutoDeleteCommand == 0) + "\n" +
                 "AdminOnly : " + (gc.AdminOnly == 0) + "\n" +
                 "SubscribeBanList : " + (gc.SubscribeBanList == 0) + "\n\n" +
-                "功能說明\n" +
-                "功能說明\n" +
+                "功能說明\n" +rwrwr
                 "1. BlackList : 黑名單使用者進群會有提示\n" +
                 "2. AntiHalal : 自動封鎖無法理解的語言\n" +
                 "3. Antibot : 自動踢出非管理加入的 bot 並把拉入者封鎖 1 日\n" +
